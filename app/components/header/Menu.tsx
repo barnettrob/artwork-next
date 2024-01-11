@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 
 const Menu = () => {
@@ -20,14 +20,14 @@ const Menu = () => {
                     onClick={() => setIsOpen(!isOpen)}
                 >
                     <svg
-                        className={`fill-current h-3 w-3 ${isOpen ? "hidden" : "block"}`}
+                        className={`fill-current h-5 w-5 ${isOpen ? "hidden" : "block"}`}
                         viewBox="0 0 20 20"
                         xmlns="http://www.w3.org/2000/svg"
                     >
                         <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
                     </svg>
                     <svg
-                        className={`fill-current h-3 w-3 ${isOpen ? "block" : "hidden"}`}
+                        className={`fill-current h-5 w-5 ${isOpen ? "block" : "hidden"}`}
                         viewBox="0 0 20 20"
                         xmlns="http://www.w3.org/2000/svg"
                     >
@@ -35,15 +35,17 @@ const Menu = () => {
                     </svg>
                 </button>
             </div>
-            <div className={`w-full block flex-grow lg:flex lg:items-center lg:w-auto ${isOpen ? "block" : "hidden"}`}>
+            <div className={`w-full block flex-grow lg:flex lg:items-center lg:w-auto ${isOpen ? "block cmodal-container" : "hidden"}`}>
                 <div className="text-sm lg:flex-grow"></div>
-                <div className='font-extralight'>
-                    <Link href="#responsive-header" className="block mt-4 px-2 lg:inline-block lg:mt-0 text-black-200 hover:text-gray">
-                        Portfolio
-                    </Link>
-                    <Link href="#responsive-header" className="block mt-4 px-2 lg:inline-block lg:mt-0 text-black-200 hover:text-gray mr-4">
-                        About
-                    </Link>
+                <div className={`font-extralight ${isOpen ? "cmodal" : ""}`}>
+                    <div className={`${isOpen ? "cmodal-fullscreen" : ""}`}>
+                        <Link href="#responsive-header" className="block mt-4 px-2 lg:inline-block lg:mt-0 text-black-200 hover:text-gray">
+                            Portfolio
+                        </Link>
+                        <Link href="#responsive-header" className="block mt-4 px-2 lg:inline-block lg:mt-0 text-black-200 hover:text-gray mr-4">
+                            About
+                        </Link>
+                    </div>
                 </div>
             </div>
         </nav>
