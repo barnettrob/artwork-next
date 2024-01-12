@@ -16,7 +16,7 @@ const Menu = () => {
             </div>
             <div className="block lg:hidden">
                 <button 
-                    className="flex items-center px-3 py-2 border rounded text-black-200 border-teal-400 hover:text-gray hover:border-white"
+                    className="flex items-center px-3 py-2 border rounded text-black-200 border-teal-400 hover:text-gray border-white hover:border-white"
                     onClick={() => setIsOpen(!isOpen)}
                 >
                     <svg
@@ -37,12 +37,12 @@ const Menu = () => {
             </div>
             <div className={`w-full block flex-grow lg:flex lg:items-center lg:w-auto ${isOpen ? "block cmodal-container" : "hidden"}`}>
                 <div className="text-sm lg:flex-grow"></div>
-                <div className={`font-extralight ${isOpen ? "cmodal" : ""}`}>
-                    <div className={`${isOpen ? "cmodal-fullscreen" : ""}`}>
-                        <Link href="#responsive-header" className="block mt-4 px-2 lg:inline-block lg:mt-0 text-black-200 hover:text-gray">
+                <div className={`font-extralight${isOpen ? " cmodal" : ""}`}>
+                    <div className={`${isOpen ? "cmodal-fullscreen text-center text-5xl" : ""}`}>
+                        <Link href="#responsive-header" className={`block mt-4 px-2 lg:inline-block lg:mt-0 text-black-200 hover:underline hover:text-gray${isOpen ? " py-2 hover:decoration-2" : " hover:decoration-1"}`}>
                             Portfolio
                         </Link>
-                        <Link href="#responsive-header" className="block mt-4 px-2 lg:inline-block lg:mt-0 text-black-200 hover:text-gray mr-4">
+                        <Link href="#responsive-header" className={`block mt-4 px-2 lg:inline-block lg:mt-0 text-black-200 hover:underline hover:decoration-2 hover:text-gray mr-4${isOpen ? " py-2 hover:decoration-2" : " hover:decoration-1"}`}>
                             About
                         </Link>
                     </div>
