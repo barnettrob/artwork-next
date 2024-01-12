@@ -42,7 +42,7 @@ const Menu = () => {
                         <Link href="#responsive-header" className={`block mt-4 px-2 lg:inline-block lg:mt-0 text-black-200 hover:underline hover:text-gray${isOpen ? " py-2 hover:decoration-2" : " hover:decoration-1"}`}>
                             Portfolio
                         </Link>
-                        <Link href="#responsive-header" className={`block mt-4 px-2 lg:inline-block lg:mt-0 text-black-200 hover:underline hover:decoration-2 hover:text-gray mr-4${isOpen ? " py-2 hover:decoration-2" : " hover:decoration-1"}`}>
+                        <Link href="#responsive-header" className={`block mt-4 px-2 lg:inline-block lg:mt-0 text-black-200 hover:underline hover:text-gray mr-4${isOpen ? " py-2 hover:decoration-2" : " hover:decoration-1"}`}>
                             About
                         </Link>
                     </div>
