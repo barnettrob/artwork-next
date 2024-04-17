@@ -1,9 +1,18 @@
 'use client'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import Link from 'next/link'
 
 const Menu = () => {
     const [isOpen, setIsOpen] = useState(false);
+
+    const scrollControl = () => {
+        if (isOpen) {
+            document.body.style.overflow = "";
+        }
+        else {
+            document.body.style.overflow = "hidden";
+        }
+    }
 
     return (
         <nav className="flex items-center justify-between flex-wrap bg-white p-6">
@@ -17,7 +26,7 @@ const Menu = () => {
             <div className="block lg:hidden">
                 <button 
                     className="flex items-center px-3 py-2 border rounded text-black-200 border-teal-400 hover:text-gray border-white hover:border-white"
-                    onClick={() => setIsOpen(!isOpen)}
+                    onClick={() => {setIsOpen(!isOpen); scrollControl()}}
                 >
                     <svg
                         className={`fill-current h-5 w-5 ${isOpen ? "hidden" : "block"}`}
