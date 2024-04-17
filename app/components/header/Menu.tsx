@@ -25,23 +25,26 @@ const Menu = () => {
             </div>
             <div className="block lg:hidden">
                 <button 
-                    className="flex items-center px-3 py-2 border rounded text-black-200 border-teal-400 hover:text-gray border-white hover:border-white"
+                    className="flex items-center px-3 py-2 border rounded text-black-200 hover:text-gray border-white hover:border-white"
                     onClick={() => {setIsOpen(!isOpen); scrollControl()}}
                 >
-                    <svg
-                        className={`fill-current h-5 w-5 ${isOpen ? "hidden" : "block"}`}
-                        viewBox="0 0 20 20"
-                        xmlns="http://www.w3.org/2000/svg"
-                    >
-                        <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
-                    </svg>
-                    <svg
-                        className={`fill-current h-5 w-5 ${isOpen ? "block" : "hidden"}`}
-                        viewBox="0 0 20 20"
-                        xmlns="http://www.w3.org/2000/svg"
-                    >
-                        <path d="M10 8.586L2.929 1.515 1.515 2.929 8.586 10l-7.071 7.071 1.414 1.414L10 11.414l7.071 7.071 1.414-1.414L11.414 10l7.071-7.071-1.414-1.414L10 8.586z" />
-                    </svg>
+                    <div className={`w-5 transform -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2 ${isOpen ? "mr-5" : ""}`}>
+                        <span
+                        className={`absolute h-0.5 w-7 bg-black transform transition duration-300 ease-in-out ${
+                            isOpen ? "rotate-45 delay-200" : "-translate-y-1.5"
+                        }`}
+                        ></span>
+                        <span
+                        className={`absolute h-0.5 bg-black transform transition-all duration-200 ease-in-out ${
+                            isOpen ? "w-0 opacity-50" : "w-7 delay-200 opacity-100"
+                        }`}
+                        ></span>
+                        <span
+                        className={`absolute h-0.5 w-7 bg-black transform transition duration-300 ease-in-out ${
+                            isOpen ? "-rotate-45 delay-200" : "translate-y-1.5"
+                        }`}
+                        ></span>
+                    </div>
                 </button>
             </div>
             <div className={`w-full block flex-grow lg:flex lg:items-center lg:w-auto ${isOpen ? "block cmodal-container" : "hidden"}`}>
