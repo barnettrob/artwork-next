@@ -77,3 +77,31 @@ export async function getBlog(
   );
   return extractBlogEntries(blogPost)[0];
 }
+
+export const getLoremPicsumImages = async () => {
+  let photosArray = [];
+  for (let i = 0; i < 20; i++) {
+    const min = Math.ceil(100);
+    const max = Math.floor(300);
+    const width = Math.floor(Math.random() * (max - min)) + min;
+    const height = Math.floor(Math.random() * (max - min)) + min;
+    photosArray.push({
+      url: `https://picsum.photos/${width}/${height}`,
+      width: width,
+      height: height
+    });
+  }
+  
+  return photosArray;
+  // const res: Response = await fetch('https://picsum.photos/v2/list?limit=20', {next: { revalidate: 0 }});
+  // let error = false;
+  // if (!res.ok) {
+  //   error = true;
+  // }
+
+  // if (error) {
+  //   return {}
+  // }
+
+  // return await res.json();
+}

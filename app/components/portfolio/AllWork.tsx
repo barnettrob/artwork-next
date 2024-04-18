@@ -1,20 +1,20 @@
 import React from 'react'
-import { getAllBlogPosts } from '@/app/lib/api'
+import { getLoremPicsumImages } from '@/app/lib/api'
 import Image from 'next/image'
 
 const AllWork = async () => {
-    const blogPosts = await getAllBlogPosts();
-
+    //const blogPosts = await getAllBlogPosts();
+    const ipsumImages = await getLoremPicsumImages();
+    
     return (
-        <div className='grid gap-8 md:grid-cols-2 lg:grid-cols-3'>
-            {blogPosts.map((post: any) => (
-                <div key={post.title}>
+        <div className='images-wrapper'>
+            {ipsumImages.map((post: any) => (
+                <div key={post.url} className='image-card'>
                     <Image
                       alt="placeholder"
-                      className="aspect-[4/3] object-cover w-full"
-                      height="263"
-                      src={post.blogImage.url}
-                      width="350"
+                      height={post.height}
+                      src={post.url}
+                      width={post.width}
                     />
                 </div>
             ))}
