@@ -15,6 +15,8 @@ const AllWork = async () => {
                       height={post.height}
                       src={post.url}
                       width={post.width}
+                      loading='lazy'
+                      fetchPriority='high'
                     />
                 </div>
             ))}
