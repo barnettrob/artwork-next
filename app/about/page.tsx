@@ -19,6 +19,8 @@ const About = () => {
           height={`400`}
           src={`https://picsum.photos/300/400`}
           width={`300`}
+          placeholder='blur'
+          blurDataURL='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAA1JREFUGFdjOHf4cAUAB4QCzf7jDSoAAAAASUVORK5CYII='
         />
       </div>
     </div>

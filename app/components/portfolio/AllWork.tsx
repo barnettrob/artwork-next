@@ -1,22 +1,32 @@
-import React from 'react'
-import { getLoremPicsumImages } from '@/app/lib/api'
+import React from 'react';
 import Image from 'next/image'
 
-const AllWork = async () => {
+interface PortfolioImages {
+    url: string;
+    width: number;
+    height: number;
+}
+
+interface PortfolioImagesProps {
+    images: PortfolioImages[]
+}
+
+const AllWork = (props: PortfolioImagesProps) => {
     //const blogPosts = await getAllBlogPosts();
-    const ipsumImages = await getLoremPicsumImages();
+    const images = props.images;
     
     return (
         <div className='images-wrapper'>
-            {ipsumImages.map((post: any) => (
+            {images.map((post: any) => (
                 <div key={post.url} className='image-card'>
                     <Image
                       alt="placeholder"
                       height={post.height}
                       src={post.url}
                       width={post.width}
-                      loading='lazy'
-                      fetchPriority='high'
+                      placeholder='blur'
+                      blurDataURL='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAA1JREFUGFdjOHf4cAUAB4QCzf7jDSoAAAAASUVORK5CYII='
+                      priority
                     />
                 </div>
             ))}

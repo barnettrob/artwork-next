@@ -51,10 +51,18 @@ const Menu = () => {
                 <div className="text-sm lg:flex-grow"></div>
                 <div className={`font-extralight${isOpen ? " cmodal" : ""}`}>
                     <div className={`${isOpen ? "cmodal-fullscreen text-center text-5xl" : ""}`}>
-                        <Link href="/" className={`block mt-4 px-2 lg:inline-block lg:mt-0 text-black-200 hover:underline hover:underline-offset-4 hover:text-gray${isOpen ? " py-2 hover:decoration-2" : " hover:decoration-1"}`}>
+                        <Link 
+                            href="/" 
+                            className={`block mt-4 px-2 lg:inline-block lg:mt-0 text-black-200 hover:underline hover:underline-offset-4 hover:text-gray${isOpen ? " py-2 hover:decoration-2" : " hover:decoration-1"}`}
+                            onClick={() => setIsOpen(false)}
+                        >
                             Portfolio
                         </Link>
-                        <Link href="about" className={`block mt-4 px-2 lg:inline-block lg:mt-0 text-black-200 hover:underline hover:underline-offset-4 hover:text-gray mr-4${isOpen ? " py-2 hover:decoration-2" : " hover:decoration-1"}`}>
+                        <Link 
+                            href="about" 
+                            className={`block mt-4 px-2 lg:inline-block lg:mt-0 text-black-200 hover:underline hover:underline-offset-4 hover:text-gray mr-4${isOpen ? " py-2 hover:decoration-2" : " hover:decoration-1"}`}
+                            onClick={() => setIsOpen(false)}
+                        >
                             About
                         </Link>
                     </div>
