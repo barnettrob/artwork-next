@@ -54,14 +54,14 @@ const Menu = () => {
                         <Link 
                             href="/" 
                             className={`block mt-4 px-2 lg:inline-block lg:mt-0 text-black-200 hover:underline hover:underline-offset-4 hover:text-gray${isOpen ? " py-2 hover:decoration-2" : " hover:decoration-1"}`}
-                            onClick={() => setIsOpen(false)}
+                            onClick={() => { setIsOpen(false); scrollControl();} }
                         >
                             Portfolio
                         </Link>
                         <Link 
                             href="about" 
                             className={`block mt-4 px-2 lg:inline-block lg:mt-0 text-black-200 hover:underline hover:underline-offset-4 hover:text-gray mr-4${isOpen ? " py-2 hover:decoration-2" : " hover:decoration-1"}`}
-                            onClick={() => setIsOpen(false)}
+                            onClick={() => {setIsOpen(false); scrollControl();} }
                         >
                             About
                         </Link>
