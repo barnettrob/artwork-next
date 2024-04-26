@@ -1,5 +1,5 @@
 'use client'
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Image from 'next/image'
 
 interface PortfolioImages {
@@ -13,23 +13,35 @@ interface PortfolioImagesProps {
 }
 
 const AllWork = (props: PortfolioImagesProps) => {
+    const imgsNum = 10;
     const images = props.images;
-    const [items, setItems] = useState<any[]>(images.slice(0, 5));
+    const [items, setItems] = useState<any[]>(images.slice(0, imgsNum));
     const [current, setCurrent] = useState(2);
     //const blogPosts = await getAllBlogPosts();
 
     const getNextN = useCallback(() => {
-        return images.slice(5*current - 5, 5*current);
+        return images.slice(imgsNum*current - imgsNum, imgsNum*current);
     }, [current, images])
 
-    const handleImageLoad = () => {
+    const handleImageLoad = useCallback(() => {
         setCurrent(current+1);
         const nextN = getNextN();
 
         for (let i = 0; i < nextN.length; i++) {
             items.push(nextN[i]);
         }
-    }
+    }, [current, getNextN, items])
+
+    const handleScroll = useCallback(() => {
+        if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+            handleImageLoad();
+        }
+    }, [handleImageLoad]);  
+
+    useEffect(() => {
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, [handleScroll]);
 
     return (
         <div className='images-wrapper'>
@@ -46,9 +58,6 @@ const AllWork = (props: PortfolioImagesProps) => {
                     />
                 </div>
             ))}
-            <div className='text-center'>
-                <button onClick={handleImageLoad}>More</button>
-            </div>
         </div>
     )
 }
