@@ -1,5 +1,5 @@
 'use client'
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import Image from 'next/image'
 
 interface PortfolioImages {
@@ -30,11 +30,6 @@ const AllWork = (props: PortfolioImagesProps) => {
             items.push(nextN[i]);
         }
     }
-
-    useEffect(() => {
-        //setItems(images.slice(5*current - 5, 5*current));
-        //setCurrent(current+1);
-    }, [current, images]);
 
     return (
         <div className='images-wrapper'>
