@@ -1,4 +1,5 @@
-import React from 'react';
+'use client'
+import React, { useCallback, useEffect, useState } from 'react';
 import Image from 'next/image'
 
 interface PortfolioImages {
@@ -12,12 +13,32 @@ interface PortfolioImagesProps {
 }
 
 const AllWork = (props: PortfolioImagesProps) => {
+    const [items, setItems] = useState<any[]>([]);
+    const [current, setCurrent] = useState(1);
     //const blogPosts = await getAllBlogPosts();
     const images = props.images;
-    
+
+    const getNextN = useCallback(() => {
+        return images.slice(5*current - 5, 5*current);
+    }, [current, images])
+
+    const handleImageLoad = () => {
+        setCurrent(current+1);
+        const nextN = getNextN();
+
+        for (let i = 0; i < nextN.length; i++) {
+            items.push(nextN[i]);
+        }
+    }
+
+    useEffect(() => {
+        //setItems(images.slice(5*current - 5, 5*current));
+        //setCurrent(current+1);
+    }, [current, images]);
+
     return (
         <div className='images-wrapper'>
-            {images.map((post: any) => (
+            {items.map((post: any) => (
                 <div key={post.url} className='image-card'>
                     <Image
                       alt="placeholder"
@@ -30,6 +51,9 @@ const AllWork = (props: PortfolioImagesProps) => {
                     />
                 </div>
             ))}
+            <div className='text-center'>
+                <button onClick={handleImageLoad}>More</button>
+            </div>
         </div>
     )
 }
