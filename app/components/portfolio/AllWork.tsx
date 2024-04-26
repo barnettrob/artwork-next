@@ -13,10 +13,10 @@ interface PortfolioImagesProps {
 }
 
 const AllWork = (props: PortfolioImagesProps) => {
-    const [items, setItems] = useState<any[]>([]);
-    const [current, setCurrent] = useState(1);
-    //const blogPosts = await getAllBlogPosts();
     const images = props.images;
+    const [items, setItems] = useState<any[]>(images.slice(0, 5));
+    const [current, setCurrent] = useState(2);
+    //const blogPosts = await getAllBlogPosts();
 
     const getNextN = useCallback(() => {
         return images.slice(5*current - 5, 5*current);
