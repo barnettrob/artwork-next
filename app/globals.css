@@ -19,11 +19,10 @@
 
 .cmodal-fullscreen {
   position: fixed;
-  top: 0;
+  top: 100px;
   left: 0;
   right: 0;
   bottom: 0;
-  padding-top: 100px;
   background-color: #fff;
 }
 
