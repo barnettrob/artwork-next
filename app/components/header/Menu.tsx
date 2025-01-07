@@ -14,7 +14,7 @@ const Menu = () => {
                     </Link>
                 </span>
             </div>
-            <div className="block lg:hidden">
+            <div className="block lg:hidden z-50 fixed right-2">
                 <button 
                     className="flex items-center px-3 py-2 border rounded text-black-200 border-teal-400 hover:text-gray border-white hover:border-white"
                     onClick={() => setIsOpen(!isOpen)}
