@@ -1,9 +1,18 @@
 'use client'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import Link from 'next/link'
 
 const Menu = () => {
     const [isOpen, setIsOpen] = useState(false);
+
+    const scrollControl = () => {
+        if (isOpen) {
+            document.body.style.overflow = "";
+        }
+        else {
+            document.body.style.overflow = "hidden";
+        }
+    }
 
     return (
         <nav className="flex items-center justify-between flex-wrap bg-white p-6">
@@ -16,33 +25,44 @@ const Menu = () => {
             </div>
             <div className="block lg:hidden">
                 <button 
-                    className="flex items-center px-3 py-2 border rounded text-black-200 border-teal-400 hover:text-gray border-white hover:border-white"
-                    onClick={() => setIsOpen(!isOpen)}
+                    className="flex items-center px-3 py-2 border rounded text-black-200 hover:text-gray border-white hover:border-white"
+                    onClick={() => {setIsOpen(!isOpen); scrollControl()}}
                 >
-                    <svg
-                        className={`fill-current h-5 w-5 ${isOpen ? "hidden" : "block"}`}
-                        viewBox="0 0 20 20"
-                        xmlns="http://www.w3.org/2000/svg"
-                    >
-                        <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
-                    </svg>
-                    <svg
-                        className={`fill-current h-5 w-5 ${isOpen ? "block" : "hidden"}`}
-                        viewBox="0 0 20 20"
-                        xmlns="http://www.w3.org/2000/svg"
-                    >
-                        <path d="M10 8.586L2.929 1.515 1.515 2.929 8.586 10l-7.071 7.071 1.414 1.414L10 11.414l7.071 7.071 1.414-1.414L11.414 10l7.071-7.071-1.414-1.414L10 8.586z" />
-                    </svg>
+                    <div className={`w-5 transform -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2 ${isOpen ? "mr-5" : ""}`}>
+                        <span
+                        className={`absolute h-0.5 w-7 bg-black transform transition duration-300 ease-in-out ${
+                            isOpen ? "rotate-45 delay-200" : "-translate-y-1.5"
+                        }`}
+                        ></span>
+                        <span
+                        className={`absolute h-0.5 bg-black transform transition-all duration-200 ease-in-out ${
+                            isOpen ? "w-0 opacity-50" : "w-7 delay-200 opacity-100"
+                        }`}
+                        ></span>
+                        <span
+                        className={`absolute h-0.5 w-7 bg-black transform transition duration-300 ease-in-out ${
+                            isOpen ? "-rotate-45 delay-200" : "translate-y-1.5"
+                        }`}
+                        ></span>
+                    </div>
                 </button>
             </div>
             <div className={`w-full block flex-grow lg:flex lg:items-center lg:w-auto ${isOpen ? "block cmodal-container" : "hidden"}`}>
                 <div className="text-sm lg:flex-grow"></div>
                 <div className={`font-extralight${isOpen ? " cmodal" : ""}`}>
                     <div className={`${isOpen ? "cmodal-fullscreen text-center text-5xl" : ""}`}>
-                        <Link href="#responsive-header" className={`block mt-4 px-2 lg:inline-block lg:mt-0 text-black-200 hover:underline hover:text-gray${isOpen ? " py-2 hover:decoration-2" : " hover:decoration-1"}`}>
+                        <Link 
+                            href="/" 
+                            className={`block mt-4 px-2 lg:inline-block lg:mt-0 text-black-200 hover:underline hover:underline-offset-4 hover:text-gray${isOpen ? " py-2 hover:decoration-2" : " hover:decoration-1"}`}
+                            onClick={() => { setIsOpen(false); document.body.style.overflow = "";} }
+                        >
                             Portfolio
                         </Link>
-                        <Link href="#responsive-header" className={`block mt-4 px-2 lg:inline-block lg:mt-0 text-black-200 hover:underline hover:text-gray mr-4${isOpen ? " py-2 hover:decoration-2" : " hover:decoration-1"}`}>
+                        <Link 
+                            href="about" 
+                            className={`block mt-4 px-2 lg:inline-block lg:mt-0 text-black-200 hover:underline hover:underline-offset-4 hover:text-gray mr-4${isOpen ? " py-2 hover:decoration-2" : " hover:decoration-1"}`}
+                            onClick={() => {setIsOpen(false); document.body.style.overflow = "";}}
+                        >
                             About
                         </Link>
                     </div>

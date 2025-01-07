@@ -1,20 +1,32 @@
-import React from 'react'
-import { getAllBlogPosts } from '@/app/lib/api'
+import React from 'react';
 import Image from 'next/image'
 
-const AllWork = async () => {
-    const blogPosts = await getAllBlogPosts();
+interface PortfolioImages {
+    url: string;
+    width: number;
+    height: number;
+}
 
+interface PortfolioImagesProps {
+    images: PortfolioImages[]
+}
+
+const AllWork = (props: PortfolioImagesProps) => {
+    //const blogPosts = await getAllBlogPosts();
+    const images = props.images;
+    
     return (
-        <div className='grid gap-8 md:grid-cols-2 lg:grid-cols-3'>
-            {blogPosts.map((post: any) => (
-                <div key={post.title}>
+        <div className='images-wrapper'>
+            {images.map((post: any) => (
+                <div key={post.url} className='image-card'>
                     <Image
                       alt="placeholder"
-                      className="aspect-[4/3] object-cover w-full"
-                      height="263"
-                      src={post.blogImage.url}
-                      width="350"
+                      height={post.height}
+                      src={post.url}
+                      width={post.width}
+                      placeholder='blur'
+                      blurDataURL='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAA1JREFUGFdjOHf4cAUAB4QCzf7jDSoAAAAASUVORK5CYII='
+                      priority
                     />
                 </div>
             ))}
