@@ -1,8 +1,8 @@
-import { getLoremPicsumImages } from '@/app/lib/api'
+import { getAllBlogPosts } from '@/app/lib/api'
 
 const PortfolioImages = async () => {
-  const images = await getLoremPicsumImages();
-  
+  const images = await getAllBlogPosts();
+
   return images;
 }
 

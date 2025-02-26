@@ -5,7 +5,7 @@ export default async function Home() {
   const images = await PortfolioImages();
 
   return (
-    <div className='p-6 font-extralight masonry'>
+    <div className='p-6 font-extralight'>
       <AllWork images={images} />
     </div>
   )

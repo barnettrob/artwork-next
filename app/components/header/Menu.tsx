@@ -15,7 +15,7 @@ const Menu = () => {
     }
 
     return (
-        <nav className="flex items-center justify-between flex-wrap bg-white p-6">
+        <nav className="flex items-center justify-between flex-wrap bg-white p-6                                    ">
             <div className="flex items-center flex-shrink-0 text-black mr-6">
                 <span className="text-2xl font-extralight tracking-tight">
                     <Link href={"/"}>
@@ -23,12 +23,12 @@ const Menu = () => {
                     </Link>
                 </span>
             </div>
-            <div className="block lg:hidden">
+            <div className="block lg:hidden z-50">
                 <button 
                     className="flex items-center px-3 py-2 border rounded text-black-200 hover:text-gray border-white hover:border-white"
                     onClick={() => {setIsOpen(!isOpen); scrollControl()}}
                 >
-                    <div className={`w-5 transform -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2 ${isOpen ? "mr-5" : ""}`}>
+                    <div className={`w-5 transform -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2 ${isOpen ? "mr-0" : ""}`}>
                         <span
                         className={`absolute h-0.5 w-7 bg-black transform transition duration-300 ease-in-out ${
                             isOpen ? "rotate-45 delay-200" : "-translate-y-1.5"
