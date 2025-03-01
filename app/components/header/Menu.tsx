@@ -18,7 +18,7 @@ const Menu = () => {
         <nav className="flex items-center justify-between flex-wrap bg-white p-6                                    ">
             <div className="flex items-center flex-shrink-0 text-black mr-6">
                 <span className="text-2xl font-extralight tracking-tight">
-                    <Link href={"/"}>
+                    <Link href={"/"} onClick={() => setIsOpen(false)}>
                         Artist Name
                     </Link>
                 </span>
