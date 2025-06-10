@@ -13,16 +13,19 @@ interface PortfolioImagesProps {
 
 const AllWork = (props: PortfolioImagesProps) => {
     const images = props.images;
-    console.log("images", images)
+    
     return (
         <div className='images-wrapper'>
             {images.map((post: any) => (
-                <div key={post.artworkImage.url} className='image-card'>
+                <div key={post.artworkImage.url} className='image-card' 
+                style={{ maxWidth: '380px', height: '300px', position: 'relative', overflow: 'hidden' }}>
                     <Image
                         alt={post.artworkImage.title}
                         src={post.artworkImage.url}
-                        width={post.artworkImage.width}
-                        height={post.artworkImage.height}
+                        layout="fill"
+                        objectFit="cover"
+                        // width={post.artworkImage.width}
+                        // height={post.artworkImage.height}
                         // style={{ maxWidth: '500px', height: 'auto' }}
                         placeholder='blur'
                         blurDataURL='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAA1JREFUGFdjOHf4cAUAB4QCzf7jDSoAAAAASUVORK5CYII='
