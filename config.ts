@@ -3,5 +3,8 @@ export const Config = {
         accessToken: process.env.CONTENTFUL_ACCESS_TOKEN,
         spaceId: process.env.CONTENTFUL_SPACEID,
         previewAccessToken: process.env.CONTENTFUL_SPACEID
+    },
+    cache: {
+        token: process.env.API_CACHE_TOKEN
     }
 }
