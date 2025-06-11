@@ -11,6 +11,18 @@ const ARTWORK_GRAPHQL_FIELDS = `
   shortDescription
 `;
 
+const PAGE_GRAPHQL_FIELDS = `
+  title
+  picture {
+    url
+    width
+    height
+  }
+  body {
+    json
+  }
+`;
+
 async function fetchGraphQL(query: string, preview = false) {
   return fetch(
    `https://graphql.contentful.com/content/v1/spaces/${Config.contentful.spaceId}`,
@@ -78,4 +90,22 @@ export async function getArtwork(
     isDraftMode
   );
   return extractArtworkEntries(extractArtworkEntries)[0];
+}
+
+export async function getAbout(
+  isDraftMode = false
+) {
+  const about = await fetchGraphQL(
+    `query {
+        pageCollection(where: {title: "About"}, limit: 1, preview: ${
+      isDraftMode ? "true" : "false"
+    }) {
+          items {
+            ${PAGE_GRAPHQL_FIELDS}
+          }
+        }
+      }`,
+    isDraftMode
+  );
+  return about;
 }
