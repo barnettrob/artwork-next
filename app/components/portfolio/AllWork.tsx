@@ -22,6 +22,7 @@ const AllWork = (props: PortfolioImagesProps) => {
                     <Image
                         alt={post.artworkImage.title}
                         src={post.artworkImage.url}
+                        quality={80}
                         layout="fill"
                         objectFit="cover"
                         // width={post.artworkImage.width}
