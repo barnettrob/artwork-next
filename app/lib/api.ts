@@ -51,8 +51,8 @@ function extractArtworkEntries(fetchResponse: any) {
 }
 
 export async function getAllArtwork(
-  // For this demo set the default limit to always return 3 articles.
-  limit = 3,
+  // We don't need a limit but we had one so set it really high.
+  limit = 300,
   // By default this function will return published content but will provide an option to
   // return draft content for reviewing articles before they are live
   isDraftMode = false
