@@ -23,7 +23,7 @@ const PAGE_GRAPHQL_FIELDS = `
   }
 `;
 
-async function fetchGraphQL(query: string, preview = false) {
+async function fetchGraphQL(query: string, preview = false, cacheTags: string[]) {
   return fetch(
    `https://graphql.contentful.com/content/v1/spaces/${Config.contentful.spaceId}`,
     {
@@ -41,7 +41,7 @@ async function fetchGraphQL(query: string, preview = false) {
       body: JSON.stringify({ query }),
       // Associate all fetches for articles with an "artwork" cache tag so content can
       // be revalidated or updated from Contentful on publish
-      next: { tags: ["artwork"] },
+      next: { tags: cacheTags },
     }
   ).then((response) => response.json());
 }
@@ -67,7 +67,8 @@ export async function getAllArtwork(
           }
         }
       }`,
-    isDraftMode
+    isDraftMode,
+    ["artwork"]
   );
 
   return extractArtworkEntries(artwork);
@@ -87,7 +88,8 @@ export async function getArtwork(
           }
         }
       }`,
-    isDraftMode
+    isDraftMode,
+    ["artwork"]
   );
   return extractArtworkEntries(extractArtworkEntries)[0];
 }
@@ -105,7 +107,8 @@ export async function getAbout(
           }
         }
       }`,
-    isDraftMode
+    isDraftMode,
+    ["page-about"]
   );
   return about;
 }
