@@ -38,24 +38,40 @@
 
 /** images masonary layout **/
 .masonry {
-  columns: 4;
+  columns: 3;
   column-gap: 16px;
-  @media (max-width: 1200px) {
+  @media (max-width: 1440px) {
     columns: 3;
   }
-  @media (max-width: 992px) {
+  @media (max-width: 1280px) {
     columns: 2;
   }
-  @media (max-width: 768px) {columns: 1;}
+  @media (max-width: 768px) {
+    columns: 1;
+  }
 }
-.images-wrapper {
+
+/* .images-wrapper {
   display: grid;
   overflow: hidden;
   grid-template-columns: repeat(3, 1fr);
   grid-auto-rows: 1fr;
   grid-column-gap: 5px;
   grid-row-gap: 5px;
-}
+} */
+
+/* .images-wrapper {
+  max-width: 600px;
+} */
+
+/* .images-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+} */
+
+/* .images-wrapper .artwork-card {
+  max-height: 400px;
+} */
 
 .image-card {
   display: flex;
@@ -73,8 +89,16 @@
   cursor: pointer;
 } */
 
+.artwork-card {
+  /* margin: 10px */
+  margin: 20px 0;
+}
+
 @media screen and (max-width: 768px) {
-  .images-wrapper {
+  /* .images-wrapper {
     display: block;
+  } */
+  .artwork-card {
+    margin: 20px 0;
   }
 }
