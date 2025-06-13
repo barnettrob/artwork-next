@@ -112,3 +112,38 @@ export async function getAbout(
   );
   return about;
 }
+
+export async function getAllSocialMedia(
+  isDraftMode = false
+) {
+  const socialMedia = await fetchGraphQL(
+    `query {
+      socialMediaCollection {
+        items {
+          name
+          url
+        }
+      }
+    }`,
+    isDraftMode,
+    ["social-media"]
+  );
+  return socialMedia;
+}
+
+export async function getWebsiteMetaData(
+  isDraftMode = false
+) {
+  const data = await fetchGraphQL(
+    `query {
+      websiteMetaDataCollection {
+        items {
+          authorName
+        }
+      }
+    }`,
+    isDraftMode,
+    ["meta-data"]
+  );
+  return data;
+}
