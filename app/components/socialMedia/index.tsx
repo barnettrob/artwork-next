@@ -1,6 +1,7 @@
 import React from "react";
 import { getAllSocialMedia } from "@/app/lib/api";
 import InstagramIcon from "./icons/Instagram";
+import LinkedInIcon from "./icons/LinkedIn";
 
 interface socialMedia {
     name: string;
@@ -24,7 +25,10 @@ const SocialMedia = async () => {
                 switch(social.name) {
                     case "instagram":
                         icon = <InstagramIcon />
-                        break; 
+                        break;
+                    case "linkedin":
+                        icon = <LinkedInIcon />
+                        break;
                     default:
                          icon = <InstagramIcon />
                 }
