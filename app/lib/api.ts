@@ -24,6 +24,10 @@ const PAGE_GRAPHQL_FIELDS = `
 `;
 
 async function fetchGraphQL(query: string, preview = false, cacheTags: string[]) {
+  if (typeof Config.contentful.spaceId === "undefined") {
+    return false;
+  }
+
   return fetch(
    `https://graphql.contentful.com/content/v1/spaces/${Config.contentful.spaceId}`,
     {
@@ -111,6 +115,25 @@ export async function getAbout(
     ["page-about"]
   );
   return about;
+}
+
+export async function getLogo(
+  isDraftMode = false
+) {
+  const logo = await fetchGraphQL(
+    `query {
+        pageCollection(where: {title: "Logo"}, limit: 1, preview: ${
+      isDraftMode ? "true" : "false"
+    }) {
+          items {
+            ${PAGE_GRAPHQL_FIELDS}
+          }
+        }
+      }`,
+    isDraftMode,
+    ["page-logo"]
+  );
+  return logo;
 }
 
 export async function getAllSocialMedia(

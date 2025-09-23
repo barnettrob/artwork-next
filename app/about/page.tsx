@@ -4,7 +4,7 @@ import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 
 const About = async () => {
   const aboutPage = await getAbout();
-  const aboutPageItems = "data" in aboutPage && 
+  const aboutPageItems = typeof aboutPage !== "undefined" && "data" in aboutPage && 
   "pageCollection" in aboutPage.data && 
   "items" in aboutPage.data.pageCollection ? aboutPage.data.pageCollection.items : [];
   let title = "";
