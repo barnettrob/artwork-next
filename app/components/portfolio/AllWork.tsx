@@ -24,7 +24,8 @@ const AllWork = (props: PortfolioImagesProps) => {
                 const isVideo = urlArray[0] === "videos.ctfassets.net" ? true : false;
                 let artwork = <></>
                 if (isVideo) {
-                    artwork = <video width={"100%"} height={"100%"} controls>
+                    const posterAttr = "videoImage" in post && post.videoImage !== null ? post.videoImage.url : "/video_poster_default.png";
+                    artwork = <video width={"100%"} height={"100%"} poster={posterAttr} controls>
                                 <source src={post.artworkImage.url} type="video/mp4" />
                                     Your browser does not support the video tag.
                                 </video>
