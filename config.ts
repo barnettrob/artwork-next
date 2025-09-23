@@ -6,5 +6,8 @@ export const Config = {
     },
     cache: {
         token: process.env.API_CACHE_TOKEN
+    },
+    logo: {
+        path: process.env.NEXT_PUBLIC_LOGO_PATH
     }
 }

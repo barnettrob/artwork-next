@@ -1,6 +1,7 @@
 'use client'
-import React, { useState } from 'react'
-import Link from 'next/link'
+import React, { useState } from 'react';
+import Link from 'next/link';
+import Logo from './Logo';
 
 const Menu = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -19,7 +20,7 @@ const Menu = () => {
             <div className="flex items-center flex-shrink-0 text-black mr-6">
                 <span className="text-2xl font-extralight tracking-tight">
                     <Link href={"/"} onClick={() => setIsOpen(false)}>
-                        Artist Name
+                        <Logo />
                     </Link>
                 </span>
             </div>
