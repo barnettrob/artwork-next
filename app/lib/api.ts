@@ -8,6 +8,11 @@ const ARTWORK_GRAPHQL_FIELDS = `
     width
     height
   }
+  videoImage {
+    url
+    width
+    height
+  }
   shortDescription
 `;
 
