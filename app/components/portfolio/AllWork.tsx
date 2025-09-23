@@ -17,7 +17,6 @@ const AllWork = (props: PortfolioImagesProps) => {
     return (
         <div className='masonry'>
             {images.map((post: any) => {
-                console.log("post", post)
                 let url = post.artworkImage.url;
                 url = url.replace(/^https?:\/\//, '');
                 const urlArray = url.split("/");
