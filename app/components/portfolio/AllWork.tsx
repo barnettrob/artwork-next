@@ -1,6 +1,8 @@
-import React from 'react';
+'use client'
+import React, { useState } from 'react';
 import Image from "next/legacy/image";
 import BackToTop from '../icons/BackToTop';
+import ImageOverlay from './ImageOverlay';
 
 interface PortfolioImages {
     url: string;
@@ -12,8 +14,44 @@ interface PortfolioImagesProps {
     images: PortfolioImages[]
 }
 
+interface OverlayData {
+    artworkImage?: {
+        height: number;
+        url: string;
+        width: number;
+    }
+    shortDescription?: string;
+    title?: string;
+    videoImage?: null;
+}
+
 const AllWork = (props: PortfolioImagesProps) => {
+    const postImageDefault = {
+        artworkImage: {
+            height: 0,
+            url: "",
+            width: 0
+        },
+        shortDescription: "",
+        title: "",
+        videoImage: null
+    }
+    const [overlayImage, setOverlayImage] = useState(postImageDefault);
+    const [showOverlay, setShowOverlay] = useState(false);
     const images = props.images;
+
+    const handleOverlayImage = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>, post: any) => {
+        e.preventDefault();
+
+        if (typeof post === "object") {
+            setOverlayImage(post);
+            setShowOverlay(true);
+        }
+    }
+
+    const handleOverlayControl = (data: boolean) => {
+        setShowOverlay(data);
+    }
     
     return (
         <div className='masonry'>
@@ -31,7 +69,8 @@ const AllWork = (props: PortfolioImagesProps) => {
                                 </video>
                 }
                 else {
-                    artwork = <Image
+                    artwork = <a href="#" onClick={(e) => handleOverlayImage(e, post)}>
+                    <Image
                         alt={post.artworkImage.title}
                         src={post.artworkImage.url}
                         quality={80}
@@ -41,7 +80,7 @@ const AllWork = (props: PortfolioImagesProps) => {
                         placeholder='blur'
                         blurDataURL='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAA1JREFUGFdjOHf4cAUAB4QCzf7jDSoAAAAASUVORK5CYII='
                         priority
-                    />
+                    /></a>
                 }
                 return (
                     <div key={post.artworkImage.url} className="artwork-card">
@@ -49,6 +88,11 @@ const AllWork = (props: PortfolioImagesProps) => {
                     </div>
                 )
             })}
+            <ImageOverlay 
+                post={overlayImage} 
+                show={showOverlay} 
+                overlayControl={handleOverlayControl} 
+            />
             <BackToTop />
         </div>
     )

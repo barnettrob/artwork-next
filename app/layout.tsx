@@ -1,14 +1,15 @@
-import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
-import './globals.css'
-import Header from './components/header/Header'
-import Footer from './components/footer/Footer'
+import type { Metadata } from 'next';
+import { Inter } from 'next/font/google';
+import './globals.css';
+import Header from './components/header/Header';
+import Footer from './components/footer/Footer';
+import { Config } from '@/config';
 
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: `Artist Name`,
-  description: `Artist Name's Art Portfolio`,
+  title: Config.metadata.title,
+  description: Config.metadata.description,
 }
 
 export default function RootLayout({
