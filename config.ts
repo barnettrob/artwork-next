@@ -9,5 +9,9 @@ export const Config = {
     },
     logo: {
         path: process.env.NEXT_PUBLIC_LOGO_PATH
+    },
+    metadata: {
+        title: process.env.NEXT_PUBLIC_META_TITLE,
+        description: process.env.NEXT_PUBLIC_META_DESCRIPTION
     }
 }
