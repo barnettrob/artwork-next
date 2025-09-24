@@ -25,11 +25,9 @@ const ImageOverlay = ( props: Props ) => {
 
   const handleShow = () => {
     if (props.show) {
-        // setShow(true);
         overlayRef.current.className = overlayRef.current.className.replace("hidden", "show");
     }
     else {
-        // setShow(false);
         overlayRef.current.className = overlayRef.current.className.replace("show", "hidden");
     }
   }
@@ -40,6 +38,9 @@ const ImageOverlay = ( props: Props ) => {
 
   const handleClose = () => {
     overlayRef.current.className = overlayRef.current.className.replace("show", "hidden");
+    // Send back to parent where it will set showOverlay back to false 
+    // via the handleOverlayControl function in the parent
+    // so that other images can be properly opened.
     props.overlayControl(false);
   }
 
