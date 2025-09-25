@@ -17,6 +17,7 @@ interface Props {
     post: Post;
     show: boolean;
     overlayControl: any;
+    windowWidth: number;
 }
 
 const ImageOverlay = ( props: Props ) => {
@@ -32,7 +33,7 @@ const ImageOverlay = ( props: Props ) => {
     }
   }
 
-  if (overlayRef.current !== null) {
+  if (overlayRef.current !== null && props.windowWidth > 768) {
     handleShow();
   }
 
