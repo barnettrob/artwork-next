@@ -1,5 +1,6 @@
 'use client'
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import Link from 'next/link';
 import Image from "next/legacy/image";
 import BackToTop from '../icons/BackToTop';
 import ImageOverlay from './ImageOverlay';
@@ -38,7 +39,16 @@ const AllWork = (props: PortfolioImagesProps) => {
     }
     const [overlayImage, setOverlayImage] = useState(postImageDefault);
     const [showOverlay, setShowOverlay] = useState(false);
+    const [showModalVal, setShowModalVal] = useState("true");
     const images = props.images;
+    const innerWidth = typeof window !== "undefined" ? window.innerWidth : 0;
+
+    useEffect(() => {
+        if (innerWidth <= 768) {
+            setShowModalVal("false");
+        }
+    }, []);
+
 
     const handleOverlayImage = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>, post: any) => {
         e.preventDefault();
@@ -69,7 +79,7 @@ const AllWork = (props: PortfolioImagesProps) => {
                                 </video>
                 }
                 else {
-                    artwork = <a href="#" onClick={(e) => handleOverlayImage(e, post)}>
+                    artwork = <Link href={`?showModal=${showModalVal}`} className='artwork-link' onClick={(e) => handleOverlayImage(e, post)}>
                     <Image
                         alt={post.artworkImage.title}
                         src={post.artworkImage.url}
@@ -80,7 +90,7 @@ const AllWork = (props: PortfolioImagesProps) => {
                         placeholder='blur'
                         blurDataURL='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAA1JREFUGFdjOHf4cAUAB4QCzf7jDSoAAAAASUVORK5CYII='
                         priority
-                    /></a>
+                    /></Link>
                 }
                 return (
                     <div key={post.artworkImage.url} className="artwork-card">
@@ -92,8 +102,11 @@ const AllWork = (props: PortfolioImagesProps) => {
                 post={overlayImage} 
                 show={showOverlay} 
                 overlayControl={handleOverlayControl} 
+                windowWidth={innerWidth}
             />
-            <BackToTop />
+            {!showOverlay && (
+                <BackToTop />
+            )}   
         </div>
     )
 }

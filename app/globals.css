@@ -101,6 +101,9 @@
   .artwork-card {
     margin: 20px 0;
   }
+  .artwork-link {
+    cursor: default;
+  }
 }
 
 .back-to-top {
