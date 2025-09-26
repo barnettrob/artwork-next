@@ -15,17 +15,6 @@ interface PortfolioImagesProps {
     images: PortfolioImages[]
 }
 
-interface OverlayData {
-    artworkImage?: {
-        height: number;
-        url: string;
-        width: number;
-    }
-    shortDescription?: string;
-    title?: string;
-    videoImage?: null;
-}
-
 const AllWork = (props: PortfolioImagesProps) => {
     const postImageDefault = {
         artworkImage: {
@@ -89,7 +78,6 @@ const AllWork = (props: PortfolioImagesProps) => {
                         height={post.artworkImage.height}
                         placeholder='blur'
                         blurDataURL='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAA1JREFUGFdjOHf4cAUAB4QCzf7jDSoAAAAASUVORK5CYII='
-                        priority
                     /></Link>
                 }
                 return (
