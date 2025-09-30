@@ -70,7 +70,7 @@ export async function getAllArtwork(
     `query {
         artworkCollection(limit: ${limit}, preview: ${
       isDraftMode ? "true" : "false"
-    }) {
+    }, order: [sys_publishedAt_DESC]) {
           items {
             ${ARTWORK_GRAPHQL_FIELDS}
           }
