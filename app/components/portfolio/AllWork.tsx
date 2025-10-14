@@ -1,9 +1,10 @@
 'use client'
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import Image from "next/legacy/image";
 import BackToTop from '../icons/BackToTop';
 import ImageOverlay from './ImageOverlay';
+import InfoIcon from '../icons/InfoIcon';
 
 interface PortfolioImages {
     url: string;
@@ -31,6 +32,8 @@ const AllWork = (props: PortfolioImagesProps) => {
     const [showModalVal, setShowModalVal] = useState("true");
     const images = props.images;
     const innerWidth = typeof window !== "undefined" ? window.innerWidth : 0;
+    const imagesLength = Array.isArray(images) ? images.length : 0;
+    const infoIconsRef = useRef(new Array(imagesLength));
 
     useEffect(() => {
         if (innerWidth <= 768) {
@@ -51,10 +54,26 @@ const AllWork = (props: PortfolioImagesProps) => {
     const handleOverlayControl = (data: boolean) => {
         setShowOverlay(data);
     }
+
+    const handleImageHover = (e: React.MouseEvent<HTMLDivElement, MouseEvent>, hover: boolean) => {
+        const target = e.currentTarget;
+        const ix: string | null = target.getAttribute("data-ix");
+        if (typeof ix === "string" && ix !== "") { 
+            const ixNum = Number(ix);
+            if (!isNaN(ixNum) && infoIconsRef.current[ixNum]) {
+                if (hover) {
+                    infoIconsRef.current[ixNum]!.className = infoIconsRef.current[ixNum]!.className.replace("hidden", "block");
+                }
+                else {
+                    infoIconsRef.current[ixNum]!.className = infoIconsRef.current[ixNum]!.className.replace("block", "hidden");
+                }
+            }
+        }
+    }
     
     return (
         <div className='masonry'>
-            {images.map((post: any) => {
+            {images.map((post: any, ix: number) => {
                 let url = post.artworkImage.url;
                 url = url.replace(/^https?:\/\//, '');
                 const urlArray = url.split("/");
@@ -81,8 +100,27 @@ const AllWork = (props: PortfolioImagesProps) => {
                     /></Link>
                 }
                 return (
-                    <div key={post.artworkImage.url} className="artwork-card">
+                    <div 
+                        key={post.artworkImage.url} 
+                        className="artwork-card relative" 
+                        data-ix={ix}
+                        onMouseEnter={(e) => handleImageHover(e, true)}
+                        onMouseLeave={(e) => handleImageHover(e, false)}
+                    >
                         {artwork}
+                        <span 
+                            className='absolute top-2 right-2 hidden' 
+                            ref={(element) => {
+                                if (typeof url === "string" && url !== "") {
+                                    infoIconsRef.current[ix] = element;
+                                }
+                                else {
+                                    infoIconsRef.current[ix] = ""
+                                }
+                            }}
+                        >
+                                <InfoIcon />
+                            </span>    
                     </div>
                 )
             })}
