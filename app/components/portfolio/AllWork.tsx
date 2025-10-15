@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Image from "next/legacy/image";
 import BackToTop from '../icons/BackToTop';
 import ImageOverlay from './ImageOverlay';
+import ShortDescriptionOverlay from './ShortDescriptionOverlay';
 import InfoIcon from '../icons/InfoIcon';
 
 interface PortfolioImages {
@@ -30,6 +31,7 @@ const AllWork = (props: PortfolioImagesProps) => {
     const [overlayImage, setOverlayImage] = useState(postImageDefault);
     const [showOverlay, setShowOverlay] = useState(false);
     const [showModalVal, setShowModalVal] = useState("true");
+    const [showShortDescriptionOverlay, setShowShortDescriptionOverlay] = useState(false);
     const images = props.images;
     const innerWidth = typeof window !== "undefined" ? window.innerWidth : 0;
     const imagesLength = Array.isArray(images) ? images.length : 0;
@@ -55,6 +57,10 @@ const AllWork = (props: PortfolioImagesProps) => {
         setShowOverlay(data);
     }
 
+    const handleShortDescriptionOverlayControl = (data: boolean) => {
+        setShowShortDescriptionOverlay(data);
+    }
+
     const handleImageHover = (e: React.MouseEvent<HTMLDivElement, MouseEvent>, hover: boolean) => {
         const target = e.currentTarget;
         const ix: string | null = target.getAttribute("data-ix");
@@ -68,6 +74,19 @@ const AllWork = (props: PortfolioImagesProps) => {
                     infoIconsRef.current[ixNum]!.className = infoIconsRef.current[ixNum]!.className.replace("block", "hidden");
                 }
             }
+        }
+    }
+
+    const handleInfoIconClick = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>, post: any) => {
+        e.preventDefault();
+        console.log("Info icon clicked", post);
+        if (typeof post === "object") {
+            if (post.artworkImage.height === null && post.artworkImage.width === null) {
+                post.artworkImage.height = 0;
+                post.artworkImage.width = 0;
+            }
+            setOverlayImage(post);
+            setShowShortDescriptionOverlay(true);
         }
     }
     
@@ -119,7 +138,7 @@ const AllWork = (props: PortfolioImagesProps) => {
                                 }
                             }}
                         >
-                                <InfoIcon />
+                                <InfoIcon parentIconClick={(e) =>handleInfoIconClick(e, post)} />
                             </span>    
                     </div>
                 )
@@ -128,6 +147,12 @@ const AllWork = (props: PortfolioImagesProps) => {
                 post={overlayImage} 
                 show={showOverlay} 
                 overlayControl={handleOverlayControl} 
+                windowWidth={innerWidth}
+            />
+            <ShortDescriptionOverlay 
+                post={overlayImage}
+                show={showShortDescriptionOverlay}
+                overlayDescriptionControl={handleShortDescriptionOverlayControl}
                 windowWidth={innerWidth}
             />
             {!showOverlay && (
