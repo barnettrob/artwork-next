@@ -79,7 +79,7 @@ const AllWork = (props: PortfolioImagesProps) => {
 
     const handleInfoIconClick = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>, post: any) => {
         e.preventDefault();
-        console.log("Info icon clicked", post);
+
         if (typeof post === "object") {
             if (post.artworkImage.height === null && post.artworkImage.width === null) {
                 post.artworkImage.height = 0;
@@ -97,6 +97,10 @@ const AllWork = (props: PortfolioImagesProps) => {
                 url = url.replace(/^https?:\/\//, '');
                 const urlArray = url.split("/");
                 const isVideo = urlArray[0] === "videos.ctfassets.net" ? true : false;
+
+                const shortDescription = "shortDescription" in post ? post.shortDescription : "";
+                const hasShortDescription = shortDescription !== "" ? true : false;
+
                 let artwork = <></>
                 if (isVideo) {
                     const posterAttr = "videoImage" in post && post.videoImage !== null ? post.videoImage.url : "/video_poster_default.png";
@@ -127,19 +131,21 @@ const AllWork = (props: PortfolioImagesProps) => {
                         onMouseLeave={(e) => handleImageHover(e, false)}
                     >
                         {artwork}
-                        <span 
-                            className='absolute top-2 right-2 hidden' 
-                            ref={(element) => {
-                                if (typeof url === "string" && url !== "") {
-                                    infoIconsRef.current[ix] = element;
-                                }
-                                else {
-                                    infoIconsRef.current[ix] = ""
-                                }
-                            }}
-                        >
+                        {hasShortDescription && (
+                            <span 
+                                className='absolute top-2 right-2 hidden' 
+                                ref={(element) => {
+                                    if (typeof url === "string" && url !== "") {
+                                        infoIconsRef.current[ix] = element;
+                                    }
+                                    else {
+                                        infoIconsRef.current[ix] = ""
+                                    }
+                                }}
+                            >
                                 <InfoIcon parentIconClick={(e) =>handleInfoIconClick(e, post)} />
-                            </span>    
+                            </span>
+                        )}    
                     </div>
                 )
             })}
