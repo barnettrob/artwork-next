@@ -55,7 +55,7 @@ const ShortDescriptionOverlay = ( props: Props ) => {
   return (
     <div className="hidden" ref={overlayRef}>
         <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50">
-            <div className="bg-white rounded-lg p-3 max-w-2xl w-11/12 h-[calc(100vh_-_20rem)] overflow-y-auto">
+            <div className="bg-gray-200 rounded-lg p-3 max-w-xl w-11/12 pb-10 overflow-y-auto">
                 <div className="flex justify-between items-center mb-3">
                     <button 
                         className="ml-auto border-0 text-black text-3xl leading-none font-thin outline-none focus:outline-none"
@@ -64,7 +64,7 @@ const ShortDescriptionOverlay = ( props: Props ) => {
                         <CloseIcon />
                     </button>
                 </div>
-                <div className="modal-body">
+                <div className="modal-body bg-gray-300 rounded-md py-5 border border-gray-400">
                     {url !== "" && (
                         <div style={{ position: 'relative', width: '200px', height: '150px', textAlign: 'center', margin: '0 auto 1rem auto' }}>
                             <Image
