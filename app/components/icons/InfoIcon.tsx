@@ -1,3 +1,4 @@
+'use client';
 import React from 'react';
 
 interface InfoIconProps {
@@ -19,7 +20,7 @@ const InfoIcon = ( props: InfoIconProps ) => {
           }
         }}
       >
-        <div className='bg-white bg-opacity-50 rounded-full p-1 w-8 h-8 flex justify-center items-center shadow-md'>
+        <div className={`bg-white bg-opacity-40 rounded-full p-1 w-8 h-8 flex justify-center items-center shadow-md`}>
           <svg height="24px" width="24px" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" 
           viewBox="0 0 202.978 202.978" xmlSpace="preserve">
             <g>

@@ -32,6 +32,8 @@ const AllWork = (props: PortfolioImagesProps) => {
     const [showOverlay, setShowOverlay] = useState(false);
     const [showModalVal, setShowModalVal] = useState("true");
     const [showShortDescriptionOverlay, setShowShortDescriptionOverlay] = useState(false);
+    const [infoIconMobileDisplay, setInfoIconMobileDisplay] = useState("hidden");
+    const [infoIconMobilePosition, setInfoIconMobilePosition] = useState("bottom-2 right-2");
     const images = props.images;
     const innerWidth = typeof window !== "undefined" ? window.innerWidth : 0;
     const imagesLength = Array.isArray(images) ? images.length : 0;
@@ -40,6 +42,8 @@ const AllWork = (props: PortfolioImagesProps) => {
     useEffect(() => {
         if (innerWidth <= 768) {
             setShowModalVal("false");
+            setInfoIconMobileDisplay("block");
+            setInfoIconMobilePosition("-bottom-3 -right-3")
         }
     }, []);
 
@@ -61,17 +65,19 @@ const AllWork = (props: PortfolioImagesProps) => {
         setShowShortDescriptionOverlay(data);
     }
 
-    const handleImageHover = (e: React.MouseEvent<HTMLDivElement, MouseEvent>, hover: boolean) => {
-        const target = e.currentTarget;
-        const ix: string | null = target.getAttribute("data-ix");
-        if (typeof ix === "string" && ix !== "") { 
-            const ixNum = Number(ix);
-            if (!isNaN(ixNum) && infoIconsRef.current[ixNum]) {
-                if (hover) {
-                    infoIconsRef.current[ixNum]!.className = infoIconsRef.current[ixNum]!.className.replace("hidden", "block");
-                }
-                else {
-                    infoIconsRef.current[ixNum]!.className = infoIconsRef.current[ixNum]!.className.replace("block", "hidden");
+    const handleInfoImageHover = (e: React.MouseEvent<HTMLDivElement, MouseEvent>, hover: boolean) => {
+        if (innerWidth > 768) {
+            const target = e.currentTarget;
+            const ix: string | null = target.getAttribute("data-ix");
+            if (typeof ix === "string" && ix !== "") { 
+                const ixNum = Number(ix);
+                if (!isNaN(ixNum) && infoIconsRef.current[ixNum]) {
+                    if (hover) {
+                        infoIconsRef.current[ixNum]!.className = infoIconsRef.current[ixNum]!.className.replace("hidden", "block");
+                    }
+                    else {
+                        infoIconsRef.current[ixNum]!.className = infoIconsRef.current[ixNum]!.className.replace("block", "hidden");
+                    }
                 }
             }
         }
@@ -127,13 +133,13 @@ const AllWork = (props: PortfolioImagesProps) => {
                         key={post.artworkImage.url} 
                         className="artwork-card relative" 
                         data-ix={ix}
-                        onMouseEnter={(e) => handleImageHover(e, true)}
-                        onMouseLeave={(e) => handleImageHover(e, false)}
+                        onMouseEnter={(e) => handleInfoImageHover(e, true)}
+                        onMouseLeave={(e) => handleInfoImageHover(e, false)}
                     >
                         {artwork}
                         {hasShortDescription && (
                             <span 
-                                className='absolute top-2 right-2 hidden' 
+                                className={`absolute ${infoIconMobilePosition} ${infoIconMobileDisplay}`}
                                 ref={(element) => {
                                     if (typeof url === "string" && url !== "") {
                                         infoIconsRef.current[ix] = element;
@@ -143,7 +149,9 @@ const AllWork = (props: PortfolioImagesProps) => {
                                     }
                                 }}
                             >
-                                <InfoIcon parentIconClick={(e) =>handleInfoIconClick(e, post)} />
+                                <InfoIcon 
+                                    parentIconClick={(e) =>handleInfoIconClick(e, post)} 
+                                />
                             </span>
                         )}    
                     </div>
