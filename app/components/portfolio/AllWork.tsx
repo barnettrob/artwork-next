@@ -33,7 +33,7 @@ const AllWork = (props: PortfolioImagesProps) => {
     const [showModalVal, setShowModalVal] = useState("true");
     const [showShortDescriptionOverlay, setShowShortDescriptionOverlay] = useState(false);
     const [infoIconMobileDisplay, setInfoIconMobileDisplay] = useState("hidden");
-    const [infoIconMobilePosition, setInfoIconMobilePosition] = useState("bottom-2 right-2");
+    const [infoIconMobilePosition, setInfoIconMobilePosition] = useState("bottom-1 right-1");
     const images = props.images;
     const innerWidth = typeof window !== "undefined" ? window.innerWidth : 0;
     const imagesLength = Array.isArray(images) ? images.length : 0;
@@ -43,7 +43,7 @@ const AllWork = (props: PortfolioImagesProps) => {
         if (innerWidth <= 768) {
             setShowModalVal("false");
             setInfoIconMobileDisplay("block");
-            setInfoIconMobilePosition("-bottom-3 -right-3")
+            // setInfoIconMobilePosition("-bottom-3 -right-3")
         }
     }, []);
 
