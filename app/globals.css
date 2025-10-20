@@ -130,5 +130,5 @@ p {
 }
 
 .video-container {
-  min-height: 168px;
+  object-fit: fill;
 }
