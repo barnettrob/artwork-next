@@ -129,6 +129,8 @@ p {
     height: 1.5rem;
 }
 
-.video-container {
+.video-container video {
+    width: 100%;
+    height: auto;
   object-fit: cover;
 }
