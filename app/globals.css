@@ -84,14 +84,9 @@
   height: auto;
 }
 
-/* .image-card img:hover {
-  transform: scale(1.05);
-  cursor: pointer;
-} */
-
 .artwork-card {
-  /* margin: 10px */
   margin: 20px 0;
+  break-inside: avoid-column;
 }
 
 p {
@@ -99,9 +94,6 @@ p {
 }
 
 @media screen and (max-width: 768px) {
-  /* .images-wrapper {
-    display: block;
-  } */
   .artwork-card {
     margin: 20px 0;
   }
@@ -127,4 +119,10 @@ p {
 .close-x {
     width: 1.5rem;
     height: 1.5rem;
+}
+
+.video-container video {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
 }

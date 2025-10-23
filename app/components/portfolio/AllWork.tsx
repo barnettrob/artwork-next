@@ -62,10 +62,10 @@ const AllWork = (props: PortfolioImagesProps) => {
                 let artwork = <></>
                 if (isVideo) {
                     const posterAttr = "videoImage" in post && post.videoImage !== null ? post.videoImage.url : "/video_poster_default.png";
-                    artwork = <video width={"100%"} height={"100%"} poster={posterAttr} controls>
+                    artwork = <div className="video-container"><video width={"100%"} height={"100%"} poster={posterAttr} controls>
                                 <source src={post.artworkImage.url} type="video/mp4" />
                                     Your browser does not support the video tag.
-                                </video>
+                                </video></div>
                 }
                 else {
                     artwork = <Link href={`?showModal=${showModalVal}`} className='artwork-link' onClick={(e) => handleOverlayImage(e, post)}>
@@ -83,6 +83,11 @@ const AllWork = (props: PortfolioImagesProps) => {
                 return (
                     <div key={post.artworkImage.url} className="artwork-card">
                         {artwork}
+                        {post.shortDescription && (
+                            <div className="artwork-description mt-1 text-center font-extralight text-sm">
+                                {post.shortDescription}
+                            </div>
+                        )}
                     </div>
                 )
             })}
