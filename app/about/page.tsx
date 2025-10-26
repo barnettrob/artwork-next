@@ -13,22 +13,24 @@ const About = async () => {
   }
 
   return (
-    <div className='p-6 grid grid-cols-1 md:grid-cols-2 gap-4 container mx-auto'>
-      <div>
+    <div className='about p-6 grid grid-cols-1 md:grid-cols-2 gap-4 container mx-auto'>
+      <div className="description">
         {documentToReactComponents(aboutPageItems[0].body.json)}
       </div>
-      <div className='image-card' 
-          style={{ maxWidth: '380px', height: '300px', position: 'relative', overflow: 'hidden' }}>
+      <div>
+        <div style={{ maxWidth: "360px", margin: "0 auto" }}>
         <Image
           alt={title}
           src={aboutPageItems[0].picture.url}
+          width={aboutPageItems[0].picture.width}
+          height={aboutPageItems[0].picture.height}
           quality={80}
-          layout="fill"
-          objectFit="cover"
+          layout="responsive"
           placeholder='blur'
           blurDataURL='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAA1JREFUGFdjOHf4cAUAB4QCzf7jDSoAAAAASUVORK5CYII='
           priority
         />
+        </div>
       </div>
     </div>
   )

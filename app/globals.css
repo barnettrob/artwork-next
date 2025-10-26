@@ -93,6 +93,11 @@ p {
   padding-bottom: 10px;
 }
 
+.about a {
+  /* color: blue; */
+  text-decoration: underline;
+}
+
 @media screen and (max-width: 768px) {
   .artwork-card {
     margin: 20px 0;
