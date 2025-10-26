@@ -55,7 +55,20 @@ const AllWork = (props: PortfolioImagesProps) => {
     return (
         <div className='masonry'>
             {images.map((post: any) => {
-                let url = post.artworkImage.url;
+                let embeddedVideoCode = "";
+                if (post.artworkImage === null) {
+                    let embeddedVideo = post.embeddedVideo;
+                    
+                    if ("json" in embeddedVideo && "content" in embeddedVideo.json && Array.isArray(embeddedVideo.json.content) && embeddedVideo.json.content.length > 0) {
+                        const firstContent = embeddedVideo.json.content[0];
+                        if ("content" in firstContent && Array.isArray(firstContent.content) && firstContent.content.length > 0) { 
+                             if ("value" in firstContent.content[0]) {
+                                embeddedVideoCode = firstContent.content[0].value;
+                             }
+                        }
+                    }
+                }
+                let url = post.artworkImage !== null ? post.artworkImage.url : "";
                 url = url.replace(/^https?:\/\//, '');
                 const urlArray = url.split("/");
                 const isVideo = urlArray[0] === "videos.ctfassets.net" ? true : false;
@@ -66,6 +79,13 @@ const AllWork = (props: PortfolioImagesProps) => {
                                 <source src={post.artworkImage.url} type="video/mp4" />
                                     Your browser does not support the video tag.
                                 </video></div>
+                }
+                else if(embeddedVideoCode !== "") {
+                    artwork = <div 
+                        className="video-container" 
+                        dangerouslySetInnerHTML={{__html: embeddedVideoCode}}
+                        suppressHydrationWarning={true}
+                        ></div>
                 }
                 else {
                     artwork = <Link href={`?showModal=${showModalVal}`} className='artwork-link' onClick={(e) => handleOverlayImage(e, post)}>
@@ -81,7 +101,7 @@ const AllWork = (props: PortfolioImagesProps) => {
                     /></Link>
                 }
                 return (
-                    <div key={post.artworkImage.url} className="artwork-card">
+                    <div key={url} className="artwork-card">
                         {artwork}
                         {post.shortDescription && (
                             <div className="artwork-description mt-1 text-center font-extralight text-sm">

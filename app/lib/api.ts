@@ -13,6 +13,9 @@ const ARTWORK_GRAPHQL_FIELDS = `
     width
     height
   }
+  embeddedVideo {
+    json
+  }
   shortDescription
 `;
 
