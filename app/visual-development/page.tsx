@@ -1,8 +1,8 @@
-import PortfolioImages from './components/portfolio/PortfolioImages';
-import AllWork from './components/portfolio/AllWork'
+import PortfolioImages from '../components/portfolio/PortfolioImages';
+import AllWork from '../components/portfolio/AllWork'
 
 export default async function Home() {
-  const title = "Motion Design";
+  const title = "Visual Development";
   const images = await PortfolioImages(title);
 
   return (
