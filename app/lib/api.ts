@@ -86,6 +86,32 @@ export async function getAllArtwork(
   return extractArtworkEntries(artwork);
 }
 
+export async function getAllArtworkByCategory(
+  category: string = "",
+  // We don't need a limit but we had one so set it really high.
+  limit = 300,
+  // By default this function will return published content but will provide an option to
+  // return draft content for reviewing articles before they are live
+  isDraftMode = false
+) {
+  const artwork = await fetchGraphQL(
+    `query {
+        artworkCollection(where: { category: "${category}" }, 
+        limit: ${limit}, preview: ${
+      isDraftMode ? "true" : "false"
+    }, order: [sys_publishedAt_DESC]) {
+          items {
+            ${ARTWORK_GRAPHQL_FIELDS}
+          }
+        }
+      }`,
+    isDraftMode,
+    ["artwork"]
+  );
+
+  return extractArtworkEntries(artwork);
+}
+
 export async function getArtwork(
   slug: string,
   isDraftMode = false

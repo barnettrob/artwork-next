@@ -1,7 +1,7 @@
-import { getAllArtwork } from '@/app/lib/api'
+import { getAllArtworkByCategory } from '@/app/lib/api'
 
-const PortfolioImages = async () => {
-  const images = await getAllArtwork();
+const PortfolioImages = async (category: string) => {
+  const images = await getAllArtworkByCategory(category);
 
   return images;
 }
