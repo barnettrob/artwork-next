@@ -58,8 +58,8 @@ const AllWork = (props: PortfolioImagesProps) => {
                 let embeddedVideoCode = "";
                 if (post.artworkImage === null) {
                     let embeddedVideo = post.embeddedVideo;
-                    
-                    if ("json" in embeddedVideo && "content" in embeddedVideo.json && Array.isArray(embeddedVideo.json.content) && embeddedVideo.json.content.length > 0) {
+
+                    if (embeddedVideo !== null && "json" in embeddedVideo && "content" in embeddedVideo.json && Array.isArray(embeddedVideo.json.content) && embeddedVideo.json.content.length > 0) {
                         const firstContent = embeddedVideo.json.content[0];
                         if ("content" in firstContent && Array.isArray(firstContent.content) && firstContent.content.length > 0) { 
                              if ("value" in firstContent.content[0]) {
@@ -88,17 +88,17 @@ const AllWork = (props: PortfolioImagesProps) => {
                         ></div>
                 }
                 else {
-                    artwork = <Link href={`?showModal=${showModalVal}`} className='artwork-link' onClick={(e) => handleOverlayImage(e, post)}>
+                    artwork = post.artworkImage !== null ? <Link href={`?showModal=${showModalVal}`} className='artwork-link' onClick={(e) => handleOverlayImage(e, post)}>
                     <Image
-                        alt={post.artworkImage.title}
-                        src={post.artworkImage.url}
+                        alt={post.artworkImage !== null ? post.artworkImage.title : ""}
+                        src={post.artworkImage !== null ? post.artworkImage.url : ""}
                         quality={80}
                         layout="responsive"
-                        width={post.artworkImage.width}
-                        height={post.artworkImage.height}
+                        width={post.artworkImage !== null ? post.artworkImage.width : 0}
+                        height={post.artworkImage !== null ? post.artworkImage.height : 0}
                         placeholder='blur'
                         blurDataURL='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAA1JREFUGFdjOHf4cAUAB4QCzf7jDSoAAAAASUVORK5CYII='
-                    /></Link>
+                    /></Link> : <></>
                 }
                 return (
                     <div key={url} className="artwork-card">

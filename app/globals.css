@@ -88,6 +88,10 @@
   margin: 20px 0;
   break-inside: avoid-column;
 }
+/** fixes issue where first artwork pushed down on desktop **/
+.artwork-card:nth-child(1) {
+  margin: 0;
+}
 
 p {
   padding-bottom: 10px;
