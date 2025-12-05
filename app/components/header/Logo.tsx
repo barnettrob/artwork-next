@@ -1,4 +1,4 @@
-import Image from "next/legacy/image";
+import Image from "next/image";
 import { logoData, authorName } from "@/app/lib/getData";
 import { Config } from "@/config";
 
@@ -33,12 +33,14 @@ const Logo = () => {
               alt={title}
               src={logoPath}
               quality={80}
-              layout="fill"
-              objectFit="cover"
               placeholder={'empty'}
               blurDataURL='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAA1JREFUGFdjOHf4cAUAB4QCzf7jDSoAAAAASUVORK5CYII='
               priority
-            />
+              fill
+              sizes="100vw"
+              style={{
+                objectFit: "cover"
+              }} />
           </div>
   }
   else {
