@@ -1,7 +1,7 @@
 'use client'
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
-import Image from "next/legacy/image";
+import Image from "next/image";
 import BackToTop from '../icons/BackToTop';
 import ImageOverlay from './ImageOverlay';
 
@@ -70,6 +70,8 @@ const AllWork = (props: PortfolioImagesProps) => {
                 }
                 let url = post.artworkImage !== null ? post.artworkImage.url : "";
                 url = url.replace(/^https?:\/\//, '');
+                let title = post.title !== null ? post.title : "";
+
                 const urlArray = url.split("/");
                 const isVideo = urlArray[0] === "videos.ctfassets.net" ? true : false;
                 let artwork = <></>
@@ -90,18 +92,21 @@ const AllWork = (props: PortfolioImagesProps) => {
                 else {
                     artwork = post.artworkImage !== null ? <Link href={`?showModal=${showModalVal}`} className='artwork-link' onClick={(e) => handleOverlayImage(e, post)}>
                     <Image
-                        alt={post.artworkImage !== null ? post.artworkImage.title : ""}
+                        alt={title !== "" ? title : "image"}
                         src={post.artworkImage !== null ? post.artworkImage.url : ""}
                         quality={80}
-                        layout="responsive"
                         width={post.artworkImage !== null ? post.artworkImage.width : 0}
                         height={post.artworkImage !== null ? post.artworkImage.height : 0}
                         placeholder='blur'
                         blurDataURL='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAA1JREFUGFdjOHf4cAUAB4QCzf7jDSoAAAAASUVORK5CYII='
-                    /></Link> : <></>
+                        sizes="100vw"
+                        style={{
+                            width: "100%",
+                            height: "auto"
+                        }} /></Link> : <></>
                 }
                 return (
-                    <div key={url} className="artwork-card">
+                    <div key={url+title} className="artwork-card">
                         {artwork}
                         {post.shortDescription && (
                             <div className="artwork-description mt-1 text-center font-extralight text-sm">
@@ -119,9 +124,9 @@ const AllWork = (props: PortfolioImagesProps) => {
             />
             {!showOverlay && (
                 <BackToTop />
-            )}   
+            )}
         </div>
-    )
+    );
 }
 
 export default AllWork

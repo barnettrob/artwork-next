@@ -1,4 +1,4 @@
-import Image from "next/legacy/image";
+import Image from "next/image";
 import { getAbout } from "../lib/api";
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 
@@ -25,15 +25,18 @@ const About = async () => {
           width={aboutPageItems[0].picture.width}
           height={aboutPageItems[0].picture.height}
           quality={80}
-          layout="responsive"
           placeholder='blur'
           blurDataURL='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAA1JREFUGFdjOHf4cAUAB4QCzf7jDSoAAAAASUVORK5CYII='
           priority
-        />
+          sizes="100vw"
+          style={{
+            width: "100%",
+            height: "auto"
+          }} />
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 export default About
