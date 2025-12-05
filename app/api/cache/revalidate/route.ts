@@ -2,7 +2,7 @@ import { revalidateTag } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 import { Config } from "@/config";
 
-export const POST = async (req: NextRequest, cacheLife = "default") => {
+export const POST = async (req: NextRequest, context: {params: Promise<any>}, cacheLife = "default") => {
     if (typeof req.headers !== "object") {
         return NextResponse.json({result: 'Invalid Request'}, { status: 401 });
     }
