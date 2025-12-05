@@ -70,6 +70,7 @@ const AllWork = (props: PortfolioImagesProps) => {
                 }
                 let url = post.artworkImage !== null ? post.artworkImage.url : "";
                 url = url.replace(/^https?:\/\//, '');
+                let title = post.title !== null ? post.title : "";
                 const urlArray = url.split("/");
                 const isVideo = urlArray[0] === "videos.ctfassets.net" ? true : false;
                 let artwork = <></>
@@ -101,7 +102,7 @@ const AllWork = (props: PortfolioImagesProps) => {
                     /></Link> : <></>
                 }
                 return (
-                    <div key={url} className="artwork-card">
+                    <div key={url+title} className="artwork-card">
                         {artwork}
                         {post.shortDescription && (
                             <div className="artwork-description mt-1 text-center font-extralight text-sm">
