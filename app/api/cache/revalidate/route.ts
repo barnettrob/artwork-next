@@ -2,7 +2,7 @@ import { revalidateTag } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 import { Config } from "@/config";
 
-export const POST = async (req: NextRequest) => {
+export const POST = async (req: NextRequest, cacheLife = "default") => {
     if (typeof req.headers !== "object") {
         return NextResponse.json({result: 'Invalid Request'}, { status: 401 });
     }
@@ -34,7 +34,7 @@ export const POST = async (req: NextRequest) => {
             let responseTags: string[] = [];
             body.tags.map((tag) => {
                 responseTags.push(tag);
-                revalidateTag(tag);
+                revalidateTag(tag, cacheLife);
             });
 
             if (responseTags.length > 0) {

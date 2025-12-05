@@ -53,6 +53,7 @@ async function fetchGraphQL(query: string, preview = false, cacheTags: string[])
       body: JSON.stringify({ query }),
       // Associate all fetches for articles with an "artwork" cache tag so content can
       // be revalidated or updated from Contentful on publish
+      cache: 'force-cache',
       next: { tags: cacheTags },
     }
   ).then((response) => response.json());
