@@ -8,6 +8,10 @@ const MotionMediaPiece = async ({ params }: MotionMediaPageProps) => {
   const { slug } = await params;
   const motionMediaPiece = await getMotionMediaPiece(slug);
   console.log("motionMediaPiece", motionMediaPiece);
+  if (!motionMediaPiece) {
+    return <div>Page Not Found</div>;
+  }
+  
   const posterAttr = "motionMediaVideoImage" in motionMediaPiece && motionMediaPiece.motionMediaVideoImage !== null ? motionMediaPiece.motionMediaVideoImage.url : "/video_poster_default.png";
   return (
     <div>
