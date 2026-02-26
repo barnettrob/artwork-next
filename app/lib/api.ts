@@ -31,6 +31,27 @@ const PAGE_GRAPHQL_FIELDS = `
   }
 `;
 
+const MOTION_MEDIA_PIECE_GRAPHQL_FIELDS = `
+  title
+  slug
+  shortDescription
+  motionMedia {
+    url
+  }
+  motionMediaVideoImage {
+    url
+    width
+    height
+  }
+  visualDevelopmentCollection {
+    items {
+      url
+      width
+      height
+    }
+  }
+`;
+
 async function fetchGraphQL(query: string, preview = false, cacheTags: string[]) {
   if (typeof Config.contentful.spaceId === "undefined") {
     return false;
@@ -204,4 +225,45 @@ export async function getWebsiteMetaData(
     ["meta-data"]
   );
   return data;
+}
+
+export async function getAllMotionMediaPieces(
+  limit = 300,
+  isDraftMode = false
+) {
+  const motionMediaPieces = await fetchGraphQL(
+    `query {
+        motionMediaPieceCollection(limit: ${limit}, preview: ${
+      isDraftMode ? "true" : "false"
+    }, order: [sys_publishedAt_DESC]) {
+          items {
+            ${MOTION_MEDIA_PIECE_GRAPHQL_FIELDS}
+          }
+        }
+      }`,
+    isDraftMode,
+    ["motion-media-piece"]
+  );
+
+  return motionMediaPieces?.data?.motionMediaPieceCollection?.items;
+}
+
+export async function getMotionMediaPiece(
+  slug: string,
+  isDraftMode = false
+) {
+  const motionMediaPiece = await fetchGraphQL(
+    `query {
+      motionMediaPieceCollection(where: {slug: "${slug}"}, limit: 1) {
+        items {
+          ${MOTION_MEDIA_PIECE_GRAPHQL_FIELDS}
+        }
+      }
+    }`,
+    // Pass the slug as a variable
+    isDraftMode,
+    ["motion-media-piece"]
+  );
+
+  return motionMediaPiece?.data?.motionMediaPieceCollection?.items[0];
 }
