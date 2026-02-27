@@ -40,6 +40,7 @@
 .masonry {
   columns: 3;
   column-gap: 16px;
+  direction: rtl;
   @media (max-width: 1440px) {
     columns: 3;
   }
