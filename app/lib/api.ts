@@ -31,6 +31,15 @@ const PAGE_GRAPHQL_FIELDS = `
   }
 `;
 
+const MOTION_MEDIA_LIST_GRAPHQL_FIELDS = `
+  slug
+  motionMediaVideoImage {
+    url
+    width
+    height
+  }
+`
+
 const MOTION_MEDIA_PIECE_GRAPHQL_FIELDS = `
   title
   slug
@@ -228,19 +237,18 @@ export async function getWebsiteMetaData(
 }
 
 export async function getAllMotionMediaPieces(
-  limit = 300,
+  limit = 50,
   isDraftMode = false
 ) {
   const motionMediaPieces = await fetchGraphQL(
     `query {
-        motionMediaPieceCollection(limit: ${limit}, preview: ${
-      isDraftMode ? "true" : "false"
-    }, order: [sys_publishedAt_DESC]) {
-          items {
-            ${MOTION_MEDIA_PIECE_GRAPHQL_FIELDS}
-          }
+      motionMediaPieceCollection(limit: ${limit}) {
+        items {
+          ${MOTION_MEDIA_LIST_GRAPHQL_FIELDS}
         }
-      }`,
+      }
+    }`,
+    // Pass the slug as a variable
     isDraftMode,
     ["motion-media-piece"]
   );

@@ -1,15 +1,15 @@
-import PortfolioImages from './components/portfolio/PortfolioImages';
-import AllWork from './components/portfolio/AllWork'
+import MotionMediaListContent from './components/portfolio/MotionMediaListContent';
+import MotionMediaAll from './components/portfolio/MotionMediaAll';
 
 export default async function Home() {
   const title = "Motion Design";
-  const images = await PortfolioImages(title);
+  const motionMediaAll = await MotionMediaListContent();
 
   return (
     <div>
       <h1 className='text-center font-extralight text-xl'>{title}</h1>
       <div className='p-6 font-extralight'>
-        <AllWork images={images} />
+        <MotionMediaAll images={motionMediaAll} />
       </div>
     </div>
   )

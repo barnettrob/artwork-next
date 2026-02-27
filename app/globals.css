@@ -37,7 +37,29 @@
 
 
 /** images masonary layout **/
+/** @TODO: This mostly works but need some javascript to tuck in the gap **/
 .masonry {
+  display: grid;
+  /* 1. Force 3 equal columns */
+  grid-template-columns: repeat(3, 1fr); 
+  gap: 16px;
+  /* 2. Fixes the "weird alignment" by lining up the tops of all items */
+  align-items: start; 
+
+  @media (max-width: 1280px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.masonry > div {
+  /* Ensure content starts at the very top of the box */
+  margin-top: 0;
+}
+/** Below mostly works but direction: rtl not working properly **/
+/* .masonry {
   columns: 3;
   column-gap: 16px;
   direction: rtl;
@@ -50,7 +72,7 @@
   @media (max-width: 768px) {
     columns: 1;
   }
-}
+} */
 
 /* .images-wrapper {
   display: grid;
