@@ -17,14 +17,9 @@ interface PortfolioImagesProps {
 
 const AllWork = (props: PortfolioImagesProps) => {
     const postImageDefault = {
-        artworkImage: {
-            height: 0,
-            url: "",
-            width: 0
-        },
-        shortDescription: "",
-        title: "",
-        videoImage: null
+        height: 0,
+        url: "",
+        width: 0
     }
     const [overlayImage, setOverlayImage] = useState(postImageDefault);
     const [showOverlay, setShowOverlay] = useState(false);
@@ -43,7 +38,12 @@ const AllWork = (props: PortfolioImagesProps) => {
         e.preventDefault();
 
         if (typeof post === "object") {
-            setOverlayImage(post);
+            const overlayImageAttributes = {
+                url: post.artworkImage.url,
+                width: post.artworkImage.width,
+                height: post.artworkImage.height
+            }
+            setOverlayImage(overlayImageAttributes);
             setShowOverlay(true);
         }
     }

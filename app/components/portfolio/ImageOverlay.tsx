@@ -3,14 +3,9 @@ import Image from "next/image";
 import CloseIcon from '../icons/CloseIcon';
 
 interface Post {
-    artworkImage: {
-        height: number;
-        url: string;
-        width: number;
-    }
-    shortDescription: string;
-    title: string;
-    videoImage: null;
+    height: number;
+    url: string;
+    width: number;
 }
 
 interface Props {
@@ -22,7 +17,7 @@ interface Props {
 
 const ImageOverlay = ( props: Props ) => {
   const overlayRef = useRef(null) as unknown as React.RefObject<HTMLDivElement>
-  const url = "post" in props && "artworkImage" in props.post && "url" in props.post.artworkImage ? props.post.artworkImage.url : "";
+  const url = props.post.url !== "" ? props.post.url : props.post.url;
 
   const handleShow = () => {
     if (props.show) {
@@ -60,10 +55,10 @@ const ImageOverlay = ( props: Props ) => {
                   <div className="modal-body">
                       {url !== "" && (
                           <Image
-                              alt={props.post.title}
+                              alt="Overlay Image"
                               src={url}
-                              width={props.post.artworkImage.width}
-                              height={props.post.artworkImage.height}
+                              width={props.post.width}
+                              height={props.post.height}
                               placeholder='blur'
                               blurDataURL='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAA1JREFUGFdjOHf4cAUAB4QCzf7jDSoAAAAASUVORK5CYII='
                               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
