@@ -61,6 +61,11 @@ const MOTION_MEDIA_PIECE_GRAPHQL_FIELDS = `
   }
 `;
 
+const MOTION_MEDIA_ORDERING_GRAPHQL_FIELDS = `
+  slug
+  title
+`
+
 async function fetchGraphQL(query: string, preview = false, cacheTags: string[]) {
   if (typeof Config.contentful.spaceId === "undefined") {
     return false;
@@ -274,4 +279,32 @@ export async function getMotionMediaPiece(
   );
 
   return motionMediaPiece?.data?.motionMediaPieceCollection?.items[0];
+}
+
+export async function getMotionMediaOrder(
+  // We don't need a limit but we had one so set it really high.
+  limit = 1,
+  // By default this function will return published content but will provide an option to
+  // return draft content for reviewing articles before they are live
+  isDraftMode = false
+) {
+  const motionMediaOrder = await fetchGraphQL(
+    `query {
+        motionMediaOrderingCollection(limit: ${limit}, preview: ${
+      isDraftMode ? "true" : "false"
+    }) {
+          items {
+          orderCollection {
+            items {
+              ${MOTION_MEDIA_ORDERING_GRAPHQL_FIELDS}
+            }
+          }
+        }
+      }
+    }`,
+    isDraftMode,
+    ["motion-media-order"]
+  );
+
+  return motionMediaOrder?.data?.motionMediaOrderingCollection?.items;
 }

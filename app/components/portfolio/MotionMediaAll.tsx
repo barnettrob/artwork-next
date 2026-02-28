@@ -11,15 +11,22 @@ interface MotionMediaContent {
 }
 
 interface MotionMediaImageProps {
-    images: MotionMediaContent[]
+    images: MotionMediaContent[],
+    order: string[]
 }
 
 const MotionMediaAll = ( props: MotionMediaImageProps ) => {
     const images = props.images;
+    const order = props.order;
+    // Order content based on order array
+    const filteredImages = images.filter(item => order.includes(item.slug));
+    filteredImages.sort((a, b) => {
+        return order.indexOf(a.slug) - order.indexOf(b.slug);
+    });
 
     return (
         <div className='masonry'>
-            {images.map((image: any) => (
+            {filteredImages.filter(item => order.includes(item.slug)).map((image: any) => (
                 <div key={image.slug} className="artwork-card">
                     <Link href={`/${image.slug}`} className='artwork-link'>
                         <Image
