@@ -61,13 +61,13 @@ const MOTION_MEDIA_PIECE_GRAPHQL_FIELDS = `
       }
     }
   }
+  visualDevelopmentDescription {
+    json
+  }
 `;
 
 const VISUAL_DEVELOPMENT_GRAPHQL_FIELDS = `
   title
-  description {
-    json
-  }
   imageCollection {
     items {
       url

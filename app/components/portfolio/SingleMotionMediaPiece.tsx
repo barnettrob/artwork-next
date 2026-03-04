@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from "next/image";
 import ImageOverlay from './ImageOverlay';
+import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 
 interface SingleMotionMediaPieceProps {
     content: SingleMotionMediaPiece;
@@ -41,6 +42,10 @@ interface VisualDevelopmentReference {
 
 const SingleMotionMediaPiece = ( props: SingleMotionMediaPieceProps) => {
     const motionMediaPiece = props.content;
+    const motionMediaDescription = "description" in motionMediaPiece ? motionMediaPiece.description : null;
+    const motionMediaDescriptionJson = motionMediaDescription !== null && typeof motionMediaDescription === "object" && "json" in motionMediaDescription ? (motionMediaDescription.json as any) : {};
+    const visualDevelopmentDescription = "visualDevelopmentDescription" in motionMediaPiece ? motionMediaPiece.visualDevelopmentDescription : null;
+    const visualDevelopmentDescriptionJson = visualDevelopmentDescription !== null && typeof visualDevelopmentDescription === "object" && "json" in visualDevelopmentDescription ? (visualDevelopmentDescription.json as any) : {};
     const visualDevelopmentReferences = props.visualDevelopmentReferences;
     
     const postImageDefault = {
@@ -75,8 +80,14 @@ const SingleMotionMediaPiece = ( props: SingleMotionMediaPieceProps) => {
 
     return (
         <div className="max-w-7xl mx-auto p-4">
-            <h1 className="text-2xl font-extralight text-center text-gray-500 mb-4">{motionMediaPiece?.title}</h1>
-            <p className="text-lg font-extralight text-gray-500 leading-relaxed max-w-3xl">{motionMediaPiece?.shortDescription}</p>
+            <h1 className="text-2xl font-extralight text-center text-gray-500 mb-4">
+                {motionMediaPiece?.title}
+            </h1>
+            {Object.keys(motionMediaDescriptionJson).length > 0 && (
+                <div className="text-lg font-extralight text-gray-500 leading-relaxed max-w-3xl">
+                    {documentToReactComponents(motionMediaDescriptionJson)}
+                </div>
+            )}
             <div className="w-full mb-6">
                 <video width={"100%"} height={"100%"} poster={posterAttr} controls>
                     <source src={motionMediaPiece?.motionMedia?.url} type="video/mp4" />
@@ -84,6 +95,11 @@ const SingleMotionMediaPiece = ( props: SingleMotionMediaPieceProps) => {
                 </video>
             </div>
             <h2 className="text-xl text-center font-extralight text-gray-500 mt-12 mb-2">Visual Development</h2>
+            {Object.keys(visualDevelopmentDescriptionJson).length > 0 && (
+                <div className="text-lg font-extralight text-gray-500 leading-relaxed max-w-3xl mb-6">
+                    {documentToReactComponents(visualDevelopmentDescriptionJson)}
+                </div>
+            )}
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                 {visualDevelopmentReferences.map((referenceItem: { url: string | Blob | undefined; width: string | number | undefined; height: string | number | undefined; }, index: number) => {
                     if (!referenceItem || typeof referenceItem !== "object" || !("imageCollection" in referenceItem) || !referenceItem.imageCollection || typeof referenceItem.imageCollection !== "object" || !("items" in referenceItem.imageCollection) || !Array.isArray(referenceItem.imageCollection.items) || referenceItem.imageCollection.items.length === 0) {
@@ -92,10 +108,8 @@ const SingleMotionMediaPiece = ( props: SingleMotionMediaPieceProps) => {
                     return referenceItem.imageCollection.items.map((item: { url: string | Blob | undefined; width: string | number | undefined; height: string | number | undefined; }, itemIndex: number) => {
                         const vdUrl = typeof item.url === "string" ? item.url : "";
                         const vdHeight = typeof item.height === "number" ? item.height : 0;
-                        const vdWidth = typeof item.width === "number" ? item.width : 0;
-                        const vdDescription = "description" in referenceItem ?referenceItem.description : null;   
-                        const vdDescriptionJson = vdDescription !== null && typeof vdDescription === "object" && "json" in vdDescription ? vdDescription.json : null;
-                        const vdTitle = "title" in referenceItem ? referenceItem.title : "";
+                        const vdWidth = typeof item.width === "number" ? item.width : 0;   
+
                         return (
                             <div className="relative" key={itemIndex}>
                                 <div className="aspect-square">
