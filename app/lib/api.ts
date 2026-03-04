@@ -71,6 +71,8 @@ const VISUAL_DEVELOPMENT_GRAPHQL_FIELDS = `
   imageCollection {
     items {
       url
+      width
+      height
     }
   }
 `

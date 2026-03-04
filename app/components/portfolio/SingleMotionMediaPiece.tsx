@@ -42,7 +42,7 @@ interface VisualDevelopmentReference {
 const SingleMotionMediaPiece = ( props: SingleMotionMediaPieceProps) => {
     const motionMediaPiece = props.content;
     const visualDevelopmentReferences = props.visualDevelopmentReferences;
-    console.log("visualDevelopmentReferences", visualDevelopmentReferences);
+    
     const postImageDefault = {
             height: 0,
             url: "",
@@ -84,29 +84,41 @@ const SingleMotionMediaPiece = ( props: SingleMotionMediaPieceProps) => {
                 </video>
             </div>
             <h2 className="text-xl text-center font-extralight text-gray-500 mt-12 mb-2">Visual Development</h2>
-            <div className="masonry">
-                {motionMediaPiece?.visualDevelopmentCollection?.items.map((item: { url: string | Blob | undefined; width: string | number | undefined; height: string | number | undefined; }, index: number) => (
-                    <div className="artwork-card" key={index}>
-                        {typeof item.url === "string" && (
-                            <Link href={`?showModal=${showModalVal}`} className='artwork-link' onClick={(e) => handleOverlayImage(e, item)}>
-                                <Image
-                                    alt={item.url !== "" ? item.url : "image"}
-                                    src={item.url}
-                                    quality={80}
-                                    width={item !== null && "width" in item ? Number(item.width) : 0}
-                                    height={item !== null && "height" in item ? Number(item.height) : 0}
-                                    placeholder='blur'
-                                    blurDataURL='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAA1JREFUGFdjOHf4cAUAB4QCzf7jDSoAAAAASUVORK5CYII='
-                                    sizes="100vw"
-                                    style={{
-                                        width: "100%",
-                                        height: "auto"
-                                    }} 
-                                />
-                            </Link>
-                        )}
-                    </div>
-                ))}
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                {visualDevelopmentReferences.map((referenceItem: { url: string | Blob | undefined; width: string | number | undefined; height: string | number | undefined; }, index: number) => {
+                    if (!referenceItem || typeof referenceItem !== "object" || !("imageCollection" in referenceItem) || !referenceItem.imageCollection || typeof referenceItem.imageCollection !== "object" || !("items" in referenceItem.imageCollection) || !Array.isArray(referenceItem.imageCollection.items) || referenceItem.imageCollection.items.length === 0) {
+                        return <></>
+                    }
+                    return referenceItem.imageCollection.items.map((item: { url: string | Blob | undefined; width: string | number | undefined; height: string | number | undefined; }, itemIndex: number) => {
+                        const vdUrl = typeof item.url === "string" ? item.url : "";
+                        const vdHeight = typeof item.height === "number" ? item.height : 0;
+                        const vdWidth = typeof item.width === "number" ? item.width : 0;
+                        const vdDescription = "description" in referenceItem ?referenceItem.description : null;   
+                        const vdDescriptionJson = vdDescription !== null && typeof vdDescription === "object" && "json" in vdDescription ? vdDescription.json : null;
+                        const vdTitle = "title" in referenceItem ? referenceItem.title : "";
+                        return (
+                            <div className="relative" key={itemIndex}>
+                                <div className="aspect-square">
+                                    {typeof vdUrl === "string" && (
+                                        <Link href={`?showModal=${showModalVal}`} className='artwork-link' onClick={(e) => handleOverlayImage(e, item)}>
+                                            <Image
+                                                alt={vdUrl !== "" ? vdUrl : "image"}
+                                                src={vdUrl}
+                                                quality={80}
+                                                width={vdWidth}
+                                                height={vdHeight}
+                                                placeholder='blur'
+                                                blurDataURL='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAA1JREFUGFdjOHf4cAUAB4QCzf7jDSoAAAAASUVORK5CYII='
+                                                sizes="100vw"
+                                                className='h-full w-full object-cover rounded-lg'
+                                            />
+                                        </Link>
+                                    )}
+                                </div>
+                            </div>
+                        )
+                    })
+                })}
             </div>
             <ImageOverlay 
                 post={overlayImage} 
