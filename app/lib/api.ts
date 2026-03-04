@@ -25,6 +25,7 @@ const PAGE_GRAPHQL_FIELDS = `
     url
     width
     height
+    title
   }
   body {
     json
@@ -37,6 +38,7 @@ const MOTION_MEDIA_LIST_GRAPHQL_FIELDS = `
     url
     width
     height
+    title
   }
 `
 
@@ -53,14 +55,16 @@ const MOTION_MEDIA_PIECE_GRAPHQL_FIELDS = `
     url
     width
     height
+    title
   }
-  visualDevelopmentCollection {
+  visualDevelopmentImagesCollection {
     items {
-      sys {
-        id
-      }
+      url
+      title
+      width
+      height
     }
-  }
+  }  
   visualDevelopmentDescription {
     json
   }
@@ -73,6 +77,7 @@ const VISUAL_DEVELOPMENT_GRAPHQL_FIELDS = `
       url
       width
       height
+      title
     }
   }
 `
@@ -304,6 +309,17 @@ export async function getMotionMediaPiece(
   return motionMediaPiece?.data?.motionMediaPieceCollection?.items[0];
 }
 
+// Probably deprecated but leaving for now just in case.
+// If this is brought back then add the following to MOTION_MEDIA_PIECE_GRAPHQL_FIELDS:
+/*
+  visualDevelopmentCollection {
+    items {
+      sys {
+        id
+      }
+    }
+  }
+*/
 export async function getVisualDevelopmentReferences(
   ids: string[],
   isDraftMode = false

@@ -7,7 +7,6 @@ import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 
 interface SingleMotionMediaPieceProps {
     content: SingleMotionMediaPiece;
-    visualDevelopmentReferences: VisualDevelopmentReference[];
 }
 
 interface SingleMotionMediaPiece { 
@@ -31,22 +30,15 @@ interface SingleMotionMediaPiece {
     };
 }
 
-interface VisualDevelopmentReference {
-    sys: {
-        id: string;
-    };
-    url: string;
-    width: number;
-    height: number;
-}
-
 const SingleMotionMediaPiece = ( props: SingleMotionMediaPieceProps) => {
     const motionMediaPiece = props.content;
     const motionMediaDescription = "description" in motionMediaPiece ? motionMediaPiece.description : null;
     const motionMediaDescriptionJson = motionMediaDescription !== null && typeof motionMediaDescription === "object" && "json" in motionMediaDescription ? (motionMediaDescription.json as any) : {};
     const visualDevelopmentDescription = "visualDevelopmentDescription" in motionMediaPiece ? motionMediaPiece.visualDevelopmentDescription : null;
     const visualDevelopmentDescriptionJson = visualDevelopmentDescription !== null && typeof visualDevelopmentDescription === "object" && "json" in visualDevelopmentDescription ? (visualDevelopmentDescription.json as any) : {};
-    const visualDevelopmentReferences = props.visualDevelopmentReferences;
+    const visualDevelopmentImages = "visualDevelopmentImagesCollection" in motionMediaPiece && 
+    motionMediaPiece.visualDevelopmentImagesCollection && typeof motionMediaPiece.visualDevelopmentImagesCollection === "object" && 
+    "items" in motionMediaPiece.visualDevelopmentImagesCollection && Array.isArray(motionMediaPiece.visualDevelopmentImagesCollection.items) ? motionMediaPiece.visualDevelopmentImagesCollection.items : [];
     
     const postImageDefault = {
             height: 0,
@@ -101,37 +93,35 @@ const SingleMotionMediaPiece = ( props: SingleMotionMediaPieceProps) => {
                 </div>
             )}
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                {visualDevelopmentReferences.map((referenceItem: { url: string | Blob | undefined; width: string | number | undefined; height: string | number | undefined; }, index: number) => {
-                    if (!referenceItem || typeof referenceItem !== "object" || !("imageCollection" in referenceItem) || !referenceItem.imageCollection || typeof referenceItem.imageCollection !== "object" || !("items" in referenceItem.imageCollection) || !Array.isArray(referenceItem.imageCollection.items) || referenceItem.imageCollection.items.length === 0) {
-                        return <></>
-                    }
-                    return referenceItem.imageCollection.items.map((item: { url: string | Blob | undefined; width: string | number | undefined; height: string | number | undefined; }, itemIndex: number) => {
-                        const vdUrl = typeof item.url === "string" ? item.url : "";
-                        const vdHeight = typeof item.height === "number" ? item.height : 0;
-                        const vdWidth = typeof item.width === "number" ? item.width : 0;   
+                {visualDevelopmentImages.map((image: {
+                    title: string; url: string | Blob | undefined; width: string | number | undefined; height: string | number | undefined; 
+}, index: number) => {
+                    const vdUrl = typeof image.url === "string" ? image.url : "";
+                    const vdHeight = typeof image.height === "number" ? image.height : 0;
+                    const vdWidth = typeof image.width === "number" ? image.width : 0;
+                    const vdTitle = typeof image.title === "string" ? image.title : "";
 
-                        return (
-                            <div className="relative" key={itemIndex}>
-                                <div className="aspect-square">
-                                    {typeof vdUrl === "string" && (
-                                        <Link href={`?showModal=${showModalVal}`} className='artwork-link' onClick={(e) => handleOverlayImage(e, item)}>
-                                            <Image
-                                                alt={vdUrl !== "" ? vdUrl : "image"}
-                                                src={vdUrl}
-                                                quality={80}
-                                                width={vdWidth}
-                                                height={vdHeight}
-                                                placeholder='blur'
-                                                blurDataURL='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAA1JREFUGFdjOHf4cAUAB4QCzf7jDSoAAAAASUVORK5CYII='
-                                                sizes="100vw"
-                                                className='h-full w-full object-cover rounded-lg'
-                                            />
-                                        </Link>
-                                    )}
-                                </div>
+                    return (
+                        <div className="relative" key={index}>
+                            <div className="aspect-square">
+                                {typeof vdUrl === "string" && (
+                                    <Link href={`?showModal=${showModalVal}`} className='artwork-link' onClick={(e) => handleOverlayImage(e, image)}>
+                                        <Image
+                                            alt={vdTitle}
+                                            src={vdUrl}
+                                            quality={80}
+                                            width={vdWidth}
+                                            height={vdHeight}
+                                            placeholder='blur'
+                                            blurDataURL='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAA1JREFUGFdjOHf4cAUAB4QCzf7jDSoAAAAASUVORK5CYII='
+                                            sizes="100vw"
+                                            className='h-full w-full object-cover rounded-lg'
+                                        />
+                                    </Link>
+                                )}
                             </div>
-                        )
-                    })
+                        </div>
+                    )
                 })}
             </div>
             <ImageOverlay 
