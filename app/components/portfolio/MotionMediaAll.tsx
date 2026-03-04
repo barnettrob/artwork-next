@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import Image from "next/image";
+import BackToTop from '../icons/BackToTop';
 
 interface MotionMediaContent {
     slug: string;
@@ -45,6 +46,7 @@ const MotionMediaAll = ( props: MotionMediaImageProps ) => {
                     </div>
                 </div>
              ))}
+             <BackToTop />
         </div>
     )
 }

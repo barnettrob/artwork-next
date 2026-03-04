@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Image from "next/image";
 import ImageOverlay from './ImageOverlay';
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
+import BackToTop from '../icons/BackToTop';
 
 interface SingleMotionMediaPieceProps {
     content: SingleMotionMediaPiece;
@@ -130,6 +131,9 @@ const SingleMotionMediaPiece = ( props: SingleMotionMediaPieceProps) => {
                 overlayControl={handleOverlayControl} 
                 windowWidth={innerWidth}
             />
+            {!showOverlay && (
+                <BackToTop />
+            )}
         </div>
       )
 }
