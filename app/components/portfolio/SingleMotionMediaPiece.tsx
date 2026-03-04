@@ -84,7 +84,7 @@ const SingleMotionMediaPiece = ( props: SingleMotionMediaPieceProps) => {
                 {motionMediaPiece?.title}
             </h1>
             {Object.keys(motionMediaDescriptionJson).length > 0 && (
-                <div className="text-lg font-extralight text-gray-500 leading-relaxed max-w-3xl">
+                <div className="text-lg font-extralight text-gray-500 leading-relaxed">
                     {documentToReactComponents(motionMediaDescriptionJson)}
                 </div>
             )}
@@ -96,7 +96,7 @@ const SingleMotionMediaPiece = ( props: SingleMotionMediaPieceProps) => {
             </div>
             <h2 className="text-xl text-center font-extralight text-gray-500 mt-12 mb-2">Visual Development</h2>
             {Object.keys(visualDevelopmentDescriptionJson).length > 0 && (
-                <div className="text-lg font-extralight text-gray-500 leading-relaxed max-w-3xl mb-6">
+                <div className="description text-lg font-extralight text-gray-500 leading-relaxed mb-6">
                     {documentToReactComponents(visualDevelopmentDescriptionJson)}
                 </div>
             )}

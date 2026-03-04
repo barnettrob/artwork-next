@@ -117,6 +117,17 @@
   margin: 0;
 }
 
+.description ul {
+  list-style-type: disc;
+  padding-left: 20px;
+}
+.description a {
+  color: blue;
+}
+.description a:hover {
+  text-decoration: underline;   
+}
+
 p {
   padding-bottom: 10px;
 }
