@@ -6,6 +6,7 @@ import ImageOverlay from './ImageOverlay';
 
 interface SingleMotionMediaPieceProps {
     content: SingleMotionMediaPiece;
+    visualDevelopmentReferences: VisualDevelopmentReference[];
 }
 
 interface SingleMotionMediaPiece { 
@@ -29,8 +30,19 @@ interface SingleMotionMediaPiece {
     };
 }
 
+interface VisualDevelopmentReference {
+    sys: {
+        id: string;
+    };
+    url: string;
+    width: number;
+    height: number;
+}
+
 const SingleMotionMediaPiece = ( props: SingleMotionMediaPieceProps) => {
     const motionMediaPiece = props.content;
+    const visualDevelopmentReferences = props.visualDevelopmentReferences;
+    console.log("visualDevelopmentReferences", visualDevelopmentReferences);
     const postImageDefault = {
             height: 0,
             url: "",

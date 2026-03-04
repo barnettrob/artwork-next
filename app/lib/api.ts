@@ -43,7 +43,9 @@ const MOTION_MEDIA_LIST_GRAPHQL_FIELDS = `
 const MOTION_MEDIA_PIECE_GRAPHQL_FIELDS = `
   title
   slug
-  shortDescription
+  description {
+    json
+  }
   motionMedia {
     url
   }
@@ -54,22 +56,41 @@ const MOTION_MEDIA_PIECE_GRAPHQL_FIELDS = `
   }
   visualDevelopmentCollection {
     items {
-      url
-      width
-      height
+      sys {
+        id
+      }
     }
   }
 `;
+
+const VISUAL_DEVELOPMENT_GRAPHQL_FIELDS = `
+  title
+  description {
+    json
+  }
+  imageCollection {
+    items {
+      url
+    }
+  }
+`
 
 const MOTION_MEDIA_ORDERING_GRAPHQL_FIELDS = `
   slug
   title
 `
 
-async function fetchGraphQL(query: string, preview = false, cacheTags: string[]) {
+async function fetchGraphQL(query: string, preview = false, cacheTags: string[], vars: string[] = []) {
   if (typeof Config.contentful.spaceId === "undefined") {
     return false;
   }
+
+  let ids: string[] = [];
+  for (const id in vars) {
+    ids.push(vars[id]);
+  }
+
+  const body = ids.length > 0 ? JSON.stringify({ query, variables: { ids } }) : JSON.stringify({ query });
 
   return fetch(
    `https://graphql.contentful.com/content/v1/spaces/${Config.contentful.spaceId}`,
@@ -85,7 +106,7 @@ async function fetchGraphQL(query: string, preview = false, cacheTags: string[])
             : Config.contentful.accessToken
         }`,
       },
-      body: JSON.stringify({ query }),
+      body: body,
       // Associate all fetches for articles with an "artwork" cache tag so content can
       // be revalidated or updated from Contentful on publish
       cache: 'force-cache',
@@ -279,6 +300,26 @@ export async function getMotionMediaPiece(
   );
 
   return motionMediaPiece?.data?.motionMediaPieceCollection?.items[0];
+}
+
+export async function getVisualDevelopmentReferences(
+  ids: string[],
+  isDraftMode = false
+) {
+  const visualDevelopmentReferences = await fetchGraphQL(
+    `query GetVisualDevelopment($ids: [String!]) {
+      visualDevelopmentCollection(where: { sys: { id_in: $ids } }) {
+    	  items {
+          ${VISUAL_DEVELOPMENT_GRAPHQL_FIELDS}
+        }
+      }
+    }`,
+    isDraftMode,
+    ["visual-development-references"],
+    ids
+  );
+
+  return visualDevelopmentReferences?.data?.visualDevelopmentCollection?.items;
 }
 
 export async function getMotionMediaOrder(
