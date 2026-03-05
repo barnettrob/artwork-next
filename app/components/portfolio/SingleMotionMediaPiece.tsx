@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from "next/image";
 import ImageOverlay from './ImageOverlay';
@@ -65,11 +65,9 @@ const SingleMotionMediaPiece = ( props: SingleMotionMediaPieceProps) => {
     const posterAttr = "motionMediaVideoImage" in motionMediaPiece && motionMediaPiece.motionMediaVideoImage !== null ? motionMediaPiece.motionMediaVideoImage.url : "/video_poster_default.png";
     const innerWidth = typeof window !== "undefined" ? window.innerWidth : 0;
     
-    // useEffect(() => {
-    //     if (innerWidth <= 768) {
-    //         setShowModalVal("false");
-    //     }
-    // }, []);
+    useEffect(() => {
+        setShowModalVal("true");
+    }, []);
 
     const handleOverlayImage = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>, post: any) => {
             e.preventDefault();

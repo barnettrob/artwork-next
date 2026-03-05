@@ -28,7 +28,7 @@ const ImageOverlay = ( props: Props ) => {
     }
   }
 
-  if (overlayRef.current !== null && props.windowWidth > 768) {
+  if (overlayRef.current !== null) {
     handleShow();
   }
 
