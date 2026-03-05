@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from "next/image";
 import ImageOverlay from './ImageOverlay';
@@ -29,6 +29,10 @@ interface SingleMotionMediaPiece {
             height: number;
         }[];
     };
+    description?: any;
+    visualDevelopmentDescription?: any;
+    visualDevelopmentImagesCollection?: any;
+    embeddedMotionMediaVideo?: any;
 }
 
 const SingleMotionMediaPiece = ( props: SingleMotionMediaPieceProps) => {
@@ -40,23 +44,32 @@ const SingleMotionMediaPiece = ( props: SingleMotionMediaPieceProps) => {
     const visualDevelopmentImages = "visualDevelopmentImagesCollection" in motionMediaPiece && 
     motionMediaPiece.visualDevelopmentImagesCollection && typeof motionMediaPiece.visualDevelopmentImagesCollection === "object" && 
     "items" in motionMediaPiece.visualDevelopmentImagesCollection && Array.isArray(motionMediaPiece.visualDevelopmentImagesCollection.items) ? motionMediaPiece.visualDevelopmentImagesCollection.items : [];
-    
-    const postImageDefault = {
-            height: 0,
-            url: "",
-            width: 0
+    let embeddedVideoCode = "";
+    if ("embeddedMotionMediaVideo" in motionMediaPiece && motionMediaPiece.embeddedMotionMediaVideo && "json" in motionMediaPiece.embeddedMotionMediaVideo && "content" in motionMediaPiece.embeddedMotionMediaVideo.json && Array.isArray(motionMediaPiece.embeddedMotionMediaVideo.json.content) && motionMediaPiece.embeddedMotionMediaVideo.json.content.length > 0) {
+        const firstContent = motionMediaPiece.embeddedMotionMediaVideo.json.content[0];
+        if ("content" in firstContent && Array.isArray(firstContent.content) && firstContent.content.length > 0) { 
+            if ("value" in firstContent.content[0]) {
+            embeddedVideoCode = firstContent.content[0].value;
+            }
         }
+    }
+
+    const postImageDefault = {
+        height: 0,
+        url: "",
+        width: 0
+    }
     const [overlayImage, setOverlayImage] = useState(postImageDefault);
     const [showOverlay, setShowOverlay] = useState(false);
     const [showModalVal, setShowModalVal] = useState("true");
     const posterAttr = "motionMediaVideoImage" in motionMediaPiece && motionMediaPiece.motionMediaVideoImage !== null ? motionMediaPiece.motionMediaVideoImage.url : "/video_poster_default.png";
     const innerWidth = typeof window !== "undefined" ? window.innerWidth : 0;
     
-    useEffect(() => {
-        if (innerWidth <= 768) {
-            setShowModalVal("false");
-        }
-    }, []);
+    // useEffect(() => {
+    //     if (innerWidth <= 768) {
+    //         setShowModalVal("false");
+    //     }
+    // }, []);
 
     const handleOverlayImage = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>, post: any) => {
             e.preventDefault();
@@ -82,10 +95,18 @@ const SingleMotionMediaPiece = ( props: SingleMotionMediaPieceProps) => {
                 </div>
             )}
             <div className="w-full mb-6">
-                <video width={"100%"} height={"100%"} poster={posterAttr} controls>
-                    <source src={motionMediaPiece?.motionMedia?.url} type="video/mp4" />
-                    Your browser does not support the video tag.
-                </video>
+                {embeddedVideoCode === "" ? (
+                    <video width={"100%"} height={"100%"} poster={posterAttr} controls>
+                        <source src={motionMediaPiece?.motionMedia?.url} type="video/mp4" />
+                        Your browser does not support the video tag.
+                    </video>
+                ) : (
+                    <div 
+                        className="video-container" 
+                        dangerouslySetInnerHTML={{__html: embeddedVideoCode}}
+                        suppressHydrationWarning={true}
+                    ></div>
+                )}
             </div>
             <h2 className="text-xl text-center font-extralight text-gray-500 mt-12 mb-2">Visual Development</h2>
             {Object.keys(visualDevelopmentDescriptionJson).length > 0 && (

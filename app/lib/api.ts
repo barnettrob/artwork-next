@@ -57,6 +57,9 @@ const MOTION_MEDIA_PIECE_GRAPHQL_FIELDS = `
     height
     title
   }
+  embeddedMotionMediaVideo {
+    json
+  }
   visualDevelopmentImagesCollection {
     items {
       url
