@@ -137,6 +137,16 @@ p {
   text-decoration: underline;
 }
 
+.chevron.down {
+  transform: rotate(180deg);
+}
+.chevron.right {
+  transform: rotate(90deg);
+}
+.chevron.left {
+  transform: rotate(-90deg);
+}
+
 @media screen and (max-width: 768px) {
   .artwork-card {
     margin: 20px 0;

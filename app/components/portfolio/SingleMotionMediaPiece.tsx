@@ -6,16 +6,23 @@ import ImageOverlay from './ImageOverlay';
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 import BackToTop from '../icons/BackToTop';
 import { MotionMediaContentShort, SingleMotionMediaPieceContent,  } from '@/interfaces/Content';
+import { getNextAndPreviousSlugs } from '../../lib/motionMediaPagination';
+import Chevron from '../icons/Chevron';
 
 interface SingleMotionMediaPieceProps {
     content: SingleMotionMediaPieceContent;
     allContent: MotionMediaContentShort[];
+    slug: string;
 }
 
 const SingleMotionMediaPiece = ( props: SingleMotionMediaPieceProps) => {
     const motionMediaPiece = props.content;
     const allContent = props.allContent;
-    // console.log("allContent in SingleMotionMediaPiece: ", allContent);
+    const slug = props.slug;
+    
+    // Pagination logic for next and previous pieces.
+    const previousAndNextSlugs = getNextAndPreviousSlugs(allContent, slug);
+
     const motionMediaDescription = "description" in motionMediaPiece ? motionMediaPiece.description : null;
     const motionMediaDescriptionJson = motionMediaDescription !== null && typeof motionMediaDescription === "object" && "json" in motionMediaDescription ? (motionMediaDescription.json as any) : {};
     const visualDevelopmentDescription = "visualDevelopmentDescription" in motionMediaPiece ? motionMediaPiece.visualDevelopmentDescription : null;
@@ -122,6 +129,30 @@ const SingleMotionMediaPiece = ( props: SingleMotionMediaPieceProps) => {
                         </div>
                     )
                 })}
+            </div>
+            <div className="flex justify-between my-10">
+                {previousAndNextSlugs.prev.slug !== "" && 
+                previousAndNextSlugs.prev.title !== "" ? (
+                    <div className="flex">
+                        <span className='mr-2'>
+                            <Chevron direction="left" />
+                        </span>
+                        <Link href={`/${previousAndNextSlugs.prev.slug}`} className="text-gray-700 hover:gray-blue-900 hover:underline">
+                            {previousAndNextSlugs.prev.title}
+                        </Link>
+                    </div>
+                ) : <div>&nbsp;</div>}
+                {previousAndNextSlugs.next.slug !== "" && 
+                previousAndNextSlugs.next.title !== "" && (
+                    <div className="flex">
+                        <Link href={`/${previousAndNextSlugs.next.slug}`} className="text-gray-700 hover:text-gray-900 hover:underline">
+                            {previousAndNextSlugs.next.title}
+                        </Link>
+                        <span className='ml-2'>
+                            <Chevron direction="right" />
+                        </span>
+                    </div>
+                )}    
             </div>
             <ImageOverlay 
                 post={overlayImage} 
