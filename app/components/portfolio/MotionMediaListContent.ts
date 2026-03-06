@@ -1,4 +1,5 @@
 import { getAllMotionMediaPieces, getMotionMediaOrder } from '@/app/lib/api';
+import { orderMotionMediaContent } from '@/app/lib/orderMotionMediaContent';
 
 const MotionMediaListContent = async () => {
     const motionMediaPieces = await getAllMotionMediaPieces();
@@ -17,10 +18,10 @@ const MotionMediaListContent = async () => {
         }
     }
 
-    return {
-        content: motionMediaPieces,
-        order: order
-    };
+    // Order content based on order array
+    const orderedContent = orderMotionMediaContent(motionMediaPieces, order);
+
+    return orderedContent;
 }
 
 export default MotionMediaListContent;

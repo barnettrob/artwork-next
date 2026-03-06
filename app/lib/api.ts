@@ -34,6 +34,7 @@ const PAGE_GRAPHQL_FIELDS = `
 
 const MOTION_MEDIA_LIST_GRAPHQL_FIELDS = `
   slug
+  title
   motionMediaVideoImage {
     url
     width
