@@ -1,18 +1,10 @@
 import Link from 'next/link';
 import Image from "next/image";
 import BackToTop from '../icons/BackToTop';
-
-interface MotionMediaContent {
-    slug: string;
-    motionMediaVideoImage: {
-        url: string;
-        width: number;
-        height: number;
-    }
-}
+import { MotionMediaContentShort } from '@/interfaces/Content';
 
 interface MotionMediaImageProps {
-    content: MotionMediaContent[]
+    content: MotionMediaContentShort[]
 }
 
 const MotionMediaAll = ( props: MotionMediaImageProps ) => {
@@ -20,7 +12,7 @@ const MotionMediaAll = ( props: MotionMediaImageProps ) => {
 
     return (
         <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4'>
-            {content.map((image: MotionMediaContent) => (
+            {content.map((image: MotionMediaContentShort) => (
                 <div className="relative" key={image.slug}>
                     <div key={image.slug} className="aspect-square">
                         <Link href={`/${image.slug}`} className='artwork-link'>

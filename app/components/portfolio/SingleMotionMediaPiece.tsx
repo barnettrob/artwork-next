@@ -5,38 +5,17 @@ import Image from "next/image";
 import ImageOverlay from './ImageOverlay';
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 import BackToTop from '../icons/BackToTop';
+import { MotionMediaContentShort, SingleMotionMediaPieceContent,  } from '@/interfaces/Content';
 
 interface SingleMotionMediaPieceProps {
-    content: SingleMotionMediaPiece;
-}
-
-interface SingleMotionMediaPiece { 
-    title: string;
-    shortDescription: string;
-    slug: string;
-    motionMedia: {
-        url: string;
-    };
-    motionMediaVideoImage: {
-        url: string;
-        width: number;
-        height: number;
-    } | null;
-    visualDevelopmentCollection: {
-        items: {
-            url: string;
-            width: number;
-            height: number;
-        }[];
-    };
-    description?: any;
-    visualDevelopmentDescription?: any;
-    visualDevelopmentImagesCollection?: any;
-    embeddedMotionMediaVideo?: any;
+    content: SingleMotionMediaPieceContent;
+    allContent: MotionMediaContentShort[];
 }
 
 const SingleMotionMediaPiece = ( props: SingleMotionMediaPieceProps) => {
     const motionMediaPiece = props.content;
+    const allContent = props.allContent;
+    // console.log("allContent in SingleMotionMediaPiece: ", allContent);
     const motionMediaDescription = "description" in motionMediaPiece ? motionMediaPiece.description : null;
     const motionMediaDescriptionJson = motionMediaDescription !== null && typeof motionMediaDescription === "object" && "json" in motionMediaDescription ? (motionMediaDescription.json as any) : {};
     const visualDevelopmentDescription = "visualDevelopmentDescription" in motionMediaPiece ? motionMediaPiece.visualDevelopmentDescription : null;

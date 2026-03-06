@@ -20,7 +20,7 @@ const MotionMediaPiece = async ({ params }: MotionMediaPageProps) => {
     }
 
   return (
-    <SingleMotionMediaPiece content={motionMediaPiece} />
+    <SingleMotionMediaPiece content={motionMediaPiece} allContent={motionMediaAllContent} />
   )
 }
 

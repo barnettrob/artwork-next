@@ -1,12 +1,7 @@
 import React, { useRef } from 'react';
 import Image from "next/image";
 import CloseIcon from '../icons/CloseIcon';
-
-interface Post {
-    height: number;
-    url: string;
-    width: number;
-}
+import { Post } from '@/interfaces/Content';
 
 interface Props {
     post: Post;
