@@ -6,7 +6,7 @@ export default async function Home() {
 
   return (
     <div>
-      <div className='p-6 font-extralight'>
+      <div className='p-6 font-extralight personal-work'>
         <AllWork images={images} />
       </div>
     </div>

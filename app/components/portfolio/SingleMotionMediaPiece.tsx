@@ -69,7 +69,7 @@ const SingleMotionMediaPiece = ( props: SingleMotionMediaPieceProps) => {
     }
 
     return (
-        <div className="max-w-7xl mx-auto p-4">
+        <div className="max-w-7xl mx-auto p-4 single-motion-media">
             <h1 className="text-2xl font-extralight text-center text-gray-500 mb-4">
                 {motionMediaPiece?.title}
             </h1>
