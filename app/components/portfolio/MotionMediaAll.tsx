@@ -1,3 +1,5 @@
+'use client'
+import React, { useRef } from 'react';
 import Link from 'next/link';
 import Image from "next/image";
 import BackToTop from '../icons/BackToTop';
@@ -9,13 +11,50 @@ interface MotionMediaImageProps {
 
 const MotionMediaAll = ( props: MotionMediaImageProps ) => {
     const content = props.content;
+    const contentArrayLength = content.length;
+    const motionMediaImageRef = useRef(new Array(contentArrayLength));
+    const motionMediaImageOverlayRef = useRef(new Array(contentArrayLength));
+
+    const onImageHover = (e: React.MouseEvent<HTMLDivElement>) => {
+        const target = e.target;
+        const height = target.clientHeight;
+        const width = target.clientWidth;
+        const index = target.dataset.index;
+        motionMediaImageRef.current[index].className = motionMediaImageRef.current[index].className + " overlay";
+        motionMediaImageOverlayRef.current[index].className = motionMediaImageOverlayRef.current[index].className + " show";
+        motionMediaImageOverlayRef.current[index].style.width = width + "px";
+        motionMediaImageOverlayRef.current[index].style.height = height + "px";
+    }
+
+    const onImageLeave = (e: React.MouseEvent<HTMLDivElement>) => {
+        const target = e.target;
+        const index = target.dataset.index;
+
+        motionMediaImageRef.current[index].className = motionMediaImageRef.current[index].className.replace("overlay", "");
+        motionMediaImageOverlayRef.current[index].className = motionMediaImageOverlayRef.current[index].className.replace("show", "");
+    }
 
     return (
         <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4'>
-            {content.map((image: MotionMediaContentShort) => (
-                <div className="relative" key={image.slug}>
+            {content.map((image: MotionMediaContentShort, index: number) => (
+                <div 
+                    className="relative"
+                    data-index={index}
+                    key={image.slug}
+                    onMouseEnter={onImageHover}
+                    onMouseLeave={onImageLeave}
+                >
                     <div key={image.slug} className="aspect-square">
-                        <Link href={`/${image.slug}`} className='artwork-link'>
+                        <Link 
+                            href={`/${image.slug}`} 
+                            className='artwork-link'
+                            data-index={index}
+                            ref={(element) => {
+                                if (typeof image.slug === "string" && element) {
+                                    motionMediaImageRef.current[index] = element;
+                                }
+                            }}
+                        >
                             <Image
                                 alt={image.motionMediaVideoImage.url !== "" ? image.motionMediaVideoImage.url : "image"}
                                 src={image.motionMediaVideoImage.url}
@@ -26,8 +65,23 @@ const MotionMediaAll = ( props: MotionMediaImageProps ) => {
                                 blurDataURL='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAA1JREFUGFdjOHf4cAUAB4QCzf7jDSoAAAAASUVORK5CYII='
                                 sizes="100vw"
                                 className='h-full w-full object-cover'
+                                data-index={index}
                             />
+                            <div 
+                                className="motion-media-title-overlay"
+                                data-index={index}
+                                ref={(element) => {
+                                    if (typeof image.slug === "string" && element) {
+                                        motionMediaImageOverlayRef.current[index] = element;
+                                    }
+                                }}
+                            >
+                                <div className="media-title">
+                                    {image.title}
+                                </div>
+                            </div>
                         </Link>
+                        
                     </div>
                 </div>
              ))}

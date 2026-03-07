@@ -147,6 +147,28 @@ p {
   transform: rotate(-90deg);
 }
 
+.motion-media-title-overlay {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 10px;
+  font-size: 20px;
+}
+
+.motion-media-title-overlay.show {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.artwork-link.overlay {
+  opacity: 0.9;
+}
+
 @media screen and (max-width: 768px) {
   .artwork-card {
     margin: 20px 0;
