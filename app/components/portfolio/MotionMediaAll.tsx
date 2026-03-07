@@ -20,20 +20,22 @@ const MotionMediaAll = ( props: MotionMediaImageProps ) => {
         const height = (e.target as HTMLElement).clientHeight;
         const width = (e.target as HTMLElement).clientWidth;
         const index = target.dataset.index;
-        if (typeof index !== "undefined") {
-            motionMediaImageRef.current[index].className = motionMediaImageRef.current[index].className + " overlay";
-            motionMediaImageOverlayRef.current[index].className = motionMediaImageOverlayRef.current[index].className + " show";
-            motionMediaImageOverlayRef.current[index].style.width = width + "px";
-            motionMediaImageOverlayRef.current[index].style.height = height + "px";
+        if (typeof index !== "undefined" && typeof index === "string") {
+            const idx = parseInt(index, 10);
+            motionMediaImageRef.current[idx].className = motionMediaImageRef.current[idx].className + " overlay";
+            motionMediaImageOverlayRef.current[idx].className = motionMediaImageOverlayRef.current[idx].className + " show";
+            motionMediaImageOverlayRef.current[idx].style.width = width + "px";
+            motionMediaImageOverlayRef.current[idx].style.height = height + "px";
         }
     }
 
     const onImageLeave = (e: React.MouseEvent<HTMLDivElement>) => {
         const target = e.target;
         const index = target.dataset.index;
-        if (typeof index !== "undefined") {
-            motionMediaImageRef.current[index].className = motionMediaImageRef.current[index].className.replace("overlay", "");
-            motionMediaImageOverlayRef.current[index].className = motionMediaImageOverlayRef.current[index].className.replace("show", "");
+        if (typeof index !== "undefined" && typeof index === "string") {
+            const idx = parseInt(index, 10);
+            motionMediaImageRef.current[idx].className = motionMediaImageRef.current[idx].className.replace("overlay", "");
+            motionMediaImageOverlayRef.current[idx].className = motionMediaImageOverlayRef.current[idx].className.replace("show", "");
         }
     }
 
