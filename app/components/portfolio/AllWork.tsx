@@ -53,7 +53,7 @@ const AllWork = (props: PortfolioImagesProps) => {
     }
     
     return (
-        <div className='masonry'>
+        <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4'>
             {images.map((post: any) => {
                 let embeddedVideoCode = "";
                 if (post.artworkImage === null) {
@@ -77,17 +77,17 @@ const AllWork = (props: PortfolioImagesProps) => {
                 let artwork = <></>
                 if (isVideo) {
                     const posterAttr = "videoImage" in post && post.videoImage !== null ? post.videoImage.url : "/video_poster_default.png";
-                    artwork = <div className="video-container"><video width={"100%"} height={"100%"} poster={posterAttr} controls>
+                    artwork = <div className='video-container'><video width={"100%"} height={"100%"} poster={posterAttr} controls>
                                 <source src={post.artworkImage.url} type="video/mp4" />
                                     Your browser does not support the video tag.
                                 </video></div>
                 }
                 else if(embeddedVideoCode !== "") {
-                    artwork = <div 
-                        className="video-container" 
+                    artwork = <div className='video-container'><div 
+                        className="embedded"
                         dangerouslySetInnerHTML={{__html: embeddedVideoCode}}
                         suppressHydrationWarning={true}
-                        ></div>
+                        ></div></div>
                 }
                 else {
                     artwork = post.artworkImage !== null ? <Link href={`?showModal=${showModalVal}`} className='artwork-link' onClick={(e) => handleOverlayImage(e, post)}>
@@ -100,19 +100,19 @@ const AllWork = (props: PortfolioImagesProps) => {
                         placeholder='blur'
                         blurDataURL='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAA1JREFUGFdjOHf4cAUAB4QCzf7jDSoAAAAASUVORK5CYII='
                         sizes="100vw"
-                        style={{
-                            width: "100%",
-                            height: "auto"
-                        }} /></Link> : <></>
+                        className='h-full w-full object-cover'
+                         /></Link> : <></>
                 }
                 return (
-                    <div key={url+title} className="artwork-card">
+                    <div key={url+title} className="aspect-square">
+                        <div className='h-full w-full object-cover'>
                         {artwork}
                         {post.shortDescription && (
                             <div className="artwork-description mt-1 text-center font-extralight text-sm">
                                 {post.shortDescription}
                             </div>
                         )}
+                        </div>
                     </div>
                 )
             })}

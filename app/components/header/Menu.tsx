@@ -60,14 +60,14 @@ const Menu = () => {
                             onClick={() => { setIsOpen(false); document.body.style.overflow = "";} }
                         >
                             Motion Design
-                        </Link>
+                        </Link> */}
                         <Link 
-                            href="/visual-development" 
-                            className={`${pathname === "/visual-development" ? "underline underline-offset-8 decoration-1" : ""} block mt-4 px-2 lg:inline-block lg:mt-0 text-black-200 hover:underline hover:decoration-gray-500 hover:underline-offset-8 hover:decoration-2 hover:text-gray${isOpen ? " py-2 hover:decoration-2 hover:decoration-gray-500 hover:underline-offset-8" : " hover:decoration-1"}`}
+                            href="/play" 
+                            className={`${pathname === "/play" ? "underline underline-offset-8 decoration-1" : ""} block mt-4 px-2 lg:inline-block lg:mt-0 text-black-200 hover:underline hover:decoration-gray-500 hover:underline-offset-8 hover:decoration-2 hover:text-gray${isOpen ? " py-2 hover:decoration-2 hover:decoration-gray-500 hover:underline-offset-8" : " hover:decoration-1"}`}
                             onClick={() => { setIsOpen(false); document.body.style.overflow = "";} }
                         >
-                            Visual Development
-                        </Link> */}
+                            Play
+                        </Link>
                         <Link 
                             href="about" 
                             className={`${pathname === "/about" ? "underline underline-offset-8 decoration-1" : ""} block mt-4 px-2 lg:inline-block lg:mt-0 text-black-200 hover:underline hover:decoration-gray-500 hover:underline-offset-8 hover:decoration-2 hover:text-gray mr-4${isOpen ? " py-2 hover:decoration-2 hover:decoration-gray-500 hover:underline-offset-8" : " hover:decoration-1"}`}
