@@ -20,18 +20,21 @@ const MotionMediaAll = ( props: MotionMediaImageProps ) => {
         const height = (e.target as HTMLElement).clientHeight;
         const width = (e.target as HTMLElement).clientWidth;
         const index = target.dataset.index;
-        motionMediaImageRef.current[index].className = motionMediaImageRef.current[index].className + " overlay";
-        motionMediaImageOverlayRef.current[index].className = motionMediaImageOverlayRef.current[index].className + " show";
-        motionMediaImageOverlayRef.current[index].style.width = width + "px";
-        motionMediaImageOverlayRef.current[index].style.height = height + "px";
+        if (typeof index !== "undefined") {
+            motionMediaImageRef.current[index].className = motionMediaImageRef.current[index].className + " overlay";
+            motionMediaImageOverlayRef.current[index].className = motionMediaImageOverlayRef.current[index].className + " show";
+            motionMediaImageOverlayRef.current[index].style.width = width + "px";
+            motionMediaImageOverlayRef.current[index].style.height = height + "px";
+        }
     }
 
     const onImageLeave = (e: React.MouseEvent<HTMLDivElement>) => {
         const target = e.target;
         const index = target.dataset.index;
-
-        motionMediaImageRef.current[index].className = motionMediaImageRef.current[index].className.replace("overlay", "");
-        motionMediaImageOverlayRef.current[index].className = motionMediaImageOverlayRef.current[index].className.replace("show", "");
+        if (typeof index !== "undefined") {
+            motionMediaImageRef.current[index].className = motionMediaImageRef.current[index].className.replace("overlay", "");
+            motionMediaImageOverlayRef.current[index].className = motionMediaImageOverlayRef.current[index].className.replace("show", "");
+        }
     }
 
     return (
