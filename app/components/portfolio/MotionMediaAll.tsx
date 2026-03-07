@@ -16,7 +16,7 @@ const MotionMediaAll = ( props: MotionMediaImageProps ) => {
     const motionMediaImageOverlayRef = useRef(new Array(contentArrayLength));
 
     const onImageHover = (e: React.MouseEvent<HTMLDivElement>) => {
-        const target = e.target;
+        const target = e.target as HTMLElement;
         const height = (e.target as HTMLElement).clientHeight;
         const width = (e.target as HTMLElement).clientWidth;
         const index = target.dataset.index;
