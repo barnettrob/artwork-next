@@ -30,7 +30,7 @@ const MotionMediaAll = ( props: MotionMediaImageProps ) => {
     }
 
     const onImageLeave = (e: React.MouseEvent<HTMLDivElement>) => {
-        const target = e.target;
+        const target = e.target as HTMLElement;
         const index = target.dataset.index;
         if (typeof index !== "undefined" && typeof index === "string") {
             const idx = parseInt(index, 10);
