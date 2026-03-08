@@ -158,15 +158,17 @@ p {
   padding: 10px;
   font-size: 20px;
 }
+/* Devices with mouse/pointer only (not mobile) */
+@media (pointer: fine) {
+  .motion-media-title-overlay.show {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
-.motion-media-title-overlay.show {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.artwork-link.overlay {
-  opacity: 0.9;
+  .artwork-link.overlay {
+    opacity: 0.9;
+  }
 }
 
 @media screen and (max-width: 768px) {
