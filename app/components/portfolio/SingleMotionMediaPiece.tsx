@@ -159,6 +159,7 @@ const SingleMotionMediaPiece = ( props: SingleMotionMediaPieceProps) => {
                 show={showOverlay} 
                 overlayControl={handleOverlayControl} 
                 windowWidth={innerWidth}
+                type="image"
             />
             {!showOverlay && (
                 <BackToTop />
