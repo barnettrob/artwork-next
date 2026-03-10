@@ -4,10 +4,11 @@ import CloseIcon from '../icons/CloseIcon';
 import { Post } from '@/interfaces/Content';
 
 interface Props {
-    post: Post;
+    post: Post | any;
     show: boolean;
     overlayControl: any;
     windowWidth: number;
+    type: string;
 }
 
 const ImageOverlay = ( props: Props ) => {
@@ -48,7 +49,7 @@ const ImageOverlay = ( props: Props ) => {
                       </button>
                   </div>
                   <div className="modal-body">
-                      {url !== "" && (
+                      {props.type === "image" && url !== "" && (
                           <Image
                               alt="Overlay Image"
                               src={url}
@@ -62,6 +63,13 @@ const ImageOverlay = ( props: Props ) => {
                                   height: "auto"
                               }} />
                       )}
+                        {props.type === "embeddedVideo" && (
+                            <div 
+                        className="embedded"
+                        dangerouslySetInnerHTML={{__html: props.post}}
+                        suppressHydrationWarning={true}
+                        ></div>
+                        )}
                   </div>
               </div>
           </div>

@@ -203,11 +203,28 @@ p {
   width: 100%;
   aspect-ratio: 1 / 1;
 }
-.personal-work .video-container video,
-.personal-work .video-container .embedded {
+.personal-work .video-container video {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+.personal-work .embedded {
+  position: relative; /* Essential for absolute positioning of the iframe */
+  width: 100%;
+  height: 0;
+  padding-bottom: 100%; /* Creates a square aspect ratio (1:1) */
+  overflow: hidden; /* Hides any overflow from the iframe */
+  /* background-color: #000; */
+}
+.personal-work .embedded iframe {
+  position: absolute; /* Positions the iframe relative to the wrapper */
+  /* bottom: -75px; */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
 }
 
 .single-motion-media .video-container {

@@ -21,7 +21,8 @@ const AllWork = (props: PortfolioImagesProps) => {
         url: "",
         width: 0
     }
-    const [overlayImage, setOverlayImage] = useState(postImageDefault);
+    const [overlayImage, setOverlayImage] = useState<PortfolioImages | string>(postImageDefault);
+    const [overlayType, setOverlayType] = useState("");
     const [showOverlay, setShowOverlay] = useState(false);
     const [showModalVal, setShowModalVal] = useState("true");
     const images = props.images;
@@ -37,15 +38,31 @@ const AllWork = (props: PortfolioImagesProps) => {
     const handleOverlayImage = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>, post: any) => {
         e.preventDefault();
 
-        if (typeof post === "object") {
+        let embeddedVideoCode = "";
+        let embeddedVideo = post.embeddedVideo;
+        if (embeddedVideo !== null && "json" in embeddedVideo && "content" in embeddedVideo.json && Array.isArray(embeddedVideo.json.content) && embeddedVideo.json.content.length > 0) {
+            const firstContent = embeddedVideo.json.content[0];
+            if ("content" in firstContent && Array.isArray(firstContent.content) && firstContent.content.length > 0) { 
+                    if ("value" in firstContent.content[0]) {
+                    embeddedVideoCode = firstContent.content[0].value;
+                    }
+            }
+        }
+    
+        if (embeddedVideoCode !== "" && typeof embeddedVideoCode === "string") {
+            setOverlayImage(embeddedVideoCode);
+            setOverlayType("embeddedVideo");
+        }
+        else if (typeof post === "object") {
             const overlayImageAttributes = {
                 url: post.artworkImage.url,
                 width: post.artworkImage.width,
                 height: post.artworkImage.height
             }
             setOverlayImage(overlayImageAttributes);
-            setShowOverlay(true);
+            setOverlayType("image");
         }
+        setShowOverlay(true);
     }
 
     const handleOverlayControl = (data: boolean) => {
@@ -83,11 +100,25 @@ const AllWork = (props: PortfolioImagesProps) => {
                                 </video></div>
                 }
                 else if(embeddedVideoCode !== "") {
-                    artwork = <div className='video-container'><div 
-                        className="embedded"
-                        dangerouslySetInnerHTML={{__html: embeddedVideoCode}}
-                        suppressHydrationWarning={true}
-                        ></div></div>
+                    if ("videoImage" in post && post.videoImage !== null) {
+                        artwork = post.videoImage !== null ? <Link href={`?showModal=${showModalVal}`} className='artwork-link' onClick={(e) => handleOverlayImage(e, post)}>
+                        <Image
+                            alt={title !== "" ? title : "image"}
+                            src={post.videoImage !== null ? post.videoImage.url : ""}
+                            quality={80}
+                            width={post.videoImage !== null ? post.videoImage.width : 0}
+                            height={post.videoImage !== null ? post.videoImage.height : 0}
+                            placeholder='blur'
+                            blurDataURL='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAA1JREFUGFdjOHf4cAUAB4QCzf7jDSoAAAAASUVORK5CYII='
+                            sizes="100vw"
+                            className='h-full w-full object-cover'
+                            /></Link> : <></>
+                    }
+                    // artwork = <div 
+                    //     className="embedded"
+                    //     dangerouslySetInnerHTML={{__html: embeddedVideoCode}}
+                    //     suppressHydrationWarning={true}
+                    //     ></div>
                 }
                 else {
                     artwork = post.artworkImage !== null ? <Link href={`?showModal=${showModalVal}`} className='artwork-link' onClick={(e) => handleOverlayImage(e, post)}>
@@ -121,6 +152,7 @@ const AllWork = (props: PortfolioImagesProps) => {
                 show={showOverlay} 
                 overlayControl={handleOverlayControl} 
                 windowWidth={innerWidth}
+                type={overlayType}
             />
             {!showOverlay && (
                 <BackToTop />
