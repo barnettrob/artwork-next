@@ -107,11 +107,11 @@ const AllWork = (props: PortfolioImagesProps) => {
                     <div key={url+title} className="aspect-square">
                         <div className='h-full w-full object-cover'>
                         {artwork}
-                        {post.shortDescription && (
+                        {/* {post.shortDescription && (
                             <div className="artwork-description mt-1 text-center font-extralight text-sm">
                                 {post.shortDescription}
                             </div>
-                        )}
+                        )} */}
                         </div>
                     </div>
                 )
