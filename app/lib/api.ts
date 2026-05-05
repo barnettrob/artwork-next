@@ -91,6 +91,10 @@ const MOTION_MEDIA_ORDERING_GRAPHQL_FIELDS = `
   title
 `
 
+const PLAY_ORDERING_GRAPHQL_FIELDS = `
+  title
+`
+
 async function fetchGraphQL(query: string, preview = false, cacheTags: string[], vars: string[] = []) {
   if (typeof Config.contentful.spaceId === "undefined") {
     return false;
@@ -370,4 +374,32 @@ export async function getMotionMediaOrder(
   );
 
   return motionMediaOrder?.data?.motionMediaOrderingCollection?.items;
+}
+
+export async function getPlayArtworkOrder(
+  // We don't need a limit but we had one so set it really high.
+  limit = 1,
+  // By default this function will return published content but will provide an option to
+  // return draft content for reviewing articles before they are live
+  isDraftMode = false
+) {
+  const playArtworkOrder = await fetchGraphQL(
+    `query {
+        playOrderingCollection(limit: ${limit}, preview: ${
+      isDraftMode ? "true" : "false"
+    }) {
+          items {
+          orderCollection {
+            items {
+              ${PLAY_ORDERING_GRAPHQL_FIELDS}
+            }
+          }
+        }
+      }
+    }`,
+    isDraftMode,
+    ["play-artwork-order"]
+  );
+
+  return playArtworkOrder?.data?.playOrderingCollection?.items;
 }
