@@ -38,3 +38,9 @@ export interface Post {
     url: string;
     width: number;
 }
+
+export interface ReelContent {
+    title: string;
+    shortDescription: string;
+    embeddedVideoReel: any;
+}

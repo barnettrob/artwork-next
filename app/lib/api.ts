@@ -74,6 +74,14 @@ const MOTION_MEDIA_PIECE_GRAPHQL_FIELDS = `
   }
 `;
 
+const REEL_GRAPHQL_FIELDS = `
+  title
+  shortDescription
+  embeddedVideoReel {
+    json
+  }
+`;
+
 const VISUAL_DEVELOPMENT_GRAPHQL_FIELDS = `
   title
   imageCollection {
@@ -402,4 +410,21 @@ export async function getPlayArtworkOrder(
   );
 
   return playArtworkOrder?.data?.playOrderingCollection?.items;
+}
+
+export async function getMotionReel(isDraftMode = false) {
+  const motionReel = await fetchGraphQL(
+    `query {
+      reelCollection(limit: 1) {
+        items {
+          ${REEL_GRAPHQL_FIELDS}
+        }
+      }
+    }`,
+    // Pass the slug as a variable
+    isDraftMode,
+    ["reel"]
+  );
+
+  return motionReel?.data?.reelCollection?.items[0];
 }

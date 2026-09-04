@@ -1,15 +1,14 @@
-import MotionMediaListContent from './components/portfolio/MotionMediaListContent';
-import MotionMediaAll from './components/portfolio/MotionMediaAll';
+import Reel from './components/portfolio/Reel';
+import ReelContent from './components/portfolio/ReelContent';
+
 
 export default async function Home() {
-  const title = "Motion Design";
-  const motionMediaAllContent = await MotionMediaListContent();
+  const reelContent = await ReelContent();
 
   return (
     <div>
-      <h1 className='text-center font-extralight text-xl'>{title}</h1>
       <div className='p-6 font-extralight'>
-        <MotionMediaAll content={motionMediaAllContent} />
+        <Reel content={reelContent} />
       </div>
     </div>
   )
