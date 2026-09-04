@@ -247,3 +247,9 @@ p {
   aspect-ratio: 16 / 9; /* Sets the shape (change to 4/3, 1/1, etc. as needed) */
   display: block; /* Removes default inline spacing at the bottom */
 }
+
+@media screen and (max-width: 768px) {
+  .reel-container {
+    padding: 0%;
+  }
+}
