@@ -1,7 +1,5 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-// Next.js processes this global stylesheet at build time.
-// @ts-expect-error CSS files are handled by Next.js, not TypeScript.
 import './globals.css';
 import Header from './components/header/Header';
 import Footer from './components/footer/Footer';
