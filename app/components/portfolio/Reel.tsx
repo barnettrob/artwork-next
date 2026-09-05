@@ -1,7 +1,6 @@
 'use client'
 import BackToTop from '../icons/BackToTop';
 import { ReelContent } from '@/interfaces/Content';
-import Link from 'next/link';
 
 interface ReelProps {
     content: ReelContent[]
@@ -46,11 +45,6 @@ const Reel = ( props: ReelProps ) => {
                         suppressHydrationWarning={true}
                     ></div>
                 )}
-            </div>
-            <div className='grid pt-6 place-items-center font-extralight'>
-                <div className='mt-3'>
-                    <Link href="/motion-design" className='underline'>See more of my work</Link>.
-                </div>
             </div>
                 <BackToTop />
             </div>

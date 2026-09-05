@@ -2,7 +2,7 @@ import MotionMediaListContent from '../components/portfolio/MotionMediaListConte
 import MotionMediaAll from '../components/portfolio/MotionMediaAll';
 
 export default async function Home() {
-  const title = "Motion Design";
+  const title = "Work";
   const motionMediaAllContent = await MotionMediaListContent();
 
   return (

@@ -59,14 +59,14 @@ const Menu = () => {
                             className={`${pathname === "/" ? "underline underline-offset-8 decoration-1" : ""} block mt-4 px-2 lg:inline-block lg:mt-0 text-black-200 hover:underline hover:decoration-gray-500 hover:underline-offset-8 hover:decoration-2 hover:text-gray${isOpen ? " py-2 hover:decoration-2 hover:decoration-gray-500 hover:underline-offset-8" : " hover:decoration-1"}`}
                             onClick={() => { setIsOpen(false); document.body.style.overflow = "";} }
                         >
-                            Reel
+                            Home
                         </Link>
                         <Link 
-                            href="/motion-design" 
-                            className={`${pathname === "/motion-design" ? "underline underline-offset-8 decoration-1" : ""} block mt-4 px-2 lg:inline-block lg:mt-0 text-black-200 hover:underline hover:decoration-gray-500 hover:underline-offset-8 hover:decoration-2 hover:text-gray${isOpen ? " py-2 hover:decoration-2 hover:decoration-gray-500 hover:underline-offset-8" : " hover:decoration-1"}`}
+                            href="/work" 
+                            className={`${pathname === "/work" ? "underline underline-offset-8 decoration-1" : ""} block mt-4 px-2 lg:inline-block lg:mt-0 text-black-200 hover:underline hover:decoration-gray-500 hover:underline-offset-8 hover:decoration-2 hover:text-gray${isOpen ? " py-2 hover:decoration-2 hover:decoration-gray-500 hover:underline-offset-8" : " hover:decoration-1"}`}
                             onClick={() => { setIsOpen(false); document.body.style.overflow = "";} }
                         >
-                            Motion Design
+                            Work
                         </Link>
                         <Link 
                             href="/play" 
