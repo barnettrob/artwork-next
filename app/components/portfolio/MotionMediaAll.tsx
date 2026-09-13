@@ -6,7 +6,8 @@ import BackToTop from '../icons/BackToTop';
 import { MotionMediaContentShort } from '@/interfaces/Content';
 
 interface MotionMediaImageProps {
-    content: MotionMediaContentShort[]
+    content: MotionMediaContentShort[],
+    showBackToTop?: boolean
 }
 
 const MotionMediaAll = ( props: MotionMediaImageProps ) => {
@@ -40,7 +41,11 @@ const MotionMediaAll = ( props: MotionMediaImageProps ) => {
     }
 
     return (
-        <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4'>
+        <div className={`grid grid-cols-1 sm:grid-cols-2 gap-4 ${
+            content.length >= 3 
+            ? 'w-full md:grid-cols-3' 
+            : 'w-full md:w-3/4 mx-auto'
+        }`}>
             {content.map((image: MotionMediaContentShort, index: number) => (
                 <div 
                     className="relative"
@@ -90,7 +95,7 @@ const MotionMediaAll = ( props: MotionMediaImageProps ) => {
                     </div>
                 </div>
              ))}
-             <BackToTop />
+             {props.showBackToTop && <BackToTop />}
         </div>
     )
 }

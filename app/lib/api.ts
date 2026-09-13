@@ -305,6 +305,26 @@ export async function getAllMotionMediaPieces(
   return motionMediaPieces?.data?.motionMediaPieceCollection?.items;
 }
 
+export async function getFeaturedMotionMediaPieces(
+  limit = 50,
+  isDraftMode = false
+) {
+  const motionMediaPieces = await fetchGraphQL(
+    `query {
+      motionMediaPieceCollection(where: {featured: true}) {
+        items {
+          ${MOTION_MEDIA_LIST_GRAPHQL_FIELDS}
+        }
+      }
+    }`,
+    // Pass the slug as a variable
+    isDraftMode,
+    ["motion-media-piece"]
+  );
+
+  return motionMediaPieces?.data?.motionMediaPieceCollection?.items;
+}
+
 export async function getMotionMediaPiece(
   slug: string,
   isDraftMode = false

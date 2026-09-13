@@ -9,7 +9,7 @@ export default async function Home() {
     <div>
       <h1 className='text-center font-extralight text-xl'>{title}</h1>
       <div className='p-6 font-extralight'>
-        <MotionMediaAll content={motionMediaAllContent} />
+        <MotionMediaAll content={motionMediaAllContent} showBackToTop={true} />
       </div>
     </div>
   )
