@@ -61,16 +61,27 @@ const MOTION_MEDIA_PIECE_GRAPHQL_FIELDS = `
   embeddedMotionMediaVideo {
     json
   }
-  visualDevelopmentImagesCollection {
-    items {
-      url
-      title
-      width
-      height
-    }
-  }  
   visualDevelopmentDescription {
     json
+  }
+  visualDevelopmentCollection {
+    items {
+      title
+      description {
+        json
+      }
+      mediaPosition
+      media {
+        url
+        width
+        height
+        title
+        contentType
+      }
+      embeddedMedia {
+        json
+      }
+    }
   }
 `;
 

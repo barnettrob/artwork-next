@@ -1,3 +1,5 @@
+import type { Document } from "@contentful/rich-text-types";
+
 export interface SingleMotionMediaPieceContent { 
     title: string;
     shortDescription: string;
@@ -11,16 +13,31 @@ export interface SingleMotionMediaPieceContent {
         height: number;
     } | null;
     visualDevelopmentCollection: {
-        items: {
-            url: string;
-            width: number;
-            height: number;
-        }[];
+        items: VisualDevelopmentItem[];
     };
     description?: any;
-    visualDevelopmentDescription?: any;
-    visualDevelopmentImagesCollection?: any;
+    visualDevelopmentDescription?: {
+        json?: Document;
+    } | null;
     embeddedMotionMediaVideo?: any;
+}
+
+export interface VisualDevelopmentItem {
+    title?: string | null;
+    description?: {
+        json?: any;
+    } | null;
+    mediaPosition?: string | null;
+    media?: {
+        url?: string | null;
+        width?: number | null;
+        height?: number | null;
+        title?: string | null;
+        contentType?: string | null;
+    } | null;
+    embeddedMedia?: {
+        json?: any;
+    } | null;
 }
 
 export interface MotionMediaContentShort {
