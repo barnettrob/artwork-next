@@ -43,11 +43,11 @@ export interface VisualDevelopmentItem {
 export interface MotionMediaContentShort {
     slug: string;
     title?: string;
-    motionMediaVideoImage: {
+    motionMediaVideoImage?: {
         url: string;
         width: number;
         height: number;
-    }
+    } | null;
 }
 
 export interface Post {
