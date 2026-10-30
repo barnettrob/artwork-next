@@ -36,6 +36,9 @@ const SingleMotionMediaPiece = ( props: SingleMotionMediaPieceProps) => {
     
     // Pagination logic for next and previous pieces.
     const previousAndNextSlugs = getNextAndPreviousSlugs(allContent, slug);
+    const hasPreviousPiece = previousAndNextSlugs.prev.slug !== "" && previousAndNextSlugs.prev.title !== "";
+    const hasNextPiece = previousAndNextSlugs.next.slug !== "" && previousAndNextSlugs.next.title !== "";
+    const hasBothPieces = hasPreviousPiece && hasNextPiece;
 
     const motionMediaDescription = "description" in motionMediaPiece ? motionMediaPiece.description : null;
     const motionMediaDescriptionJson = motionMediaDescription !== null && typeof motionMediaDescription === "object" && "json" in motionMediaDescription ? (motionMediaDescription.json as any) : {};
@@ -160,29 +163,39 @@ const SingleMotionMediaPiece = ( props: SingleMotionMediaPieceProps) => {
                     );
                 })}
             </div>
-            <div className="flex justify-between my-10">
-                {previousAndNextSlugs.prev.slug !== "" && 
-                previousAndNextSlugs.prev.title !== "" ? (
-                    <div className="flex">
-                        <span className='mr-2'>
+            <div className="flex justify-between gap-4 my-10">
+                {hasPreviousPiece && (
+                    <Link
+                        href={`/${previousAndNextSlugs.prev.slug}`}
+                        className={`group flex min-w-0 items-center gap-2 ${hasBothPieces ? "flex-1" : "max-w-full"}`}
+                    >
+                        <span className="shrink-0">
                             <Chevron direction="left" />
                         </span>
-                        <Link href={`/${previousAndNextSlugs.prev.slug}`} className="text-gray-700 hover:gray-blue-900 hover:underline">
-                            {previousAndNextSlugs.prev.title}
-                        </Link>
-                    </div>
-                ) : <div>&nbsp;</div>}
-                {previousAndNextSlugs.next.slug !== "" && 
-                previousAndNextSlugs.next.title !== "" && (
-                    <div className="flex">
-                        <Link href={`/${previousAndNextSlugs.next.slug}`} className="text-gray-700 hover:text-gray-900 hover:underline">
-                            {previousAndNextSlugs.next.title}
-                        </Link>
-                        <span className='ml-2'>
+                        <div className="min-w-0">
+                            <span className="block text-xs text-gray-500">Previous</span>
+                            <span className="block max-w-full truncate text-gray-700 group-hover:underline group-focus-visible:underline">
+                                {previousAndNextSlugs.prev.title}
+                            </span>
+                        </div>
+                    </Link>
+                )}
+                {hasNextPiece && (
+                    <Link
+                        href={`/${previousAndNextSlugs.next.slug}`}
+                        className={`group ml-auto flex min-w-0 items-center justify-end gap-2 text-right ${hasBothPieces ? "flex-1" : "max-w-full"}`}
+                    >
+                        <div className="min-w-0">
+                            <span className="block text-xs text-gray-500">Next</span>
+                            <span className="block max-w-full truncate text-gray-700 group-hover:underline group-focus-visible:underline">
+                                {previousAndNextSlugs.next.title}
+                            </span>
+                        </div>
+                        <span className="shrink-0">
                             <Chevron direction="right" />
                         </span>
-                    </div>
-                )}    
+                    </Link>
+                )}
             </div>
             <BackToTop />
         </div>
