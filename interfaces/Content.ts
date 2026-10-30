@@ -28,6 +28,12 @@ export interface VisualDevelopmentItem {
         json?: any;
     } | null;
     mediaPosition?: string | null;
+    vdMotionMediaVideoImage?: {
+        url: string;
+        width: number;
+        height: number;
+        title?: string | null;
+    } | null;
     media?: {
         url?: string | null;
         width?: number | null;

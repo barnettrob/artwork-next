@@ -7,6 +7,22 @@ import { MotionMediaContentShort, SingleMotionMediaPieceContent, VisualDevelopme
 import { getNextAndPreviousSlugs } from '../../lib/motionMediaPagination';
 import Chevron from '../icons/Chevron';
 
+const getRichTextValues = (value: unknown): string[] => {
+    if (Array.isArray(value)) {
+        return value.flatMap(getRichTextValues);
+    }
+
+    if (typeof value !== "object" || value === null) {
+        return [];
+    }
+
+    const node = value as { value?: unknown; content?: unknown };
+    return [
+        ...(typeof node.value === "string" ? [node.value] : []),
+        ...getRichTextValues(node.content),
+    ];
+};
+
 interface SingleMotionMediaPieceProps {
     content: SingleMotionMediaPieceContent;
     allContent: MotionMediaContentShort[];
@@ -73,13 +89,7 @@ const SingleMotionMediaPiece = ( props: SingleMotionMediaPieceProps) => {
                 {visualDevelopmentItems.map((item: VisualDevelopmentItem, index: number) => {
                     const media = item.media;
                     const mediaUrl = typeof media?.url === "string" ? media.url : "";
-                    const embeddedMediaContent = item.embeddedMedia?.json?.content;
-                    const embeddedMediaCode = Array.isArray(embeddedMediaContent)
-                        ? embeddedMediaContent
-                            .flatMap((node: any) => Array.isArray(node.content) ? node.content : [])
-                            .map((node: any) => typeof node.value === "string" ? node.value : "")
-                            .join("")
-                        : "";
+                    const embeddedMediaCode = getRichTextValues(item.embeddedMedia?.json?.content).join("");
                     const descriptionJson = item.description?.json;
                     const mediaPosition = item.mediaPosition ?? "Media Top";
                     const layoutClass = mediaPosition === "Media Left"
@@ -91,7 +101,7 @@ const SingleMotionMediaPiece = ( props: SingleMotionMediaPieceProps) => {
                                 : "flex flex-col";
                     const isHorizontal = mediaPosition === "Media Left" || mediaPosition === "Media Right";
                     const columnWidthClass = isHorizontal ? "w-full md:w-1/2" : "w-full";
-                    const isVideo = media?.contentType?.startsWith("video/") ||
+                    const isVideo = media?.contentType?.toLowerCase().startsWith("video/") ||
                         /\.(mp4|m4v|mov|webm|ogg)(?:[?#]|$)/i.test(mediaUrl);
 
                     return (
@@ -100,7 +110,11 @@ const SingleMotionMediaPiece = ( props: SingleMotionMediaPieceProps) => {
                                 <div className={columnWidthClass}>
                                     {mediaUrl ? (
                                         isVideo ? (
-                                            <video className="w-full rounded-lg" controls>
+                                            <video
+                                                className="w-full rounded-lg"
+                                                poster={item.vdMotionMediaVideoImage?.url || "/video_poster_default.png"}
+                                                controls
+                                            >
                                                 <source src={mediaUrl} type={media?.contentType ?? undefined} />
                                                 Your browser does not support the video tag.
                                             </video>

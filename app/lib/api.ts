@@ -70,6 +70,12 @@ const MOTION_MEDIA_PIECE_GRAPHQL_FIELDS = `
       description {
         json
       }
+      vdMotionMediaVideoImage {
+        url
+        width
+        height
+        title
+      }
       mediaPosition
       media {
         url
@@ -330,7 +336,7 @@ export async function getFeaturedMotionMediaPieces(
     }`,
     // Pass the slug as a variable
     isDraftMode,
-    ["motion-media-piece"]
+    ["featured-motion-media-pieces"]
   );
 
   return motionMediaPieces?.data?.motionMediaPieceCollection?.items;

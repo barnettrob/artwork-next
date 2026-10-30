@@ -243,6 +243,11 @@ p {
   height: 100%;
   object-fit: contain;
 }
+.single-motion-media .video-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
 
 .reel-container {
   width: 100%;
