@@ -28,18 +28,21 @@ export interface VisualDevelopmentItem {
         json?: any;
     } | null;
     mediaPosition?: string | null;
+    oppositeMedia?: string | null;
     vdMotionMediaVideoImage?: {
         url: string;
         width: number;
         height: number;
         title?: string | null;
     } | null;
-    media?: {
-        url?: string | null;
-        width?: number | null;
-        height?: number | null;
-        title?: string | null;
-        contentType?: string | null;
+    mediaManyCollection?: {
+        items: {
+            url?: string | null;
+            width?: number | null;
+            height?: number | null;
+            title?: string | null;
+            contentType?: string | null;
+        }[];
     } | null;
     embeddedMedia?: {
         json?: any;

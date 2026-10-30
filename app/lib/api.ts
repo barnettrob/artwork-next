@@ -77,12 +77,15 @@ const MOTION_MEDIA_PIECE_GRAPHQL_FIELDS = `
         title
       }
       mediaPosition
-      media {
-        url
-        width
-        height
-        title
-        contentType
+      oppositeMedia
+      mediaManyCollection {
+        items {
+          url
+          width
+          height
+          title
+          contentType
+        }
       }
       embeddedMedia {
         json

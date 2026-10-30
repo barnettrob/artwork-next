@@ -41,6 +41,9 @@ const SingleMotionMediaPiece = ( props: SingleMotionMediaPieceProps) => {
     const motionMediaDescriptionJson = motionMediaDescription !== null && typeof motionMediaDescription === "object" && "json" in motionMediaDescription ? (motionMediaDescription.json as any) : {};
     const visualDevelopmentDescriptionJson = motionMediaPiece.visualDevelopmentDescription?.json;
     const visualDevelopmentItems = motionMediaPiece.visualDevelopmentCollection?.items ?? [];
+    const hasVisualDevelopmentDescription = getRichTextValues(visualDevelopmentDescriptionJson)
+        .some((text) => text.trim() !== "");
+    const hasVisualDevelopmentContent = visualDevelopmentItems.length > 0 || hasVisualDevelopmentDescription;
     let embeddedVideoCode = "";
     if ("embeddedMotionMediaVideo" in motionMediaPiece && motionMediaPiece.embeddedMotionMediaVideo && "json" in motionMediaPiece.embeddedMotionMediaVideo && "content" in motionMediaPiece.embeddedMotionMediaVideo.json && Array.isArray(motionMediaPiece.embeddedMotionMediaVideo.json.content) && motionMediaPiece.embeddedMotionMediaVideo.json.content.length > 0) {
         const firstContent = motionMediaPiece.embeddedMotionMediaVideo.json.content[0];
@@ -77,9 +80,11 @@ const SingleMotionMediaPiece = ( props: SingleMotionMediaPieceProps) => {
                     ></div>
                 )}
             </div>
-            <h2 className="text-xl text-center font-extralight text-gray-500 mt-12 mb-2">Visual Development</h2>
+            {hasVisualDevelopmentContent && (
+                <h2 className="text-xl text-center font-extralight text-gray-500 mt-12 mb-2">Visual Development</h2>
+            )}
             <div className="w-full mb-6">
-                {visualDevelopmentDescriptionJson && (
+                {hasVisualDevelopmentDescription && visualDevelopmentDescriptionJson && (
                     <div className="text-lg font-extralight text-gray-500 leading-relaxed mb-6">
                         {documentToReactComponents(visualDevelopmentDescriptionJson)}
                     </div>
@@ -87,10 +92,14 @@ const SingleMotionMediaPiece = ( props: SingleMotionMediaPieceProps) => {
             </div>
             <div className="space-y-10">
                 {visualDevelopmentItems.map((item: VisualDevelopmentItem, index: number) => {
-                    const media = item.media;
-                    const mediaUrl = typeof media?.url === "string" ? media.url : "";
+                    const mediaItems = item.mediaManyCollection?.items ?? [];
                     const embeddedMediaCode = getRichTextValues(item.embeddedMedia?.json?.content).join("");
                     const descriptionJson = item.description?.json;
+                    const descriptionHasText = getRichTextValues(descriptionJson).some((text) => text.trim() !== "");
+                    const oppositeMedia = item.oppositeMedia ?? "Description";
+                    const mediaToRender = oppositeMedia === "Media" ? mediaItems : mediaItems.slice(0, 1);
+                    const showDescription = oppositeMedia === "Description" && descriptionHasText;
+                    const mediaToRenderWithUrl = mediaToRender.filter((media) => typeof media.url === "string" && media.url !== "");
                     const mediaPosition = item.mediaPosition ?? "Media Top";
                     const layoutClass = mediaPosition === "Media Left"
                         ? "flex flex-col md:flex-row"
@@ -99,45 +108,50 @@ const SingleMotionMediaPiece = ( props: SingleMotionMediaPieceProps) => {
                             : mediaPosition === "Media Bottom"
                                 ? "flex flex-col-reverse"
                                 : "flex flex-col";
-                    const isHorizontal = mediaPosition === "Media Left" || mediaPosition === "Media Right";
+                    const isHorizontal = showDescription && (mediaPosition === "Media Left" || mediaPosition === "Media Right");
                     const columnWidthClass = isHorizontal ? "w-full md:w-1/2" : "w-full";
-                    const isVideo = media?.contentType?.toLowerCase().startsWith("video/") ||
-                        /\.(mp4|m4v|mov|webm|ogg)(?:[?#]|$)/i.test(mediaUrl);
+                    const mediaColumn = mediaToRenderWithUrl.length > 0 ? (
+                        <div className={`${columnWidthClass} space-y-6`}>
+                            {mediaToRenderWithUrl.map((media, mediaIndex) => {
+                                const mediaUrl = media.url!;
+                                const isVideo = media.contentType?.toLowerCase().startsWith("video/") ||
+                                    /\.(mp4|m4v|mov|webm|ogg)(?:[?#]|$)/i.test(mediaUrl);
+
+                                return isVideo ? (
+                                    <video
+                                        key={`${mediaUrl}-${mediaIndex}`}
+                                        className="w-full rounded-lg"
+                                        poster={item.vdMotionMediaVideoImage?.url || "/video_poster_default.png"}
+                                        controls
+                                    >
+                                        <source src={mediaUrl} type={media.contentType ?? undefined} />
+                                        Your browser does not support the video tag.
+                                    </video>
+                                ) : (
+                                    <Image
+                                        key={`${mediaUrl}-${mediaIndex}`}
+                                        alt={media.title ?? item.title ?? ""}
+                                        src={mediaUrl}
+                                        width={media.width || 1200}
+                                        height={media.height || 800}
+                                        sizes="(max-width: 768px) 100vw, 50vw"
+                                        className="h-auto w-full rounded-lg"
+                                    />
+                                );
+                            })}
+                        </div>
+                    ) : embeddedMediaCode ? (
+                        <div
+                            className={`${columnWidthClass} video-container`}
+                            dangerouslySetInnerHTML={{ __html: embeddedMediaCode }}
+                            suppressHydrationWarning
+                        />
+                    ) : null;
 
                     return (
                         <section className={`${layoutClass} items-center gap-6`} key={index}>
-                            {(mediaUrl || embeddedMediaCode) && (
-                                <div className={columnWidthClass}>
-                                    {mediaUrl ? (
-                                        isVideo ? (
-                                            <video
-                                                className="w-full rounded-lg"
-                                                poster={item.vdMotionMediaVideoImage?.url || "/video_poster_default.png"}
-                                                controls
-                                            >
-                                                <source src={mediaUrl} type={media?.contentType ?? undefined} />
-                                                Your browser does not support the video tag.
-                                            </video>
-                                        ) : (
-                                            <Image
-                                                alt={media?.title ?? item.title ?? ""}
-                                                src={mediaUrl}
-                                                width={media?.width || 1200}
-                                                height={media?.height || 800}
-                                                sizes="(max-width: 768px) 100vw, 50vw"
-                                                className="h-auto w-full rounded-lg"
-                                            />
-                                        )
-                                    ) : (
-                                        <div
-                                            className="video-container"
-                                            dangerouslySetInnerHTML={{ __html: embeddedMediaCode }}
-                                            suppressHydrationWarning
-                                        />
-                                    )}
-                                </div>
-                            )}
-                            {descriptionJson && Object.keys(descriptionJson).length > 0 && (
+                            {mediaColumn}
+                            {showDescription && (
                                 <div className={`${columnWidthClass} text-lg font-extralight text-gray-500 leading-relaxed`}>
                                     {documentToReactComponents(descriptionJson)}
                                 </div>
