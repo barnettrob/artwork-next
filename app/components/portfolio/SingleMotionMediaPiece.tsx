@@ -61,11 +61,11 @@ const SingleMotionMediaPiece = ( props: SingleMotionMediaPieceProps) => {
     console.log("motionMediaPiece", motionMediaPiece);
     return (
         <div className="w-full mx-auto p-4 md:px-16 single-motion-media">
-            <h1 className="text-2xl font-extralight text-center text-gray-500 mb-4">
+            <h1 className="text-2xl font-extralight text-center text-gray-300 mb-4">
                 {motionMediaPiece?.title}
             </h1>
             {Object.keys(motionMediaDescriptionJson).length > 0 && (
-                <div className="text-lg font-extralight text-gray-500 leading-relaxed">
+                <div className="text-lg font-extralight text-gray-300 leading-relaxed">
                     {documentToReactComponents(motionMediaDescriptionJson)}
                 </div>
             )}
@@ -84,11 +84,11 @@ const SingleMotionMediaPiece = ( props: SingleMotionMediaPieceProps) => {
                 )}
             </div>
             {hasVisualDevelopmentContent && (
-                <h2 className="text-xl text-center font-extralight text-gray-500 mt-12 mb-2">Visual Development</h2>
+                <h2 className="text-xl text-center font-extralight text-gray-300 mt-12 mb-2">Visual Development</h2>
             )}
             <div className="w-full mb-6">
                 {hasVisualDevelopmentDescription && visualDevelopmentDescriptionJson && (
-                    <div className="text-lg font-extralight text-gray-500 leading-relaxed mb-6">
+                    <div className="text-lg font-extralight text-gray-300 leading-relaxed mb-6">
                         {documentToReactComponents(visualDevelopmentDescriptionJson)}
                     </div>
                 )}
@@ -155,7 +155,7 @@ const SingleMotionMediaPiece = ( props: SingleMotionMediaPieceProps) => {
                         <section className={`${layoutClass} items-center gap-6`} key={index}>
                             {mediaColumn}
                             {showDescription && (
-                                <div className={`${columnWidthClass} text-lg font-extralight text-gray-500 leading-relaxed`}>
+                                <div className={`${columnWidthClass} text-lg font-extralight text-gray-300 leading-relaxed`}>
                                     {documentToReactComponents(descriptionJson)}
                                 </div>
                             )}
@@ -173,8 +173,8 @@ const SingleMotionMediaPiece = ( props: SingleMotionMediaPieceProps) => {
                             <Chevron direction="left" />
                         </span>
                         <div className="min-w-0">
-                            <span className="block text-xs text-gray-500">Previous</span>
-                            <span className="block max-w-full truncate text-gray-700 group-hover:underline group-focus-visible:underline">
+                            <span className="block text-xs text-gray-400">Previous</span>
+                                        <span className="block max-w-full truncate text-gray-100 group-hover:underline group-focus-visible:underline">
                                 {previousAndNextSlugs.prev.title}
                             </span>
                         </div>
@@ -186,8 +186,8 @@ const SingleMotionMediaPiece = ( props: SingleMotionMediaPieceProps) => {
                         className={`group ml-auto flex min-w-0 items-center justify-end gap-2 text-right ${hasBothPieces ? "flex-1" : "max-w-full"}`}
                     >
                         <div className="min-w-0">
-                            <span className="block text-xs text-gray-500">Next</span>
-                            <span className="block max-w-full truncate text-gray-700 group-hover:underline group-focus-visible:underline">
+                            <span className="block text-xs text-gray-400">Next</span>
+                            <span className="block max-w-full truncate text-gray-100 group-hover:underline group-focus-visible:underline">
                                 {previousAndNextSlugs.next.title}
                             </span>
                         </div>

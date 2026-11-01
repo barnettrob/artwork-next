@@ -18,8 +18,8 @@ const Menu = () => {
     }
 
     return (
-        <nav className="flex items-center justify-between flex-wrap bg-white p-6                                    ">
-            <div className="flex items-center flex-shrink-0 text-black mr-6">
+        <nav className="flex items-center justify-between flex-wrap bg-gray-950 p-6">
+            <div className="flex items-center flex-shrink-0 text-gray-100 mr-6">
                 <span className="text-2xl font-extralight tracking-tight">
                     <Link href={"/"} onClick={() => setIsOpen(false)}>
                         <Logo />
@@ -28,22 +28,22 @@ const Menu = () => {
             </div>
             <div className="block lg:hidden z-50">
                 <button 
-                    className="flex items-center px-3 py-2 border rounded text-black-200 hover:text-gray border-white hover:border-white"
+                    className="flex items-center px-3 py-2 border rounded text-gray-100 hover:text-white border-gray-700 hover:border-gray-500"
                     onClick={() => {setIsOpen(!isOpen); scrollControl()}}
                 >
                     <div className={`w-5 transform -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2 ${isOpen ? "mr-0" : ""}`}>
                         <span
-                        className={`absolute h-0.5 w-7 bg-black transform transition duration-300 ease-in-out ${
+                        className={`absolute h-0.5 w-7 bg-gray-100 transform transition duration-300 ease-in-out ${
                             isOpen ? "rotate-45 delay-200" : "-translate-y-1.5"
                         }`}
                         ></span>
                         <span
-                        className={`absolute h-0.5 bg-black transform transition-all duration-200 ease-in-out ${
+                        className={`absolute h-0.5 bg-gray-100 transform transition-all duration-200 ease-in-out ${
                             isOpen ? "w-0 opacity-50" : "w-7 delay-200 opacity-100"
                         }`}
                         ></span>
                         <span
-                        className={`absolute h-0.5 w-7 bg-black transform transition duration-300 ease-in-out ${
+                        className={`absolute h-0.5 w-7 bg-gray-100 transform transition duration-300 ease-in-out ${
                             isOpen ? "-rotate-45 delay-200" : "translate-y-1.5"
                         }`}
                         ></span>
@@ -56,28 +56,28 @@ const Menu = () => {
                     <div className={`${isOpen ? "cmodal-fullscreen text-center text-5xl" : ""}`}>
                         <Link 
                             href="/" 
-                            className={`${pathname === "/" ? "underline underline-offset-8 decoration-1" : ""} block mt-4 px-2 lg:inline-block lg:mt-0 text-black-200 hover:underline hover:decoration-gray-500 hover:underline-offset-8 hover:decoration-2 hover:text-gray${isOpen ? " py-2 hover:decoration-2 hover:decoration-gray-500 hover:underline-offset-8" : " hover:decoration-1"}`}
+                            className={`${pathname === "/" ? "underline underline-offset-8 decoration-1" : ""} block mt-4 px-2 lg:inline-block lg:mt-0 text-gray-100 hover:underline hover:decoration-gray-400 hover:underline-offset-8 hover:decoration-2 hover:text-white${isOpen ? " py-2 hover:decoration-2 hover:decoration-gray-400 hover:underline-offset-8" : " hover:decoration-1"}`}
                             onClick={() => { setIsOpen(false); document.body.style.overflow = "";} }
                         >
                             Home
                         </Link>
                         <Link 
                             href="/work" 
-                            className={`${pathname === "/work" ? "underline underline-offset-8 decoration-1" : ""} block mt-4 px-2 lg:inline-block lg:mt-0 text-black-200 hover:underline hover:decoration-gray-500 hover:underline-offset-8 hover:decoration-2 hover:text-gray${isOpen ? " py-2 hover:decoration-2 hover:decoration-gray-500 hover:underline-offset-8" : " hover:decoration-1"}`}
+                            className={`${pathname === "/work" ? "underline underline-offset-8 decoration-1" : ""} block mt-4 px-2 lg:inline-block lg:mt-0 text-gray-100 hover:underline hover:decoration-gray-400 hover:underline-offset-8 hover:decoration-2 hover:text-white${isOpen ? " py-2 hover:decoration-2 hover:decoration-gray-400 hover:underline-offset-8" : " hover:decoration-1"}`}
                             onClick={() => { setIsOpen(false); document.body.style.overflow = "";} }
                         >
                             Work
                         </Link>
                         <Link 
                             href="/play" 
-                            className={`${pathname === "/play" ? "underline underline-offset-8 decoration-1" : ""} block mt-4 px-2 lg:inline-block lg:mt-0 text-black-200 hover:underline hover:decoration-gray-500 hover:underline-offset-8 hover:decoration-2 hover:text-gray${isOpen ? " py-2 hover:decoration-2 hover:decoration-gray-500 hover:underline-offset-8" : " hover:decoration-1"}`}
+                            className={`${pathname === "/play" ? "underline underline-offset-8 decoration-1" : ""} block mt-4 px-2 lg:inline-block lg:mt-0 text-gray-100 hover:underline hover:decoration-gray-400 hover:underline-offset-8 hover:decoration-2 hover:text-white${isOpen ? " py-2 hover:decoration-2 hover:decoration-gray-400 hover:underline-offset-8" : " hover:decoration-1"}`}
                             onClick={() => { setIsOpen(false); document.body.style.overflow = "";} }
                         >
                             Play
                         </Link>
                         <Link 
                             href="about" 
-                            className={`${pathname === "/about" ? "underline underline-offset-8 decoration-1" : ""} block mt-4 px-2 lg:inline-block lg:mt-0 text-black-200 hover:underline hover:decoration-gray-500 hover:underline-offset-8 hover:decoration-2 hover:text-gray mr-4${isOpen ? " py-2 hover:decoration-2 hover:decoration-gray-500 hover:underline-offset-8" : " hover:decoration-1"}`}
+                            className={`${pathname === "/about" ? "underline underline-offset-8 decoration-1" : ""} block mt-4 px-2 lg:inline-block lg:mt-0 text-gray-100 hover:underline hover:decoration-gray-400 hover:underline-offset-8 hover:decoration-2 hover:text-white mr-4${isOpen ? " py-2 hover:decoration-2 hover:decoration-gray-400 hover:underline-offset-8" : " hover:decoration-1"}`}
                             onClick={() => {setIsOpen(false); document.body.style.overflow = "";}}
                         >
                             About
