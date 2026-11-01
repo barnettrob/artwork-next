@@ -28,7 +28,7 @@ const Menu = () => {
             </div>
             <div className="block lg:hidden z-50">
                 <button 
-                    className="flex items-center px-3 py-2 border rounded text-gray-100 hover:text-white border-gray-700 hover:border-gray-500"
+                    className="flex items-center px-3 py-2 text-gray-100 hover:text-white"
                     onClick={() => {setIsOpen(!isOpen); scrollControl()}}
                 >
                     <div className={`w-5 transform -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2 ${isOpen ? "mr-0" : ""}`}>
