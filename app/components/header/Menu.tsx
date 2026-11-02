@@ -3,8 +3,14 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import Logo from './Logo';
+import InstagramIcon from '../socialMedia/icons/Instagram';
+import LinkedInIcon from '../socialMedia/icons/LinkedIn';
 
-const Menu = () => {
+interface MenuProps {
+    socialLinks: { name: 'instagram' | 'linkedin'; url: string }[];
+}
+
+const Menu = ({ socialLinks }: MenuProps) => {
     const [isOpen, setIsOpen] = useState(false);
     const pathname = usePathname();
 
@@ -82,6 +88,21 @@ const Menu = () => {
                         >
                             About
                         </Link>
+                        {isOpen && (
+                            <div className="absolute bottom-8 left-0 right-0 flex justify-center gap-8 text-gray-100 lg:hidden">
+                                {socialLinks.map(({ name, url }) => (
+                                    <a
+                                        key={name}
+                                        href={url}
+                                        aria-label={name === 'instagram' ? 'Instagram' : 'LinkedIn'}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                        {name === 'instagram' ? <InstagramIcon /> : <LinkedInIcon />}
+                                    </a>
+                                ))}
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>
