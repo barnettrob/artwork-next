@@ -19,7 +19,7 @@ export default async function Home() {
         </div>
         <div className='grid pt-6 place-items-center font-extralight'>
             <div className='mt-3'>
-                <Link href="/work" className='underline'>See more of my work</Link>.
+                <Link href="/work" className='underline underline-offset-8'>See more of my work</Link>.
             </div>
           </div>
       </div>
