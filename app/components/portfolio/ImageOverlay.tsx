@@ -71,14 +71,14 @@ const ImageOverlay = ( props: Props ) => {
   }
 
   return (
-      <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50">
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80 p-0 sm:p-4">
               <div
-                  className="bg-gray-900 text-gray-100 rounded-lg p-3 max-w-5xl w-11/12 h-[calc(100vh_-_4rem)] overflow-y-auto"
+                  className="flex h-dvh max-h-dvh w-full max-w-5xl flex-col overflow-hidden rounded-none bg-gray-900 text-gray-100 sm:h-[calc(100dvh-2rem)] sm:max-h-[calc(100dvh-2rem)] sm:rounded-lg"
                   role="dialog"
                   aria-modal="true"
                   aria-label={props.type === "image" ? "Expanded image" : "Expanded video"}
               >
-                  <div className="flex justify-between items-center mb-3">
+                  <div className="flex shrink-0 items-center justify-between bg-gray-900 p-3">
                       <button 
                           ref={closeButtonRef}
                           className="ml-auto border-0 text-gray-100 text-3xl leading-none font-thin"
@@ -89,7 +89,7 @@ const ImageOverlay = ( props: Props ) => {
                           <CloseIcon />
                       </button>
                   </div>
-                  <div className="modal-body">
+                  <div className="modal-body min-h-0 flex-1 overflow-y-auto p-3">
                       {props.type === "image" && url !== "" && (
                           <Image
                               alt={props.post.title || "Expanded artwork"}
