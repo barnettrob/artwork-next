@@ -97,7 +97,7 @@ const Menu = ({ socialLinks }: MenuProps) => {
                         <Link 
                             href="/" 
                             aria-current={pathname === "/" ? "page" : undefined}
-                            className={`menu-link${pathname === "/" ? " is-active" : ""} block ${isOpen ? "" : "mt-4"} px-2 lg:inline-block lg:mt-0 text-gray-100 hover:text-white${isOpen ? " py-2" : ""}`}
+                            className={`menu-link${pathname === "/" ? " is-active" : ""} block ${isOpen ? "" : "mt-4"} px-2 lg:inline-block lg:mt-0 text-gray-100 hover:text-white${isOpen ? " mx-auto w-fit py-2" : ""}`}
                             onClick={() => setIsOpen(false)}
                         >
                             Home
@@ -105,7 +105,7 @@ const Menu = ({ socialLinks }: MenuProps) => {
                         <Link 
                             href="/work" 
                             aria-current={pathname === "/work" ? "page" : undefined}
-                            className={`menu-link${pathname === "/work" ? " is-active" : ""} block ${isOpen ? "" : "mt-4"} px-2 lg:inline-block lg:mt-0 text-gray-100 hover:text-white${isOpen ? " py-2" : ""}`}
+                            className={`menu-link${pathname === "/work" ? " is-active" : ""} block ${isOpen ? "" : "mt-4"} px-2 lg:inline-block lg:mt-0 text-gray-100 hover:text-white${isOpen ? " mx-auto w-fit py-2" : ""}`}
                             onClick={() => setIsOpen(false)}
                         >
                             Work
@@ -113,7 +113,7 @@ const Menu = ({ socialLinks }: MenuProps) => {
                         <Link 
                             href="/play" 
                             aria-current={pathname === "/play" ? "page" : undefined}
-                            className={`menu-link${pathname === "/play" ? " is-active" : ""} block ${isOpen ? "" : "mt-4"} px-2 lg:inline-block lg:mt-0 text-gray-100 hover:text-white${isOpen ? " py-2" : ""}`}
+                            className={`menu-link${pathname === "/play" ? " is-active" : ""} block ${isOpen ? "" : "mt-4"} px-2 lg:inline-block lg:mt-0 text-gray-100 hover:text-white${isOpen ? " mx-auto w-fit py-2" : ""}`}
                             onClick={() => setIsOpen(false)}
                         >
                             Play
@@ -121,7 +121,7 @@ const Menu = ({ socialLinks }: MenuProps) => {
                         <Link 
                             href="/about"
                             aria-current={pathname === "/about" ? "page" : undefined}
-                            className={`menu-link${pathname === "/about" ? " is-active" : ""} block ${isOpen ? "" : "mt-4"} px-2 lg:inline-block lg:mt-0 text-gray-100 hover:text-white mr-4${isOpen ? " py-2" : ""}`}
+                            className={`menu-link${pathname === "/about" ? " is-active" : ""} block ${isOpen ? "" : "mt-4"} px-2 lg:inline-block lg:mt-0 text-gray-100 hover:text-white${isOpen ? " mx-auto w-fit py-2" : " mr-4"}`}
                             onClick={() => setIsOpen(false)}
                         >
                             About
