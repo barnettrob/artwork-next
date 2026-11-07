@@ -3,7 +3,7 @@ import Link from 'next/link';
 const PageNotFound = () => {
   return (
     <>
-      <div className="text-center text-gray-100">Oops! You look lost. . .</div>
+      <h1 className="text-center text-gray-100">Oops! You look lost. . .</h1>
       <div className="text-center text-gray-300 mt-2">Calista hasn't created this page yet.</div>
       <div className="text-center text-gray-400 mt-2">Checkout the <Link className='underline hover:text-gray-200' href="/">homepage</Link></div>
       <div className="text-center text-gray-300 mt-2">Before this text</div>

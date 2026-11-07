@@ -14,6 +14,7 @@ const About = async () => {
 
   return (
     <div className='about p-6 grid grid-cols-1 md:grid-cols-2 gap-4 container mx-auto'>
+      <h1 className="sr-only">{title || "About"}</h1>
       <div>
         <div style={{ maxWidth: "360px", margin: "0 auto" }}>
         <Image

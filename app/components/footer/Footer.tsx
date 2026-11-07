@@ -18,16 +18,14 @@ const Footer = async () => {
     const year = date.getFullYear();
 
     return (
-        <div className="mt-auto font-light p-6">
-          <main>
+        <footer className="mt-auto font-light p-6">
             <ul className='flex justify-center'>
               <SocialMedia />
               <li className="p-3">
                 &#169; {year} {authorName}
               </li>
             </ul>
-          </main>
-        </div>
+        </footer>
       );
 }
 

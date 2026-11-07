@@ -17,21 +17,36 @@ const Menu = ({ socialLinks }: MenuProps) => {
     const navRef = useRef<HTMLElement>(null);
 
     useEffect(() => {
+        document.body.style.overflow = isOpen ? "hidden" : "";
+        return () => {
+            document.body.style.overflow = "";
+        };
+    }, [isOpen]);
+
+    useEffect(() => {
         if (!isOpen) {
             return;
         }
 
+        const handleKeyDown = (event: KeyboardEvent) => {
+            if (event.key === "Escape") {
+                setIsOpen(false);
+            }
+        };
         const updateMenuTop = () => {
             setMenuTop(navRef.current?.getBoundingClientRect().bottom ?? 0);
         };
+        document.addEventListener("keydown", handleKeyDown);
         window.addEventListener('resize', updateMenuTop);
-        return () => window.removeEventListener('resize', updateMenuTop);
+        return () => {
+            document.removeEventListener("keydown", handleKeyDown);
+            window.removeEventListener('resize', updateMenuTop);
+        };
     }, [isOpen]);
 
     const toggleMenu = () => {
         const nextIsOpen = !isOpen;
         setIsOpen(nextIsOpen);
-        document.body.style.overflow = nextIsOpen ? "hidden" : "";
 
         if (nextIsOpen) {
             setMenuTop(navRef.current?.getBoundingClientRect().bottom ?? 0);
@@ -39,10 +54,10 @@ const Menu = ({ socialLinks }: MenuProps) => {
     }
 
     return (
-        <nav ref={navRef} className="flex items-center justify-between flex-wrap bg-gray-950 p-6">
+        <nav ref={navRef} aria-label="Primary" className="flex items-center justify-between flex-wrap bg-gray-950 p-6">
             <div className="flex items-center flex-shrink-0 text-gray-100 mr-6">
                 <span className="text-2xl font-extralight tracking-tight">
-                    <Link href={"/"} onClick={() => setIsOpen(false)}>
+                    <Link href={"/"} aria-label="Home" onClick={() => setIsOpen(false)}>
                         <Logo />
                     </Link>
                 </span>
@@ -51,6 +66,10 @@ const Menu = ({ socialLinks }: MenuProps) => {
                 <button 
                     className="flex items-center px-3 py-2 text-gray-100 hover:text-white"
                     onClick={toggleMenu}
+                    type="button"
+                    aria-label={isOpen ? "Close menu" : "Open menu"}
+                    aria-expanded={isOpen}
+                    aria-controls="primary-navigation"
                 >
                     <div className={`w-5 transform -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2 ${isOpen ? "mr-0" : ""}`}>
                         <span
@@ -71,35 +90,39 @@ const Menu = ({ socialLinks }: MenuProps) => {
                     </div>
                 </button>
             </div>
-            <div className={`w-full block flex-grow lg:flex lg:items-center lg:w-auto ${isOpen ? "block cmodal-container" : "hidden"}`}>
+            <div id="primary-navigation" className={`w-full block flex-grow lg:flex lg:items-center lg:w-auto ${isOpen ? "block cmodal-container" : "hidden"}`}>
                 <div className="text-sm lg:flex-grow"></div>
                 <div className={`font-extralight${isOpen ? " cmodal" : ""}`}>
                     <div className={`${isOpen ? "cmodal-fullscreen text-center text-5xl" : ""}`} style={isOpen ? { top: `${menuTop}px` } : undefined}>
                         <Link 
                             href="/" 
-                            className={`${pathname === "/" ? "underline underline-offset-8 decoration-1" : ""} block ${isOpen ? "" : "mt-4"} px-2 lg:inline-block lg:mt-0 text-gray-100 hover:underline hover:decoration-gray-400 hover:underline-offset-8 hover:decoration-2 hover:text-white${isOpen ? " py-2 hover:decoration-2 hover:decoration-gray-400 hover:underline-offset-8" : " hover:decoration-1"}`}
-                            onClick={() => { setIsOpen(false); document.body.style.overflow = "";} }
+                            aria-current={pathname === "/" ? "page" : undefined}
+                            className={`menu-link${pathname === "/" ? " is-active" : ""} block ${isOpen ? "" : "mt-4"} px-2 lg:inline-block lg:mt-0 text-gray-100 hover:text-white${isOpen ? " py-2" : ""}`}
+                            onClick={() => setIsOpen(false)}
                         >
                             Home
                         </Link>
                         <Link 
                             href="/work" 
-                            className={`${pathname === "/work" ? "underline underline-offset-8 decoration-1" : ""} block ${isOpen ? "" : "mt-4"} px-2 lg:inline-block lg:mt-0 text-gray-100 hover:underline hover:decoration-gray-400 hover:underline-offset-8 hover:decoration-2 hover:text-white${isOpen ? " py-2 hover:decoration-2 hover:decoration-gray-400 hover:underline-offset-8" : " hover:decoration-1"}`}
-                            onClick={() => { setIsOpen(false); document.body.style.overflow = "";} }
+                            aria-current={pathname === "/work" ? "page" : undefined}
+                            className={`menu-link${pathname === "/work" ? " is-active" : ""} block ${isOpen ? "" : "mt-4"} px-2 lg:inline-block lg:mt-0 text-gray-100 hover:text-white${isOpen ? " py-2" : ""}`}
+                            onClick={() => setIsOpen(false)}
                         >
                             Work
                         </Link>
                         <Link 
                             href="/play" 
-                            className={`${pathname === "/play" ? "underline underline-offset-8 decoration-1" : ""} block ${isOpen ? "" : "mt-4"} px-2 lg:inline-block lg:mt-0 text-gray-100 hover:underline hover:decoration-gray-400 hover:underline-offset-8 hover:decoration-2 hover:text-white${isOpen ? " py-2 hover:decoration-2 hover:decoration-gray-400 hover:underline-offset-8" : " hover:decoration-1"}`}
-                            onClick={() => { setIsOpen(false); document.body.style.overflow = "";} }
+                            aria-current={pathname === "/play" ? "page" : undefined}
+                            className={`menu-link${pathname === "/play" ? " is-active" : ""} block ${isOpen ? "" : "mt-4"} px-2 lg:inline-block lg:mt-0 text-gray-100 hover:text-white${isOpen ? " py-2" : ""}`}
+                            onClick={() => setIsOpen(false)}
                         >
                             Play
                         </Link>
                         <Link 
-                            href="about" 
-                            className={`${pathname === "/about" ? "underline underline-offset-8 decoration-1" : ""} block ${isOpen ? "" : "mt-4"} px-2 lg:inline-block lg:mt-0 text-gray-100 hover:underline hover:decoration-gray-400 hover:underline-offset-8 hover:decoration-2 hover:text-white mr-4${isOpen ? " py-2 hover:decoration-2 hover:decoration-gray-400 hover:underline-offset-8" : " hover:decoration-1"}`}
-                            onClick={() => {setIsOpen(false); document.body.style.overflow = "";}}
+                            href="/about"
+                            aria-current={pathname === "/about" ? "page" : undefined}
+                            className={`menu-link${pathname === "/about" ? " is-active" : ""} block ${isOpen ? "" : "mt-4"} px-2 lg:inline-block lg:mt-0 text-gray-100 hover:text-white mr-4${isOpen ? " py-2" : ""}`}
+                            onClick={() => setIsOpen(false)}
                         >
                             About
                         </Link>

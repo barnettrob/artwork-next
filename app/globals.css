@@ -11,6 +11,68 @@ body {
   color: #f3f4f6;
 }
 
+:focus-visible {
+  outline: 2px solid #93c5fd;
+  outline-offset: 3px;
+}
+
+.skip-link {
+  position: fixed;
+  top: 0.5rem;
+  left: 0.5rem;
+  z-index: 1000000;
+  padding: 0.75rem 1rem;
+  transform: translateY(-150%);
+  background-color: #030712;
+  color: #fff;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+.menu-link {
+  position: relative;
+  text-decoration: none;
+}
+
+.menu-link::after {
+  position: absolute;
+  right: 0.5rem;
+  bottom: -0.25rem;
+  left: 0.5rem;
+  height: 1px;
+  background-color: #9ca3af;
+  content: "";
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 300ms ease;
+}
+
+.menu-link--text::after {
+  right: 0;
+  left: 0;
+}
+
+.menu-link:hover::after,
+.menu-link:focus-visible::after,
+.group:hover .menu-link::after,
+.group:focus-visible .menu-link::after,
+.menu-link.is-active::after {
+  transform: scaleX(1);
+}
+
+.pagination-link:hover .pagination-title::after,
+.pagination-link:focus-visible .pagination-title::after {
+  transform: scaleX(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .menu-link::after {
+    transition: none;
+  }
+}
+
 /** - * { } used for images masonary layout **/
 * {
   margin: 0;
@@ -167,16 +229,75 @@ p {
   padding: 10px;
   font-size: 20px;
 }
+
+.motion-media-card:focus-within .motion-media-title-overlay {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 /* Devices with mouse/pointer only (not mobile) */
 @media (pointer: fine) {
-  .motion-media-card:hover .motion-media-title-overlay {
+  .motion-media-card {
+    transform-style: preserve-3d;
+    transition: transform 450ms cubic-bezier(0.2, 0.7, 0.3, 1);
+  }
+
+  .motion-media-title-overlay {
     display: flex;
     align-items: center;
     justify-content: center;
+    opacity: 0;
+    transition: opacity 450ms ease;
   }
 
-  .motion-media-card:hover .artwork-link {
+  .motion-media-card .artwork-link {
+    transition: opacity 450ms ease;
+  }
+
+  .media-title {
+    transform: translateZ(0);
+    transition: transform 450ms ease, text-shadow 450ms ease;
+  }
+
+  .motion-media-card:hover .motion-media-title-overlay {
+    opacity: 1;
+  }
+
+  .motion-media-card:focus-within .motion-media-title-overlay {
+    opacity: 1;
+  }
+
+  .motion-media-card:hover,
+  .motion-media-card:focus-within {
+    transform: perspective(1000px) rotateX(1deg) rotateY(-1deg) scale(1.015);
+  }
+
+  .motion-media-card:hover .artwork-link,
+  .motion-media-card:focus-within .artwork-link {
     opacity: 0.9;
+  }
+
+  .motion-media-card:hover .media-title,
+  .motion-media-card:focus-within .media-title {
+    transform: translateZ(24px) scale(1.04);
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .motion-media-card,
+  .motion-media-title-overlay,
+  .media-title,
+  .motion-media-card .artwork-link {
+    transition-duration: 0.01ms;
+  }
+
+  .motion-media-card:hover,
+  .motion-media-card:focus-within,
+  .motion-media-card:hover .media-title,
+  .motion-media-card:focus-within .media-title {
+    transform: none;
   }
 }
 
@@ -194,13 +315,15 @@ p {
   bottom: 40px;
   right: 20px;
   z-index: 99;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #f3f4f6;
   border: none;
-  outline: none;
-  background-color: #4b5563;
+  background-color: rgba(75, 85, 99, 0.9);
   cursor: pointer;
   padding: 10px;
   border-radius: 50%;
-  opacity: 70%;
 }
 
 .close-x {

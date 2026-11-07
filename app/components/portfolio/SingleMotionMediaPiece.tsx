@@ -167,15 +167,17 @@ const SingleMotionMediaPiece = ( props: SingleMotionMediaPieceProps) => {
                 {hasPreviousPiece && (
                     <Link
                         href={`/${previousAndNextSlugs.prev.slug}`}
-                        className={`group flex min-w-0 items-center gap-2 ${hasBothPieces ? "flex-1" : "max-w-full"}`}
+                        className={`group pagination-link flex min-w-0 items-center gap-2 ${hasBothPieces ? "flex-1" : "max-w-full"}`}
                     >
                         <span className="shrink-0">
                             <Chevron direction="left" />
                         </span>
                         <div className="min-w-0">
                             <span className="block text-xs text-gray-400">Previous</span>
-                                        <span className="block max-w-full truncate text-gray-100 group-hover:underline group-focus-visible:underline">
-                                {previousAndNextSlugs.prev.title}
+                                        <span className="menu-link menu-link--text pagination-title inline-block max-w-full text-gray-100">
+                                <span className="block max-w-full truncate">
+                                    {previousAndNextSlugs.prev.title}
+                                </span>
                             </span>
                         </div>
                     </Link>
@@ -183,12 +185,14 @@ const SingleMotionMediaPiece = ( props: SingleMotionMediaPieceProps) => {
                 {hasNextPiece && (
                     <Link
                         href={`/${previousAndNextSlugs.next.slug}`}
-                        className={`group ml-auto flex min-w-0 items-center justify-end gap-2 text-right ${hasBothPieces ? "flex-1" : "max-w-full"}`}
+                        className={`group pagination-link ml-auto flex min-w-0 items-center justify-end gap-2 text-right ${hasBothPieces ? "flex-1" : "max-w-full"}`}
                     >
                         <div className="min-w-0">
                             <span className="block text-xs text-gray-400">Next</span>
-                            <span className="block max-w-full truncate text-gray-100 group-hover:underline group-focus-visible:underline">
-                                {previousAndNextSlugs.next.title}
+                            <span className="menu-link menu-link--text pagination-title inline-block max-w-full text-gray-100">
+                                <span className="block max-w-full truncate">
+                                    {previousAndNextSlugs.next.title}
+                                </span>
                             </span>
                         </div>
                         <span className="shrink-0">

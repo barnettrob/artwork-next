@@ -14,12 +14,12 @@ export default async function Home() {
       <div className='p-6 font-extralight'>
         <Reel content={reelContent} />
         <div className='pt-6 mt-3 container mx-auto font-extralight'>
-          <h3 className='text-center font-extralight text-xl mb-2'>{featuredTitle}</h3>
+          <h2 className='text-center font-extralight text-xl mb-2'>{featuredTitle}</h2>
           <MotionMediaAll content={motionMediaFeaturedContent} showBackToTop={false} />
         </div>
         <div className='grid pt-6 place-items-center font-extralight'>
             <div className='mt-3'>
-                <Link href="/work" className='underline underline-offset-8'>See more of my work</Link>.
+                <Link href="/work" className='menu-link menu-link--text'>See more of my work</Link>.
             </div>
           </div>
       </div>

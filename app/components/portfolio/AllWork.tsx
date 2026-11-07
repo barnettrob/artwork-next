@@ -101,7 +101,7 @@ const AllWork = (props: PortfolioImagesProps) => {
                 }
                 else if(embeddedVideoCode !== "") {
                     if ("videoImage" in post && post.videoImage !== null) {
-                        artwork = post.videoImage !== null ? <Link href={`?showModal=${showModalVal}`} className='artwork-link' onClick={(e) => handleOverlayImage(e, post)}>
+                        artwork = post.videoImage !== null ? <Link href={`?showModal=${showModalVal}`} aria-label={title ? `View ${title}` : "View artwork"} aria-haspopup="dialog" className='artwork-link' onClick={(e) => handleOverlayImage(e, post)}>
                         <Image
                             alt={title !== "" ? title : "image"}
                             src={post.videoImage !== null ? post.videoImage.url : ""}
@@ -121,7 +121,7 @@ const AllWork = (props: PortfolioImagesProps) => {
                     //     ></div>
                 }
                 else {
-                    artwork = post.artworkImage !== null ? <Link href={`?showModal=${showModalVal}`} className='artwork-link' onClick={(e) => handleOverlayImage(e, post)}>
+                    artwork = post.artworkImage !== null ? <Link href={`?showModal=${showModalVal}`} aria-label={title ? `View ${title}` : "View artwork"} aria-haspopup="dialog" className='artwork-link' onClick={(e) => handleOverlayImage(e, post)}>
                     <Image
                         alt={title !== "" ? title : "image"}
                         src={post.artworkImage !== null ? post.artworkImage.url : ""}
