@@ -70,15 +70,17 @@ const ImageOverlay = ( props: Props ) => {
     return null;
   }
 
+  const isPortraitImage = props.type === "image" && props.post.height > props.post.width;
+
   return (
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80 p-0 sm:p-4">
               <div
-                  className="flex h-dvh max-h-dvh w-full max-w-5xl flex-col overflow-hidden rounded-none bg-gray-900 text-gray-100 sm:h-[calc(100dvh-2rem)] sm:max-h-[calc(100dvh-2rem)] sm:rounded-lg"
+                  className="image-overlay-dialog flex h-dvh max-h-dvh w-full max-w-5xl flex-col overflow-hidden rounded-none text-gray-100 sm:h-[calc(100dvh-2rem)] sm:max-h-[calc(100dvh-2rem)] sm:rounded-lg"
                   role="dialog"
                   aria-modal="true"
                   aria-label={props.type === "image" ? "Expanded image" : "Expanded video"}
               >
-                  <div className="flex shrink-0 items-center justify-between bg-gray-900 p-3">
+                  <div className="flex shrink-0 items-center justify-between p-3">
                       <button 
                           ref={closeButtonRef}
                           className="ml-auto border-0 text-gray-100 text-3xl leading-none font-thin"
@@ -89,7 +91,7 @@ const ImageOverlay = ( props: Props ) => {
                           <CloseIcon />
                       </button>
                   </div>
-                  <div className="modal-body min-h-0 flex-1 overflow-y-auto p-3">
+                  <div className={`modal-body min-h-0 flex-1 overflow-y-auto p-3${isPortraitImage ? " modal-body--portrait" : ""}`}>
                       {props.type === "image" && url !== "" && (
                           <Image
                               alt={props.post.title || "Expanded artwork"}
@@ -99,6 +101,7 @@ const ImageOverlay = ( props: Props ) => {
                               placeholder='blur'
                               blurDataURL='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAA1JREFUGFdjOHf4cAUAB4QCzf7jDSoAAAAASUVORK5CYII='
                               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                              className={isPortraitImage ? "portrait-artwork-image" : undefined}
                               style={{
                                   maxWidth: "100%",
                                   height: "auto"

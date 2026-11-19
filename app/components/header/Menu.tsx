@@ -54,7 +54,11 @@ const Menu = ({ socialLinks }: MenuProps) => {
     }
 
     return (
-        <nav ref={navRef} aria-label="Primary" className="flex items-center justify-between flex-wrap bg-gray-950 p-6">
+        <nav
+            ref={navRef}
+            aria-label="Primary"
+            className="site-header flex items-center justify-between flex-wrap p-6"
+        >
             <div className="flex items-center flex-shrink-0 text-gray-100 mr-6">
                 <span className="text-2xl font-extralight tracking-tight">
                     <Link href={"/"} aria-label="Home" onClick={() => setIsOpen(false)}>
