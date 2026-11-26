@@ -113,8 +113,9 @@ const SingleMotionMediaPiece = ( props: SingleMotionMediaPieceProps) => {
                                 : "flex flex-col";
                     const isHorizontal = showDescription && (mediaPosition === "Media Left" || mediaPosition === "Media Right");
                     const columnWidthClass = isHorizontal ? "w-full md:w-1/2" : "w-full";
+                    const sideBySideMedia = mediaPosition === "Media Left" && mediaToRenderWithUrl.length === 2;
                     const mediaColumn = mediaToRenderWithUrl.length > 0 ? (
-                        <div className={`${columnWidthClass} space-y-6`}>
+                        <div className={`${columnWidthClass} ${sideBySideMedia ? "grid grid-cols-1 gap-6 lg:grid-cols-2" : "space-y-6"}`}>
                             {mediaToRenderWithUrl.map((media, mediaIndex) => {
                                 const mediaUrl = media.url!;
                                 const isVideo = media.contentType?.toLowerCase().startsWith("video/") ||
@@ -138,7 +139,7 @@ const SingleMotionMediaPiece = ( props: SingleMotionMediaPieceProps) => {
                                         width={media.width || 1200}
                                         height={media.height || 800}
                                         sizes="(max-width: 768px) 100vw, 50vw"
-                                        className="h-auto w-full rounded-lg"
+                                        className={`h-auto w-full rounded-lg ${sideBySideMedia ? "lg:max-h-[60vh] lg:object-contain" : ""}`}
                                     />
                                 );
                             })}
