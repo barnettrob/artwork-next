@@ -2,7 +2,6 @@ import type { Document } from "@contentful/rich-text-types";
 
 export interface SingleMotionMediaPieceContent { 
     title: string;
-    shortDescription: string;
     slug: string;
     motionMedia: {
         url: string;
