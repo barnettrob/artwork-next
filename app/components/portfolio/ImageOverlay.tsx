@@ -1,80 +1,121 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import Image from "next/image";
 import CloseIcon from '../icons/CloseIcon';
-
-interface Post {
-    artworkImage: {
-        height: number;
-        url: string;
-        width: number;
-    }
-    shortDescription: string;
-    title: string;
-    videoImage: null;
-}
+import { Post } from '@/interfaces/Content';
 
 interface Props {
-    post: Post;
+    post: Post | any;
     show: boolean;
     overlayControl: any;
     windowWidth: number;
+    type: string;
 }
 
 const ImageOverlay = ( props: Props ) => {
-  const overlayRef = useRef(null) as unknown as React.RefObject<HTMLDivElement>
-  const url = "post" in props && "artworkImage" in props.post && "url" in props.post.artworkImage ? props.post.artworkImage.url : "";
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const url = props.post?.url ?? "";
 
-  const handleShow = () => {
-    if (props.show) {
-        overlayRef.current.className = overlayRef.current.className.replace("hidden", "show");
+  useEffect(() => {
+    if (!props.show) {
+      return;
     }
-    else {
-        overlayRef.current.className = overlayRef.current.className.replace("show", "hidden");
-    }
+
+    const previouslyFocused = document.activeElement instanceof HTMLElement
+      ? document.activeElement
+      : null;
+    const previousBodyOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    closeButtonRef.current?.focus();
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        closeButtonRef.current?.click();
+        return;
+      }
+
+      if (event.key === "Tab") {
+        const dialog = closeButtonRef.current?.closest('[role="dialog"]');
+        const focusableElements = dialog?.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), iframe, [tabindex]:not([tabindex="-1"])'
+        );
+        if (!focusableElements?.length) {
+          event.preventDefault();
+          closeButtonRef.current?.focus();
+          return;
+        }
+
+        const firstElement = focusableElements[0];
+        const lastElement = focusableElements[focusableElements.length - 1];
+        if (event.shiftKey && document.activeElement === firstElement) {
+          event.preventDefault();
+          lastElement.focus();
+        } else if (!event.shiftKey && document.activeElement === lastElement) {
+          event.preventDefault();
+          firstElement.focus();
+        }
+      }
+    };
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+      document.body.style.overflow = previousBodyOverflow;
+      if (previouslyFocused?.isConnected) {
+        previouslyFocused.focus();
+      }
+    };
+  }, [props.show]);
+
+  if (!props.show) {
+    return null;
   }
 
-  if (overlayRef.current !== null && props.windowWidth > 768) {
-    handleShow();
-  }
-
-  const handleClose = () => {
-    overlayRef.current.className = overlayRef.current.className.replace("show", "hidden");
-    // Send back to parent where it will set showOverlay back to false 
-    // via the handleOverlayControl function in the parent
-    // so that other images can be properly opened.
-    props.overlayControl(false);
-  }
+  const isPortraitImage = props.type === "image" && props.post.height > props.post.width;
 
   return (
-      <div className="hidden" ref={overlayRef}>
-          <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50">
-              <div className="bg-white rounded-lg p-3 max-w-5xl w-11/12 h-[calc(100vh_-_4rem)] overflow-y-auto">
-                  <div className="flex justify-between items-center mb-3">
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80 p-0 sm:p-4">
+              <div
+                  className="image-overlay-dialog flex h-dvh max-h-dvh w-full max-w-5xl flex-col overflow-hidden rounded-none text-gray-100 sm:h-[calc(100dvh-2rem)] sm:max-h-[calc(100dvh-2rem)] sm:rounded-lg"
+                  role="dialog"
+                  aria-modal="true"
+                  aria-label={props.type === "image" ? "Expanded image" : "Expanded video"}
+              >
+                  <div className="flex shrink-0 items-center justify-between p-3">
                       <button 
-                          className="ml-auto border-0 text-black text-3xl leading-none font-thin outline-none focus:outline-none"
-                          onClick={handleClose}
+                          ref={closeButtonRef}
+                          className="ml-auto border-0 text-gray-100 text-3xl leading-none font-thin"
+                          type="button"
+                          aria-label="Close expanded media"
+                          onClick={() => props.overlayControl(false)}
                       >
                           <CloseIcon />
                       </button>
                   </div>
-                  <div className="modal-body">
-                      {url !== "" && (
+                  <div className={`modal-body min-h-0 flex-1 overflow-y-auto p-3${isPortraitImage ? " modal-body--portrait" : ""}`}>
+                      {props.type === "image" && url !== "" && (
                           <Image
-                              alt={props.post.title}
+                              alt={props.post.title || "Expanded artwork"}
                               src={url}
-                              width={props.post.artworkImage.width}
-                              height={props.post.artworkImage.height}
+                              width={props.post.width}
+                              height={props.post.height}
                               placeholder='blur'
                               blurDataURL='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAA1JREFUGFdjOHf4cAUAB4QCzf7jDSoAAAAASUVORK5CYII='
                               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                              className={isPortraitImage ? "portrait-artwork-image" : undefined}
                               style={{
                                   maxWidth: "100%",
                                   height: "auto"
                               }} />
                       )}
+                        {props.type === "embeddedVideo" && (
+                            <div 
+                              className="embedded"
+                              dangerouslySetInnerHTML={{__html: props.post}}
+                              suppressHydrationWarning={true}
+                            ></div>
+                        )}
                   </div>
               </div>
-          </div>
       </div>
   );
 }

@@ -25,16 +25,115 @@ const PAGE_GRAPHQL_FIELDS = `
     url
     width
     height
+    title
   }
   body {
     json
   }
 `;
 
-async function fetchGraphQL(query: string, preview = false, cacheTags: string[]) {
+const MOTION_MEDIA_LIST_GRAPHQL_FIELDS = `
+  slug
+  title
+  motionMediaVideoImage {
+    url
+    width
+    height
+    title
+  }
+`
+
+const MOTION_MEDIA_PIECE_GRAPHQL_FIELDS = `
+  title
+  slug
+  description {
+    json
+  }
+  motionMedia {
+    url
+  }
+  motionMediaVideoImage {
+    url
+    width
+    height
+    title
+  }
+  embeddedMotionMediaVideo {
+    json
+  }
+  visualDevelopmentDescription {
+    json
+  }
+  visualDevelopmentCollection {
+    items {
+      title
+      description {
+        json
+      }
+      vdMotionMediaVideoImage {
+        url
+        width
+        height
+        title
+      }
+      mediaPosition
+      oppositeMedia
+      mediaManyCollection {
+        items {
+          url
+          width
+          height
+          title
+          contentType
+        }
+      }
+      embeddedMedia {
+        json
+      }
+    }
+  }
+`;
+
+const REEL_GRAPHQL_FIELDS = `
+  title
+  shortDescription
+  embeddedVideoReel {
+    json
+  }
+`;
+
+const VISUAL_DEVELOPMENT_GRAPHQL_FIELDS = `
+  title
+  imageCollection {
+    items {
+      url
+      width
+      height
+      title
+    }
+  }
+`
+
+const MOTION_MEDIA_ORDERING_GRAPHQL_FIELDS = `
+  slug
+  title
+`
+
+const PLAY_ORDERING_GRAPHQL_FIELDS = `
+  title
+`
+
+async function fetchGraphQL(query: string, preview = false, cacheTags: string[], vars: string[] = []) {
   if (typeof Config.contentful.spaceId === "undefined") {
     return false;
   }
+
+  let ids: string[] = [];
+  for (const id in vars) {
+    ids.push(vars[id]);
+  }
+
+  const body = ids.length > 0 ? JSON.stringify({ query, variables: { ids } }) : JSON.stringify({ query });
 
   return fetch(
    `https://graphql.contentful.com/content/v1/spaces/${Config.contentful.spaceId}`,
@@ -50,7 +149,7 @@ async function fetchGraphQL(query: string, preview = false, cacheTags: string[])
             : Config.contentful.accessToken
         }`,
       },
-      body: JSON.stringify({ query }),
+      body: body,
       // Associate all fetches for articles with an "artwork" cache tag so content can
       // be revalidated or updated from Contentful on publish
       cache: 'force-cache',
@@ -204,4 +303,168 @@ export async function getWebsiteMetaData(
     ["meta-data"]
   );
   return data;
+}
+
+export async function getAllMotionMediaPieces(
+  limit = 50,
+  isDraftMode = false
+) {
+  const motionMediaPieces = await fetchGraphQL(
+    `query {
+      motionMediaPieceCollection(limit: ${limit}) {
+        items {
+          ${MOTION_MEDIA_LIST_GRAPHQL_FIELDS}
+        }
+      }
+    }`,
+    // Pass the slug as a variable
+    isDraftMode,
+    ["motion-media-piece"]
+  );
+
+  return motionMediaPieces?.data?.motionMediaPieceCollection?.items;
+}
+
+export async function getFeaturedMotionMediaPieces(
+  limit = 50,
+  isDraftMode = false
+) {
+  const motionMediaPieces = await fetchGraphQL(
+    `query {
+      motionMediaPieceCollection(where: {featured: true}) {
+        items {
+          ${MOTION_MEDIA_LIST_GRAPHQL_FIELDS}
+        }
+      }
+    }`,
+    // Pass the slug as a variable
+    isDraftMode,
+    ["featured-motion-media-pieces"]
+  );
+
+  return motionMediaPieces?.data?.motionMediaPieceCollection?.items;
+}
+
+export async function getMotionMediaPiece(
+  slug: string,
+  isDraftMode = false
+) {
+  const motionMediaPiece = await fetchGraphQL(
+    `query {
+      motionMediaPieceCollection(where: {slug: "${slug}"}, limit: 1) {
+        items {
+          ${MOTION_MEDIA_PIECE_GRAPHQL_FIELDS}
+        }
+      }
+    }`,
+    // Pass the slug as a variable
+    isDraftMode,
+    ["motion-media-piece"]
+  );
+
+  return motionMediaPiece?.data?.motionMediaPieceCollection?.items[0];
+}
+
+// Probably deprecated but leaving for now just in case.
+// If this is brought back then add the following to MOTION_MEDIA_PIECE_GRAPHQL_FIELDS:
+/*
+  visualDevelopmentCollection {
+    items {
+      sys {
+        id
+      }
+    }
+  }
+*/
+export async function getVisualDevelopmentReferences(
+  ids: string[],
+  isDraftMode = false
+) {
+  const visualDevelopmentReferences = await fetchGraphQL(
+    `query GetVisualDevelopment($ids: [String!]) {
+      visualDevelopmentCollection(where: { sys: { id_in: $ids } }) {
+    	  items {
+          ${VISUAL_DEVELOPMENT_GRAPHQL_FIELDS}
+        }
+      }
+    }`,
+    isDraftMode,
+    ["visual-development-references"],
+    ids
+  );
+
+  return visualDevelopmentReferences?.data?.visualDevelopmentCollection?.items;
+}
+
+export async function getMotionMediaOrder(
+  // We don't need a limit but we had one so set it really high.
+  limit = 1,
+  // By default this function will return published content but will provide an option to
+  // return draft content for reviewing articles before they are live
+  isDraftMode = false
+) {
+  const motionMediaOrder = await fetchGraphQL(
+    `query {
+        motionMediaOrderingCollection(limit: ${limit}, preview: ${
+      isDraftMode ? "true" : "false"
+    }) {
+          items {
+          orderCollection {
+            items {
+              ${MOTION_MEDIA_ORDERING_GRAPHQL_FIELDS}
+            }
+          }
+        }
+      }
+    }`,
+    isDraftMode,
+    ["motion-media-order"]
+  );
+
+  return motionMediaOrder?.data?.motionMediaOrderingCollection?.items;
+}
+
+export async function getPlayArtworkOrder(
+  // We don't need a limit but we had one so set it really high.
+  limit = 1,
+  // By default this function will return published content but will provide an option to
+  // return draft content for reviewing articles before they are live
+  isDraftMode = false
+) {
+  const playArtworkOrder = await fetchGraphQL(
+    `query {
+        playOrderingCollection(limit: ${limit}, preview: ${
+      isDraftMode ? "true" : "false"
+    }) {
+          items {
+          orderCollection {
+            items {
+              ${PLAY_ORDERING_GRAPHQL_FIELDS}
+            }
+          }
+        }
+      }
+    }`,
+    isDraftMode,
+    ["play-artwork-order"]
+  );
+
+  return playArtworkOrder?.data?.playOrderingCollection?.items;
+}
+
+export async function getMotionReel(isDraftMode = false) {
+  const motionReel = await fetchGraphQL(
+    `query {
+      reelCollection(limit: 1) {
+        items {
+          ${REEL_GRAPHQL_FIELDS}
+        }
+      }
+    }`,
+    // Pass the slug as a variable
+    isDraftMode,
+    ["reel"]
+  );
+
+  return motionReel?.data?.reelCollection?.items[0];
 }

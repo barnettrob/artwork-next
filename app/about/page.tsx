@@ -14,9 +14,7 @@ const About = async () => {
 
   return (
     <div className='about p-6 grid grid-cols-1 md:grid-cols-2 gap-4 container mx-auto'>
-      <div className="description">
-        {documentToReactComponents(aboutPageItems[0].body.json)}
-      </div>
+      <h1 className="sr-only">{title || "About"}</h1>
       <div>
         <div style={{ maxWidth: "360px", margin: "0 auto" }}>
         <Image
@@ -34,6 +32,9 @@ const About = async () => {
             height: "auto"
           }} />
         </div>
+      </div>
+      <div className="description">
+        {documentToReactComponents(aboutPageItems[0].body.json)}
       </div>
     </div>
   );

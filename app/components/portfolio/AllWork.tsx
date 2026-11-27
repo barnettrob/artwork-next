@@ -17,16 +17,12 @@ interface PortfolioImagesProps {
 
 const AllWork = (props: PortfolioImagesProps) => {
     const postImageDefault = {
-        artworkImage: {
-            height: 0,
-            url: "",
-            width: 0
-        },
-        shortDescription: "",
-        title: "",
-        videoImage: null
+        height: 0,
+        url: "",
+        width: 0
     }
-    const [overlayImage, setOverlayImage] = useState(postImageDefault);
+    const [overlayImage, setOverlayImage] = useState<PortfolioImages | string>(postImageDefault);
+    const [overlayType, setOverlayType] = useState("");
     const [showOverlay, setShowOverlay] = useState(false);
     const [showModalVal, setShowModalVal] = useState("true");
     const images = props.images;
@@ -42,10 +38,31 @@ const AllWork = (props: PortfolioImagesProps) => {
     const handleOverlayImage = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>, post: any) => {
         e.preventDefault();
 
-        if (typeof post === "object") {
-            setOverlayImage(post);
-            setShowOverlay(true);
+        let embeddedVideoCode = "";
+        let embeddedVideo = post.embeddedVideo;
+        if (embeddedVideo !== null && "json" in embeddedVideo && "content" in embeddedVideo.json && Array.isArray(embeddedVideo.json.content) && embeddedVideo.json.content.length > 0) {
+            const firstContent = embeddedVideo.json.content[0];
+            if ("content" in firstContent && Array.isArray(firstContent.content) && firstContent.content.length > 0) { 
+                    if ("value" in firstContent.content[0]) {
+                    embeddedVideoCode = firstContent.content[0].value;
+                    }
+            }
         }
+    
+        if (embeddedVideoCode !== "" && typeof embeddedVideoCode === "string") {
+            setOverlayImage(embeddedVideoCode);
+            setOverlayType("embeddedVideo");
+        }
+        else if (typeof post === "object") {
+            const overlayImageAttributes = {
+                url: post.artworkImage.url,
+                width: post.artworkImage.width,
+                height: post.artworkImage.height
+            }
+            setOverlayImage(overlayImageAttributes);
+            setOverlayType("image");
+        }
+        setShowOverlay(true);
     }
 
     const handleOverlayControl = (data: boolean) => {
@@ -53,7 +70,7 @@ const AllWork = (props: PortfolioImagesProps) => {
     }
     
     return (
-        <div className='masonry'>
+        <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4'>
             {images.map((post: any) => {
                 let embeddedVideoCode = "";
                 if (post.artworkImage === null) {
@@ -77,20 +94,34 @@ const AllWork = (props: PortfolioImagesProps) => {
                 let artwork = <></>
                 if (isVideo) {
                     const posterAttr = "videoImage" in post && post.videoImage !== null ? post.videoImage.url : "/video_poster_default.png";
-                    artwork = <div className="video-container"><video width={"100%"} height={"100%"} poster={posterAttr} controls>
+                    artwork = <div className='video-container'><video width={"100%"} height={"100%"} poster={posterAttr} controls>
                                 <source src={post.artworkImage.url} type="video/mp4" />
                                     Your browser does not support the video tag.
                                 </video></div>
                 }
                 else if(embeddedVideoCode !== "") {
-                    artwork = <div 
-                        className="video-container" 
-                        dangerouslySetInnerHTML={{__html: embeddedVideoCode}}
-                        suppressHydrationWarning={true}
-                        ></div>
+                    if ("videoImage" in post && post.videoImage !== null) {
+                        artwork = post.videoImage !== null ? <Link href={`?showModal=${showModalVal}`} aria-label={title ? `View ${title}` : "View artwork"} aria-haspopup="dialog" className='artwork-link' onClick={(e) => handleOverlayImage(e, post)}>
+                        <Image
+                            alt={title !== "" ? title : "image"}
+                            src={post.videoImage !== null ? post.videoImage.url : ""}
+                            quality={80}
+                            width={post.videoImage !== null ? post.videoImage.width : 0}
+                            height={post.videoImage !== null ? post.videoImage.height : 0}
+                            placeholder='blur'
+                            blurDataURL='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAA1JREFUGFdjOHf4cAUAB4QCzf7jDSoAAAAASUVORK5CYII='
+                            sizes="100vw"
+                            className='h-full w-full object-cover'
+                            /></Link> : <></>
+                    }
+                    // artwork = <div 
+                    //     className="embedded"
+                    //     dangerouslySetInnerHTML={{__html: embeddedVideoCode}}
+                    //     suppressHydrationWarning={true}
+                    //     ></div>
                 }
                 else {
-                    artwork = post.artworkImage !== null ? <Link href={`?showModal=${showModalVal}`} className='artwork-link' onClick={(e) => handleOverlayImage(e, post)}>
+                    artwork = post.artworkImage !== null ? <Link href={`?showModal=${showModalVal}`} aria-label={title ? `View ${title}` : "View artwork"} aria-haspopup="dialog" className='artwork-link' onClick={(e) => handleOverlayImage(e, post)}>
                     <Image
                         alt={title !== "" ? title : "image"}
                         src={post.artworkImage !== null ? post.artworkImage.url : ""}
@@ -100,19 +131,19 @@ const AllWork = (props: PortfolioImagesProps) => {
                         placeholder='blur'
                         blurDataURL='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAA1JREFUGFdjOHf4cAUAB4QCzf7jDSoAAAAASUVORK5CYII='
                         sizes="100vw"
-                        style={{
-                            width: "100%",
-                            height: "auto"
-                        }} /></Link> : <></>
+                        className='h-full w-full object-cover'
+                         /></Link> : <></>
                 }
                 return (
-                    <div key={url+title} className="artwork-card">
+                    <div key={url+title} className="aspect-square">
+                        <div className='h-full w-full object-cover'>
                         {artwork}
-                        {post.shortDescription && (
+                        {/* {post.shortDescription && (
                             <div className="artwork-description mt-1 text-center font-extralight text-sm">
                                 {post.shortDescription}
                             </div>
-                        )}
+                        )} */}
+                        </div>
                     </div>
                 )
             })}
@@ -121,6 +152,7 @@ const AllWork = (props: PortfolioImagesProps) => {
                 show={showOverlay} 
                 overlayControl={handleOverlayControl} 
                 windowWidth={innerWidth}
+                type={overlayType}
             />
             {!showOverlay && (
                 <BackToTop />

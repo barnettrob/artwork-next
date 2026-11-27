@@ -34,7 +34,7 @@ const SocialMedia = async () => {
                 }
                 return (
                     <li key={social.url}>
-                        <a href={social.url}>
+                        <a href={social.url} aria-label={`Visit ${social.name}`}>
                             {icon}
                         </a>
                     </li>
